@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2016 Uli Bubenheimer. All rights reserved.
+  -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <android.support.v7.widget.GridLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        app:columnCount="5"
+        app:useDefaultMargins="true"
+        app:alignmentMode="alignBounds"
+        >
+        <android.support.v4.widget.Space
+            app:layout_rowWeight="1.0"
+            app:layout_columnSpan="5"
+            app:layout_gravity="fill"
+            />
+        <android.support.v4.widget.Space
+            app:layout_rowSpan="2"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1.0"
+            />
+        <TextView
+            app:layout_gravity="center_horizontal"
+            android:lines="1"
+            android:text="Days"/>
+        <TextView
+            app:layout_gravity="center_horizontal"
+            android:lines="1"
+            android:text="Hours"/>
+        <TextView
+            app:layout_gravity="center_horizontal"
+            android:lines="1"
+            android:text="Minutes"/>
+        <android.support.v4.widget.Space
+            app:layout_rowSpan="2"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1.0"
+            />
+        <NumberPicker
+            android:id="@+id/picker_days"
+            app:layout_gravity="center_horizontal"
+            />
+        <NumberPicker
+            android:id="@+id/picker_hours"
+            app:layout_gravity="center_horizontal"
+            />
+        <NumberPicker
+            android:id="@+id/picker_minutes"
+            app:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:text="All 0 for unlimited duration"
+            app:layout_columnSpan="5"
+            app:layout_gravity="center_horizontal"
+            />
+        <android.support.v4.widget.Space
+            app:layout_rowWeight="1.0"
+            app:layout_columnSpan="5"
+            app:layout_gravity="fill"
+            />
+    </android.support.v7.widget.GridLayout>
+</layout>
