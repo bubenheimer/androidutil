@@ -22,6 +22,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+@SuppressWarnings("unused")
 public class NoSwipeViewPager extends ViewPager {
     public NoSwipeViewPager(final Context context) {
         super(context);

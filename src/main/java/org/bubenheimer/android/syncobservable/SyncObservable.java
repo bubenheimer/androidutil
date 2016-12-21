@@ -20,6 +20,7 @@ package org.bubenheimer.android.syncobservable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("WeakerAccess")
 public class SyncObservable {
     public interface Observer {
         /**
@@ -29,6 +30,7 @@ public class SyncObservable {
         boolean onEvent(SyncObservable observable);
     }
 
+    @SuppressWarnings("unused")
     public static abstract class SimpleObserver implements Observer {
         protected SimpleObserver() {
         }
@@ -47,14 +49,17 @@ public class SyncObservable {
 
     private final List<Observer> observers = new ArrayList<>();
 
+    @SuppressWarnings("unused")
     public final void addObserver(final Observer observer) {
         observers.add(observer);
     }
 
+    @SuppressWarnings("unused")
     public final boolean removeObserver(final Observer observer) {
         return observers.remove(observer);
     }
 
+    @SuppressWarnings("unused")
     public final boolean handleEvent() {
         final int size = observers.size();
         for (int i = 0; i < size; ++i) {

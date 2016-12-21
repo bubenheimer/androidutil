@@ -4,6 +4,7 @@
 
 package org.bubenheimer.android;
 
+@SuppressWarnings("unused")
 public final class Equals {
     //TODO replace with Objects.equals() once I can use Java 7 APIs
     public static boolean equals(final Object o1, final Object o2) {

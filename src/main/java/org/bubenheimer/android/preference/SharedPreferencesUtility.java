@@ -30,6 +30,7 @@ import org.bubenheimer.android.log.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public final class SharedPreferencesUtility {
     private static final String TAG = SharedPreferencesUtility.class.getSimpleName();
 
@@ -86,6 +87,7 @@ public final class SharedPreferencesUtility {
             prefs.registerOnSharedPreferenceChangeListener(masterListener);
         }
         final int cnt = resIds.length;
+        //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < cnt; ++i) {
             final int resId = resIds[i];
             final String key = context.getString(resId);
@@ -112,6 +114,7 @@ public final class SharedPreferencesUtility {
             return;
         }
         final int cnt = resIds.length;
+        //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < cnt; ++i) {
             final int resId = resIds[i];
             final String key = context.getString(resId);

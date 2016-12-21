@@ -29,6 +29,9 @@ import android.widget.NumberPicker;
 import org.bubenheimer.android.util.R;
 import org.bubenheimer.android.util.databinding.DialogDurationPickerBinding;
 
+import java.util.Locale;
+
+@SuppressWarnings("unused")
 public final class DurationPickerPreference extends DialogPreference {
     //Default duration: 2 hours
     private static final int DEFAULT_VALUE = 120;
@@ -128,7 +131,7 @@ public final class DurationPickerPreference extends DialogPreference {
             if (value == 0) {
                 return "Unlimited";
             } else {
-                return String.format("%dd %dh %dm",
+                return String.format((Locale) null, "%dd %dh %dm",
                         getDays(value), getHours(value), getMinutes(value));
             }
         } else {
@@ -171,11 +174,11 @@ public final class DurationPickerPreference extends DialogPreference {
     private static final class SavedState extends BaseSavedState {
         int value;
 
-        public SavedState(final Parcelable superState) {
+        SavedState(final Parcelable superState) {
             super(superState);
         }
 
-        public SavedState(final Parcel source) {
+        SavedState(final Parcel source) {
             super(source);
             value = source.readInt();
         }

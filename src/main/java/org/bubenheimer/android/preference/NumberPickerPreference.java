@@ -141,11 +141,11 @@ public final class NumberPickerPreference extends DialogPreference {
     private static final class SavedState extends BaseSavedState {
         int value;
 
-        public SavedState(final Parcelable superState) {
+        SavedState(final Parcelable superState) {
             super(superState);
         }
 
-        public SavedState(final Parcel source) {
+        SavedState(final Parcel source) {
             super(source);
             value = source.readInt();
         }

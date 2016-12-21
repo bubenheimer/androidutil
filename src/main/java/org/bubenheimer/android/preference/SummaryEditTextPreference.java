@@ -21,6 +21,7 @@ import android.content.Context;
 import android.preference.EditTextPreference;
 import android.util.AttributeSet;
 
+@SuppressWarnings("unused")
 public final class SummaryEditTextPreference extends EditTextPreference {
     public SummaryEditTextPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);

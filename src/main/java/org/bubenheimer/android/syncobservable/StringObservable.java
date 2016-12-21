@@ -17,6 +17,7 @@
 
 package org.bubenheimer.android.syncobservable;
 
+@SuppressWarnings("unused")
 public final class StringObservable extends SyncObservable {
     public String str;
 }

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import org.bubenheimer.android.log.Log;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public final class EditFloatPreference extends EditTextPreference {
     private static final String TAG = EditFloatPreference.class.getSimpleName();
 
