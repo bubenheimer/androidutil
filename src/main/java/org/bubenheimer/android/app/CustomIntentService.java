@@ -26,7 +26,7 @@ import android.os.Message;
 import android.os.Process;
 import android.support.annotation.WorkerThread;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 /**
  * CustomIntentService is a base class for {@link Service}s that handle asynchronous
