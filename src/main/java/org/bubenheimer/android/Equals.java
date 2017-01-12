@@ -11,6 +11,10 @@ public final class Equals {
         return o1 == o2 || o1 != null && o1.equals(o2);
     }
 
+    public static boolean nanSafeEquals(final float f1, final float f2) {
+        return f1 == f2 || f1 != f1 && f2 != f2;
+    }
+
     private Equals() {
         throw new UnsupportedOperationException();
     }
