@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Uli Bubenheimer.
+ * Copyright (c) 2015-2017 Uli Bubenheimer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ buildscript {
         maven { url MAVEN_REPOSITORY_URL}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0-beta2'
+        classpath 'com.android.tools.build:gradle:2.3.0-rc1'
     }
 }
 
@@ -58,18 +58,19 @@ android {
     dataBinding {
         enabled = true
     }
-}
 
-dependencies {
-    String supportLibVersion = '25.1.0'
+    dependencies {
+        String supportLibVersion = '25.2.0'
 
-    compile "com.android.support:support-annotations:${supportLibVersion}"
-    compile "com.android.support:gridlayout-v7:${supportLibVersion}"
-    //TODO remove this once they fix https://code.google.com/p/android/issues/detail?id=229664
-    //Explicit dependency on support-v4 to work around dataBinding's old dependency issue
-    compile "com.android.support:support-v4:${supportLibVersion}"
+        compile 'org.bubenheimer:javautil:1.0-SNAPSHOT'
+        compile "com.android.support:support-annotations:${supportLibVersion}"
+        compile "com.android.support:gridlayout-v7:${supportLibVersion}"
+        //TODO remove this once they fix https://code.google.com/p/android/issues/detail?id=229664
+        //Explicit dependency on support-v4 to work around dataBinding's old dependency issue
+        compile "com.android.support:support-v4:${supportLibVersion}"
 
-    compile 'junit:junit:4.12'
+        compile 'junit:junit:4.12'
+    }
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

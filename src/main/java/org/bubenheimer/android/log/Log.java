@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Uli Bubenheimer.
+ * Copyright (c) 2015-2017 Uli Bubenheimer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 
 package org.bubenheimer.android.log;
 
-public final class Log {
+import org.bubenheimer.util.Uninstantiable;
+
+public final class Log extends Uninstantiable {
     private static final String TAG = Log.class.getSimpleName();
 
     public interface CrashLog {
@@ -46,10 +48,6 @@ public final class Log {
             builder.append(obj);
         }
         return builder.toString();
-    }
-
-    private Log() {
-        throw new UnsupportedOperationException();
     }
 
     private static CrashLog crashLog;

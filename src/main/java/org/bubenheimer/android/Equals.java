@@ -1,11 +1,26 @@
 /*
- * Copyright (c) 2015-2016 Uli Bubenheimer. All rights reserved.
+ * Copyright (c) 2015-2017 Uli Bubenheimer.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
  */
 
 package org.bubenheimer.android;
 
+import org.bubenheimer.util.Uninstantiable;
+
 @SuppressWarnings("unused")
-public final class Equals {
+public final class Equals extends Uninstantiable {
     //TODO replace with Objects.equals() once I can use Java 7 APIs
     public static boolean equals(final Object o1, final Object o2) {
         return o1 == o2 || o1 != null && o1.equals(o2);
@@ -13,9 +28,5 @@ public final class Equals {
 
     public static boolean nanSafeEquals(final float f1, final float f2) {
         return f1 == f2 || f1 != f1 && f2 != f2;
-    }
-
-    private Equals() {
-        throw new UnsupportedOperationException();
     }
 }

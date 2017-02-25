@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Uli Bubenheimer.
+ * Copyright (c) 2015-2017 Uli Bubenheimer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,8 +143,8 @@ public final class DurationPickerPreference extends DialogPreference {
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
         // Check whether this Preference is persistent (continually saved)
-        if (isPersistent() || binding == null) {
-            // No need to save instance state since it's persistent or dialog not shown,
+        if (isPersistent() && binding == null) {
+            // No need to save instance state since it's persistent and dialog not shown,
             // use superclass state
             return superState;
         }

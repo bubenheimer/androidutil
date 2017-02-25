@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2016 Uli Bubenheimer.
+ * Copyright (c) 2015-2017 Uli Bubenheimer.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,12 +26,13 @@ import android.support.v4.util.Pair;
 import android.support.v4.util.SimpleArrayMap;
 
 import org.bubenheimer.android.log.Log;
+import org.bubenheimer.util.Uninstantiable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public final class SharedPreferencesUtility {
+public final class SharedPreferencesUtility extends Uninstantiable {
     private static final String TAG = SharedPreferencesUtility.class.getSimpleName();
 
     private static final SimpleArrayMap<SharedPreferences, SimpleArrayMap<String, Pair<Integer,
@@ -137,9 +138,5 @@ public final class SharedPreferencesUtility {
             masterMap.remove(prefs);
             prefs.unregisterOnSharedPreferenceChangeListener(masterListener);
         }
-    }
-
-    private SharedPreferencesUtility() {
-        throw new UnsupportedOperationException();
     }
 }
