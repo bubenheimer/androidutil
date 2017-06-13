@@ -20,7 +20,7 @@ buildscript {
         maven { url MAVEN_REPOSITORY_URL}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0-rc1'
+        classpath 'com.android.tools.build:gradle:2.3.0'
     }
 }
 
@@ -32,12 +32,13 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '25.0.3'
 
     defaultConfig {
         minSdkVersion 11
         versionCode 1
         versionName '1.0'
+        consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
         debug {
@@ -59,7 +60,7 @@ android {
     }
 
     dependencies {
-        String supportLibVersion = '25.2.0'
+        String supportLibVersion = '25.4.0'
 
         compile 'org.bubenheimer:javautil:1.0-SNAPSHOT'
         compile "com.android.support:support-annotations:${supportLibVersion}"
@@ -67,8 +68,7 @@ android {
         //TODO remove this once they fix https://code.google.com/p/android/issues/detail?id=229664
         //Explicit dependency on support-v4 to work around dataBinding's old dependency issue
         compile "com.android.support:support-v4:${supportLibVersion}"
-
-        compile 'junit:junit:4.12'
+        compile "com.android.support:preference-v7:${supportLibVersion}"
     }
 }
 

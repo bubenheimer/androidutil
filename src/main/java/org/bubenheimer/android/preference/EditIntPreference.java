@@ -19,40 +19,57 @@ package org.bubenheimer.android.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.UiThread;
+import android.content.res.TypedArray;
+import android.support.v4.util.Pair;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
 import org.bubenheimer.android.log.Log;
+import org.bubenheimer.android.util.R;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
-public class EditFloatPreference extends EditNumberPreference {
-    private static final String TAG = EditFloatPreference.class.getSimpleName();
+public class EditIntPreference extends EditNumberPreference implements DialogSupporter {
+    private static final String TAG = EditIntPreference.class.getSimpleName();
 
-    public EditFloatPreference(final Context context, final AttributeSet attrs) {
+    final int min;
+    final int max;
+
+    protected EditIntPreference(
+            final Context context, final AttributeSet attrs, final Pair<Integer, Integer> defaults) {
         super(context, attrs);
+
+        final TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs, R.styleable.EditIntPreference, 0, 0);
+        try {
+            this.min = a.getInteger(R.styleable.EditIntPreference_min, defaults.first);
+            this.max = a.getInteger(R.styleable.EditIntPreference_max, defaults.second);
+        } finally {
+            a.recycle();
+        }
     }
 
-    @UiThread
+    public EditIntPreference(final Context context, final AttributeSet attrs) {
+        this(context, attrs, new Pair<>(Integer.MIN_VALUE, Integer.MAX_VALUE));
+    }
+
     @Override
-    protected boolean persistString(final String value) {
+    protected final boolean persistString(final String value) {
         if (value == null) {
             return true;
         }
-        final float number;
+        final int number;
         try {
-            number = Float.parseFloat(value);
+            number = Integer.parseInt(value);
         } catch (final NumberFormatException e) {
             Log.e(TAG, "Invalid number: ", value);
             Toast.makeText(getContext(), "Invalid number: " + value, Toast.LENGTH_LONG).show();
             return false;
         }
-        return persistFloat(number);
+        return persistInt(number);
     }
 
     @Override
-    protected String getPersistedString(final String defaultReturnValue) {
+    protected final String getPersistedString(final String defaultReturnValue) {
         if (!shouldPersist()) {
             return defaultReturnValue;
         }
@@ -64,12 +81,12 @@ public class EditFloatPreference extends EditNumberPreference {
         }
 
         //the 0 default will never be used - we've covered the case of value absence above
-        final float value = sharedPreferences.getFloat(key, Float.NaN);
-        return Float.toString(value);
+        final int value = sharedPreferences.getInt(key, 0);
+        return Integer.toString(value);
     }
 
     @Override
     public PreferenceDialogFragmentCompat newDialog() {
-        return EditFloatPreferenceDialogFragment.newInstance(getKey());
+        return EditIntPreferenceDialogFragment.newInstance(getKey());
     }
 }

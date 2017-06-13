@@ -19,24 +19,18 @@ package org.bubenheimer.android.preference;
 
 import android.content.Context;
 import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.EditTextPreferenceDialogFragmentCompat;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
-@SuppressWarnings("unused")
-public final class SummaryEditTextPreference extends EditTextPreference implements DialogSupporter {
-    public SummaryEditTextPreference(final Context context, final AttributeSet attrs) {
+public abstract class EditNumberPreference extends EditTextPreference implements DialogSupporter {
+    private static final String TAG = EditNumberPreference.class.getSimpleName();
+
+    protected EditNumberPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    public void setText(final String text) {
+    public final void setText(final String text) {
         super.setText(text);
         setSummary(text);
-    }
-
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return EditTextPreferenceDialogFragmentCompat.newInstance(getKey());
     }
 }

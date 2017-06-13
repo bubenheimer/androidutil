@@ -26,7 +26,7 @@ import android.os.Message;
 import android.os.Process;
 import android.support.annotation.WorkerThread;
 
-import static org.junit.Assert.assertTrue;
+import org.bubenheimer.android.internal.CheckInternal;
 
 /**
  * CustomIntentService is a base class for {@link Service}s that handle asynchronous
@@ -131,7 +131,7 @@ public abstract class CustomIntentService extends Service {
         msg.arg1 = startId;
         msg.obj = intent;
         final boolean result = mServiceHandler.sendMessage(msg);
-        assertTrue(result);
+        CheckInternal.isTrue(result);
 
         return mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;
     }

@@ -21,107 +21,73 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.preference.DialogPreference;
+import android.support.v7.preference.DialogPreference;
+import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.NumberPicker;
 
+import org.bubenheimer.android.ui.StyleUtils;
 import org.bubenheimer.android.util.R;
-import org.bubenheimer.android.util.databinding.DialogDurationPickerBinding;
 
 import java.util.Locale;
 
 @SuppressWarnings("unused")
-public final class DurationPickerPreference extends DialogPreference {
+public final class DurationPickerPreference extends DialogPreference implements DialogSupporter {
     //Default duration: 2 hours
-    private static final int DEFAULT_VALUE = 120;
+    static final int DEFAULT_VALUE = 120;
 
-    private DialogDurationPickerBinding binding;
+    private int value = DEFAULT_VALUE;
 
-    private int value;
+    public DurationPickerPreference(final Context context, final AttributeSet attrs,
+                                  final int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    public DurationPickerPreference(final Context context, final AttributeSet attrs,
+                                  final int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0);
+    }
 
     public DurationPickerPreference(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-
-        setDialogLayoutResource(R.layout.dialog_duration_picker);
-        setPositiveButtonText(android.R.string.ok);
-        setNegativeButtonText(android.R.string.cancel);
-
-        setDialogIcon(null);
+        this(context, attrs, StyleUtils.getAttr(
+                context, R.attr.durationPickerPreferenceStyle,
+                R.attr.durationPickerPreferenceStyle));
     }
 
-    @Override
-    protected void onBindDialogView(final View view) {
-        super.onBindDialogView(view);
-
-        binding = DialogDurationPickerBinding.bind(view);
-
-        setDialogValue(value);
+    public DurationPickerPreference(final Context context) {
+        this(context, null);
     }
 
-    private void setDialogValue(final int value) {
-        final NumberPicker daysPicker = binding.pickerDays;
-        daysPicker.setMinValue(0);
-        daysPicker.setMaxValue(30);
-        daysPicker.setValue(getDays(value));
-
-        final NumberPicker hoursPicker = binding.pickerHours;
-        hoursPicker.setMinValue(0);
-        hoursPicker.setMaxValue(23);
-        hoursPicker.setValue(getHours(value));
-
-        final NumberPicker minutesPicker = binding.pickerMinutes;
-        minutesPicker.setMinValue(0);
-        minutesPicker.setMaxValue(59);
-        minutesPicker.setValue(getMinutes(value));
+    public int getValue() {
+        return value;
     }
 
-    private static int getDays(final int minutes) {
+    public void setValue(final int value) {
+        this.value = value;
+        persistInt(value);
+        notifyChanged();
+    }
+
+    static int getDays(final int minutes) {
         return minutes / (60 * 24);
     }
 
-    private static int getHours(final int minutes) {
+    static int getHours(final int minutes) {
         return minutes % (60 * 24) / 60;
     }
 
-    private static int getMinutes(final int minutes) {
+    static int getMinutes(final int minutes) {
         return minutes % 60;
-    }
-
-    @Override
-    protected void onDialogClosed(final boolean positiveResult) {
-        if (positiveResult) {
-            value = getDialogValue();
-            persistInt(value);
-            notifyChanged();
-        }
-
-        binding = null;
-    }
-
-    private int getDialogValue() {
-        final int days = binding.pickerDays.getValue();
-        final int hours = binding.pickerHours.getValue();
-        final int minutes = binding.pickerMinutes.getValue();
-
-        return (days * 24 + hours) * 60 + minutes;
-    }
-
-    @Override
-    protected void onSetInitialValue(final boolean restorePersistedValue,
-                                     final Object defaultValue) {
-        if (restorePersistedValue) {
-            value = getPersistedInt(DEFAULT_VALUE);
-        } else {
-            // Set default state from the XML attribute
-            value = (int) defaultValue;
-            persistInt(value);
-        }
     }
 
     @Override
     protected Object onGetDefaultValue(final TypedArray a, final int index) {
         return a.getInteger(index, DEFAULT_VALUE);
+    }
+
+    @Override
+    protected void onSetInitialValue(final boolean restorePersistedValue,
+                                     final Object defaultValue) {
+        setValue(restorePersistedValue ? getPersistedInt(value) : (int) defaultValue);
     }
 
     @Override
@@ -143,14 +109,13 @@ public final class DurationPickerPreference extends DialogPreference {
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
         // Check whether this Preference is persistent (continually saved)
-        if (isPersistent() && binding == null) {
-            // No need to save instance state since it's persistent and dialog not shown,
-            // use superclass state
+        if (isPersistent()) {
+            // No need to save instance state since it's persistent, use superclass state
             return superState;
         }
 
         final SavedState myState = new SavedState(superState);
-        myState.value = getDialogValue();
+        myState.value = value;
         return myState;
     }
 
@@ -168,7 +133,12 @@ public final class DurationPickerPreference extends DialogPreference {
         super.onRestoreInstanceState(myState.getSuperState());
 
         // Set this Preference's widget to reflect the restored state; the widget better exist
-        setDialogValue(myState.value);
+        setValue(myState.value);
+    }
+
+    @Override
+    public PreferenceDialogFragmentCompat newDialog() {
+        return DurationPickerPreferenceDialogFragment.newInstance(getKey());
     }
 
     private static final class SavedState extends BaseSavedState {

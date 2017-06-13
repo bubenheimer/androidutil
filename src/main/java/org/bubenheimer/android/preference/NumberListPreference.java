@@ -19,36 +19,51 @@ package org.bubenheimer.android.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.UiThread;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import android.support.v7.preference.ListPreference;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
 import org.bubenheimer.android.log.Log;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
-public class EditFloatPreference extends EditNumberPreference {
-    private static final String TAG = EditFloatPreference.class.getSimpleName();
+public final class NumberListPreference extends ListPreference {
+    private static final String TAG = NumberListPreference.class.getSimpleName();
 
-    public EditFloatPreference(final Context context, final AttributeSet attrs) {
+    @SuppressWarnings("unused")
+    public NumberListPreference(final Context context, final AttributeSet attrs,
+                                final int defStyleAttr, final int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @SuppressWarnings("unused")
+    public NumberListPreference(final Context context, final AttributeSet attrs,
+                                final int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @SuppressWarnings("unused")
+    public NumberListPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    @UiThread
+    @SuppressWarnings("unused")
+    public NumberListPreference(final Context context) {
+        super(context);
+    }
+
     @Override
     protected boolean persistString(final String value) {
         if (value == null) {
             return true;
         }
-        final float number;
+        final int number;
         try {
-            number = Float.parseFloat(value);
+            number = Integer.parseInt(value);
         } catch (final NumberFormatException e) {
             Log.e(TAG, "Invalid number: ", value);
             Toast.makeText(getContext(), "Invalid number: " + value, Toast.LENGTH_LONG).show();
             return false;
         }
-        return persistFloat(number);
+        return persistInt(number);
     }
 
     @Override
@@ -64,12 +79,7 @@ public class EditFloatPreference extends EditNumberPreference {
         }
 
         //the 0 default will never be used - we've covered the case of value absence above
-        final float value = sharedPreferences.getFloat(key, Float.NaN);
-        return Float.toString(value);
-    }
-
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return EditFloatPreferenceDialogFragment.newInstance(getKey());
+        final int value = sharedPreferences.getInt(key, 0);
+        return Integer.toString(value);
     }
 }

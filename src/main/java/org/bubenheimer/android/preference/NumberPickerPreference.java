@@ -21,26 +21,26 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.preference.DialogPreference;
+import android.support.annotation.RestrictTo;
+import android.support.v7.preference.DialogPreference;
+import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.NumberPicker;
 
+import org.bubenheimer.android.ui.StyleUtils;
 import org.bubenheimer.android.util.R;
-import org.bubenheimer.android.util.databinding.DialogNumberPickerBinding;
 
-public final class NumberPickerPreference extends DialogPreference {
-    private static final int DEFAULT_VALUE = 0;
-
-    private DialogNumberPickerBinding binding;
+public final class NumberPickerPreference extends DialogPreference implements DialogSupporter {
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    static final int DEFAULT_VALUE = 0;
 
     private final int min;
     private final int max;
 
-    private int value;
+    private int value = DEFAULT_VALUE;
 
-    public NumberPickerPreference(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
+    public NumberPickerPreference(final Context context, final AttributeSet attrs,
+                                  final int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
 
         final TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.NumberPickerPreference, 0, 0);
@@ -50,45 +50,43 @@ public final class NumberPickerPreference extends DialogPreference {
         } finally {
             a.recycle();
         }
-
-        setDialogLayoutResource(R.layout.dialog_number_picker);
-        setPositiveButtonText(android.R.string.ok);
-        setNegativeButtonText(android.R.string.cancel);
-
-        setDialogIcon(null);
     }
 
-    @Override
-    protected void onBindDialogView(final View view) {
-        super.onBindDialogView(view);
-
-        binding = DialogNumberPickerBinding.bind(view);
-        final NumberPicker numberPicker = binding.numberPicker;
-        numberPicker.setMinValue(min);
-        numberPicker.setMaxValue(max);
-        numberPicker.setValue(value);
+    public NumberPickerPreference(final Context context, final AttributeSet attrs,
+                                  final int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0);
     }
 
-    @Override
-    protected void onDialogClosed(final boolean positiveResult) {
-        if (positiveResult) {
-            value = binding.numberPicker.getValue();
-            persistInt(value);
-            notifyChanged();
-        }
-        binding = null;
+    public NumberPickerPreference(final Context context, final AttributeSet attrs) {
+        this(context, attrs, StyleUtils.getAttr(
+                context, R.attr.numberPickerPreferenceStyle,
+                R.attr.numberPickerPreferenceStyle));
     }
 
-    @Override
-    protected void onSetInitialValue(final boolean restorePersistedValue,
-                                     final Object defaultValue) {
-        if (restorePersistedValue) {
-            value = getPersistedInt(DEFAULT_VALUE);
-        } else {
-            // Set default state from the XML attribute
-            value = (int) defaultValue;
-            persistInt(value);
-        }
+    public NumberPickerPreference(final Context context) {
+        this(context, null);
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public int getValue() {
+        return value;
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public void setValue(final int value) {
+        this.value = value;
+        persistInt(value);
+        setSummary(String.valueOf(value));
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public int getMin() {
+        return min;
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public int getMax() {
+        return max;
     }
 
     @Override
@@ -97,27 +95,21 @@ public final class NumberPickerPreference extends DialogPreference {
     }
 
     @Override
-    public CharSequence getSummary() {
-        final CharSequence summary = super.getSummary();
-        if (summary == null) {
-            return null;
-        } else {
-            return String.format(summary.toString(), value);
-        }
+    protected void onSetInitialValue(final boolean restorePersistedValue,
+                                     final Object defaultValue) {
+        setValue(restorePersistedValue ? getPersistedInt(value) : (int) defaultValue);
     }
 
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
-        // Check whether this Preference is persistent (continually saved)
-        if (isPersistent() && binding == null) {
-            // No need to save instance state since it's persistent and dialog not shown,
-            // use superclass state
+        if (isPersistent()) {
+            // No need to save instance state since it's persistent
             return superState;
         }
 
         final SavedState myState = new SavedState(superState);
-        myState.value = binding.numberPicker.getValue();
+        myState.value = getValue();
         return myState;
     }
 
@@ -133,9 +125,7 @@ public final class NumberPickerPreference extends DialogPreference {
         // Cast state to custom BaseSavedState and pass to superclass
         final SavedState myState = (SavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
-
-        // Set this Preference's widget to reflect the restored state; the widget better exist
-        binding.numberPicker.setValue(myState.value);
+        setValue(myState.value);
     }
 
     private static final class SavedState extends BaseSavedState {
@@ -166,5 +156,10 @@ public final class NumberPickerPreference extends DialogPreference {
                         return new SavedState[size];
                     }
                 };
+    }
+
+    @Override
+    public PreferenceDialogFragmentCompat newDialog() {
+        return NumberPickerPreferenceDialogFragment.newInstance(getKey());
     }
 }

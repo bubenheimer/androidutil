@@ -20,11 +20,19 @@
     <attr name="min" format="integer"/>
     <attr name="max" format="integer"/>
 
-    <declare-styleable name="NumberPickerPreference">
+    <declare-styleable name="DurationPickerPreference">
+        <attr name="durationPickerPreferenceStyle" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="EditIntPreference">
         <attr name="min"/>
         <attr name="max"/>
     </declare-styleable>
     <declare-styleable name="EditNonNegIntPreference">
+        <attr name="min"/>
+        <attr name="max"/>
+    </declare-styleable>
+    <declare-styleable name="NumberPickerPreference">
+        <attr name="numberPickerPreferenceStyle" format="reference"/>
         <attr name="min"/>
         <attr name="max"/>
     </declare-styleable>
