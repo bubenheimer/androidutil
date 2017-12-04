@@ -17,17 +17,20 @@
 
 package org.bubenheimer.android.preference;
 
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.widget.EditText;
 
-public class EditIntPreferenceDialogFragment extends EditNumberPreferenceDialogFragment {
-    protected void onBindEditText(final EditText editText) {
+public class EditIntPreferenceDialogFragment extends ValidatingEditTextPreferenceDialogFragment {
+    @Override
+    protected void onBindEditText(final @NonNull EditText editText) {
         editText.setKeyListener(new DigitsKeyListener(true, false));
         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
     }
 
-    protected void checkNumberValid(final CharSequence text) throws NumberFormatException {
+    @Override
+    protected void checkTextValid(final @NonNull CharSequence text) throws NumberFormatException {
         final int number = Integer.parseInt(text.toString());
         final EditIntPreference preference = getEditIntPreference();
         if (preference.min > number || number > preference.max) {

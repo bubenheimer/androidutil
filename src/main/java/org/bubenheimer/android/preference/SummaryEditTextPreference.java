@@ -18,15 +18,37 @@
 package org.bubenheimer.android.preference;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.support.v4.util.Pair;
 import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.EditTextPreferenceDialogFragmentCompat;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
+import org.bubenheimer.android.util.R;
+
 @SuppressWarnings("unused")
 public final class SummaryEditTextPreference extends EditTextPreference implements DialogSupporter {
-    public SummaryEditTextPreference(final Context context, final AttributeSet attrs) {
+    final int minLength;
+    final int maxLength;
+
+    protected SummaryEditTextPreference(
+            final Context context, final AttributeSet attrs, final Pair<Integer, Integer> defaults) {
         super(context, attrs);
+
+        final TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs, R.styleable.SummaryEditTextPreference, 0, 0);
+        try {
+            this.minLength =
+                    a.getInteger(R.styleable.SummaryEditTextPreference_minLen, defaults.first);
+            this.maxLength =
+                    a.getInteger(R.styleable.SummaryEditTextPreference_maxLen, defaults.second);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    public SummaryEditTextPreference(final Context context, final AttributeSet attrs) {
+        this(context, attrs, new Pair<>(0, Integer.MAX_VALUE));
     }
 
     @Override
@@ -37,6 +59,6 @@ public final class SummaryEditTextPreference extends EditTextPreference implemen
 
     @Override
     public PreferenceDialogFragmentCompat newDialog() {
-        return EditTextPreferenceDialogFragmentCompat.newInstance(getKey());
+        return SummaryEditTextPreferenceDialogFragment.newInstance(getKey());
     }
 }

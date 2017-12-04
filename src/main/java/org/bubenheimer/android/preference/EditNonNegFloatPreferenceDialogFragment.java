@@ -18,6 +18,7 @@
 package org.bubenheimer.android.preference;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.widget.EditText;
@@ -34,13 +35,13 @@ public class EditNonNegFloatPreferenceDialogFragment extends EditFloatPreference
     }
 
     @Override
-    protected void onBindEditText(final EditText editText) {
+    protected void onBindEditText(final @NonNull EditText editText) {
         editText.setKeyListener(new DigitsKeyListener(true, true));
         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
     }
 
     @Override
-    protected void checkNumberValid(final CharSequence text) throws NumberFormatException {
+    protected void checkTextValid(final @NonNull CharSequence text) throws NumberFormatException {
         final float number = Float.parseFloat(text.toString());
         if (number < 0) {
             throw new NumberFormatException();

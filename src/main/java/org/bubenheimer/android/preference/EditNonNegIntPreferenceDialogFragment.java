@@ -18,6 +18,7 @@
 package org.bubenheimer.android.preference;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.widget.EditText;
@@ -33,7 +34,8 @@ public final class EditNonNegIntPreferenceDialogFragment extends EditIntPreferen
         return fragment;
     }
 
-    protected void onBindEditText(final EditText editText) {
+    @Override
+    protected void onBindEditText(final @NonNull EditText editText) {
         editText.setKeyListener(new DigitsKeyListener(false, false));
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
     }

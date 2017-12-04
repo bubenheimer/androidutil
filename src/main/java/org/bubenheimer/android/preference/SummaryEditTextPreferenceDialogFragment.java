@@ -19,14 +19,13 @@ package org.bubenheimer.android.preference;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.InputType;
-import android.text.method.DigitsKeyListener;
-import android.widget.EditText;
 
-public class EditFloatPreferenceDialogFragment extends ValidatingEditTextPreferenceDialogFragment {
-    public static EditFloatPreferenceDialogFragment newInstance(final String key) {
-        final EditFloatPreferenceDialogFragment fragment =
-                new EditFloatPreferenceDialogFragment();
+public class SummaryEditTextPreferenceDialogFragment
+        extends ValidatingEditTextPreferenceDialogFragment {
+    public static SummaryEditTextPreferenceDialogFragment newInstance(
+            final String key) {
+        final SummaryEditTextPreferenceDialogFragment fragment =
+                new SummaryEditTextPreferenceDialogFragment();
 
         final Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
@@ -35,15 +34,15 @@ public class EditFloatPreferenceDialogFragment extends ValidatingEditTextPrefere
     }
 
     @Override
-    protected void onBindEditText(final @NonNull EditText editText) {
-        editText.setKeyListener(new DigitsKeyListener(true, true));
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER |
-                InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+    protected void checkTextValid(final @NonNull CharSequence text) throws IllegalArgumentException {
+        final SummaryEditTextPreference preference = getSummaryEditTextPreference();
+        final int length = text.length();
+        if (length < preference.minLength || preference.maxLength < length) {
+            throw new IllegalArgumentException();
+        }
     }
 
-    @Override
-    protected void checkTextValid(final CharSequence text) throws NumberFormatException {
-        //noinspection ResultOfMethodCallIgnored
-        Float.parseFloat(text.toString());
+    private SummaryEditTextPreference getSummaryEditTextPreference() {
+        return (SummaryEditTextPreference) getPreference();
     }
 }

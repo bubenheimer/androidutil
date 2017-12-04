@@ -17,6 +17,7 @@
 
 package org.bubenheimer.android.preference;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.EditTextPreferenceDialogFragmentCompat;
 import android.text.Editable;
@@ -24,23 +25,25 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import org.bubenheimer.android.internal.CheckInternal;
 import org.bubenheimer.android.log.Log;
 
-public abstract class EditNumberPreferenceDialogFragment extends EditTextPreferenceDialogFragmentCompat
-        implements TextWatcher {
-    private static final String TAG = EditNumberPreferenceDialogFragment.class.getSimpleName();
+public abstract class ValidatingEditTextPreferenceDialogFragment
+        extends EditTextPreferenceDialogFragmentCompat implements TextWatcher {
+    private static final String TAG = ValidatingEditTextPreferenceDialogFragment.class.getSimpleName();
 
     @Override
     protected final void onBindDialogView(final View view) {
         super.onBindDialogView(view);
 
-        //should never be null
-        final EditText editText = (EditText) view.findViewById(android.R.id.edit);
+        final EditText editText = view.findViewById(android.R.id.edit);
+        CheckInternal.notNull(editText);
         editText.addTextChangedListener(this);
         onBindEditText(editText);
     }
 
-    protected abstract void onBindEditText(final EditText editText);
+    protected void onBindEditText(final @NonNull EditText editText) {
+    }
 
     // TextWatcher implementation
 
@@ -56,6 +59,7 @@ public abstract class EditNumberPreferenceDialogFragment extends EditTextPrefere
 
     @Override
     public final void afterTextChanged(final Editable s) {
+        CheckInternal.notNull(s);
         onEditTextChanged(s);
     }
 
@@ -64,9 +68,9 @@ public abstract class EditNumberPreferenceDialogFragment extends EditTextPrefere
     private void onEditTextChanged(final CharSequence text) {
         boolean enabled;
         try {
-            checkNumberValid(text);
+            checkTextValid(text);
             enabled = true;
-        } catch (final NumberFormatException e) {
+        } catch (final IllegalArgumentException e) {
             Log.v(TAG, "Invalid number: ", text);
             enabled = false;
         }
@@ -78,5 +82,6 @@ public abstract class EditNumberPreferenceDialogFragment extends EditTextPrefere
         }
     }
 
-    protected abstract void checkNumberValid(final CharSequence text) throws NumberFormatException;
+    protected void checkTextValid(final @NonNull CharSequence text) throws IllegalArgumentException {
+    }
 }

@@ -18,6 +18,7 @@
 package org.bubenheimer.android.preference;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 public final class EditPosFloatPreferenceDialogFragment
         extends EditNonNegFloatPreferenceDialogFragment {
@@ -32,7 +33,7 @@ public final class EditPosFloatPreferenceDialogFragment
     }
 
     @Override
-    protected void checkNumberValid(final CharSequence text) throws NumberFormatException {
+    protected void checkTextValid(final @NonNull CharSequence text) throws NumberFormatException {
         final float number = Float.parseFloat(text.toString());
         if (number <= 0.0f) {
             throw new NumberFormatException();
