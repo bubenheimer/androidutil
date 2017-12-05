@@ -41,6 +41,13 @@ public class SummaryEditTextPreference extends EditTextPreference implements Dia
     }
 
     @Override
+    public void setText(final String text) {
+        super.setText(text);
+        // Update summary
+        notifyChanged();
+    }
+
+    @Override
     public PreferenceDialogFragmentCompat newDialog() {
         return EditTextPreferenceDialogFragmentCompat.newInstance(getKey());
     }

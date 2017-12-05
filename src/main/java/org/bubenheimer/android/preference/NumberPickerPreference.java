@@ -76,6 +76,8 @@ public final class NumberPickerPreference extends DialogPreference implements Di
     public void setValue(final int value) {
         this.value = value;
         persistInt(value);
+        // Update summary
+        notifyChanged();
     }
 
     @Override
