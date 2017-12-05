@@ -21,7 +21,7 @@ import android.content.Context;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings("unused")
 public final class EditPosFloatPreference extends EditNonNegFloatPreference {
     public EditPosFloatPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);

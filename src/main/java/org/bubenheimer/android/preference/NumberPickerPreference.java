@@ -76,7 +76,16 @@ public final class NumberPickerPreference extends DialogPreference implements Di
     public void setValue(final int value) {
         this.value = value;
         persistInt(value);
-        setSummary(String.valueOf(value));
+    }
+
+    @Override
+    public CharSequence getSummary() {
+        final CharSequence summary = super.getSummary();
+        if (summary == null) {
+            return null;
+        } else {
+            return String.format(summary.toString(), value);
+        }
     }
 
     @SuppressWarnings("WeakerAccess")

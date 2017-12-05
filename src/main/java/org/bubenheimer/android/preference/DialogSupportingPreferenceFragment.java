@@ -23,6 +23,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
+@SuppressWarnings("unused")
 public abstract class DialogSupportingPreferenceFragment extends PreferenceFragmentCompat {
     private static final String DIALOG_FRAGMENT_TAG =
             "org.bubenheimer.android.preference.DialogSupportingPreferenceFragment.DIALOG";

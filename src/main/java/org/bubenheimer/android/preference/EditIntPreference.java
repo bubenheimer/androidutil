@@ -28,12 +28,13 @@ import android.widget.Toast;
 import org.bubenheimer.android.log.Log;
 import org.bubenheimer.android.util.R;
 
-public class EditIntPreference extends EditNumberPreference implements DialogSupporter {
+public class EditIntPreference extends EditNumberPreference {
     private static final String TAG = EditIntPreference.class.getSimpleName();
 
     final int min;
     final int max;
 
+    @SuppressWarnings("WeakerAccess")
     protected EditIntPreference(
             final Context context, final AttributeSet attrs, final Pair<Integer, Integer> defaults) {
         super(context, attrs);
@@ -48,6 +49,7 @@ public class EditIntPreference extends EditNumberPreference implements DialogSup
         }
     }
 
+    @SuppressWarnings("unused")
     public EditIntPreference(final Context context, final AttributeSet attrs) {
         this(context, attrs, new Pair<>(Integer.MIN_VALUE, Integer.MAX_VALUE));
     }

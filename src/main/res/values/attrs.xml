@@ -36,7 +36,7 @@
         <attr name="min"/>
         <attr name="max"/>
     </declare-styleable>
-    <declare-styleable name="SummaryEditTextPreference">
+    <declare-styleable name="ConstrainedEditTextPreference">
         <attr name="minLen"/>
         <attr name="maxLen"/>
     </declare-styleable>

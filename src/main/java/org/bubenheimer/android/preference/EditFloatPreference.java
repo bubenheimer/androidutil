@@ -26,10 +26,10 @@ import android.widget.Toast;
 
 import org.bubenheimer.android.log.Log;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class EditFloatPreference extends EditNumberPreference {
     private static final String TAG = EditFloatPreference.class.getSimpleName();
 
+    @SuppressWarnings("WeakerAccess")
     public EditFloatPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }

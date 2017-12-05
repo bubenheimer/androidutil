@@ -18,47 +18,30 @@
 package org.bubenheimer.android.preference;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.support.v4.util.Pair;
 import android.support.v7.preference.EditTextPreference;
+import android.support.v7.preference.EditTextPreferenceDialogFragmentCompat;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
-import org.bubenheimer.android.util.R;
-
-@SuppressWarnings("unused")
-public final class SummaryEditTextPreference extends EditTextPreference implements DialogSupporter {
-    final int minLength;
-    final int maxLength;
-
-    protected SummaryEditTextPreference(
-            final Context context, final AttributeSet attrs, final Pair<Integer, Integer> defaults) {
-        super(context, attrs);
-
-        final TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs, R.styleable.SummaryEditTextPreference, 0, 0);
-        try {
-            this.minLength =
-                    a.getInteger(R.styleable.SummaryEditTextPreference_minLen, defaults.first);
-            this.maxLength =
-                    a.getInteger(R.styleable.SummaryEditTextPreference_maxLen, defaults.second);
-        } finally {
-            a.recycle();
-        }
-    }
-
+public class SummaryEditTextPreference extends EditTextPreference implements DialogSupporter {
+    @SuppressWarnings("WeakerAccess")
     public SummaryEditTextPreference(final Context context, final AttributeSet attrs) {
-        this(context, attrs, new Pair<>(0, Integer.MAX_VALUE));
+        super(context, attrs);
     }
 
     @Override
-    public void setText(final String text) {
-        super.setText(text);
-        setSummary(text);
+    public CharSequence getSummary() {
+        final CharSequence summary = super.getSummary();
+        if (summary == null) {
+            return null;
+        } else {
+            final CharSequence value = getText();
+            return String.format(summary.toString(), value == null ? "" : value);
+        }
     }
 
     @Override
     public PreferenceDialogFragmentCompat newDialog() {
-        return SummaryEditTextPreferenceDialogFragment.newInstance(getKey());
+        return EditTextPreferenceDialogFragmentCompat.newInstance(getKey());
     }
 }

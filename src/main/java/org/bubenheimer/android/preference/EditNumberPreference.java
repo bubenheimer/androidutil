@@ -18,19 +18,11 @@
 package org.bubenheimer.android.preference;
 
 import android.content.Context;
-import android.support.v7.preference.EditTextPreference;
 import android.util.AttributeSet;
 
-public abstract class EditNumberPreference extends EditTextPreference implements DialogSupporter {
-    private static final String TAG = EditNumberPreference.class.getSimpleName();
-
+@SuppressWarnings("WeakerAccess")
+public abstract class EditNumberPreference extends SummaryEditTextPreference {
     protected EditNumberPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-    }
-
-    @Override
-    public final void setText(final String text) {
-        super.setText(text);
-        setSummary(text);
     }
 }

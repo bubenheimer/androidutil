@@ -20,12 +20,12 @@ package org.bubenheimer.android.preference;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-public class SummaryEditTextPreferenceDialogFragment
+public class ConstrainedEditTextPreferenceDialogFragment
         extends ValidatingEditTextPreferenceDialogFragment {
-    public static SummaryEditTextPreferenceDialogFragment newInstance(
+    public static ConstrainedEditTextPreferenceDialogFragment newInstance(
             final String key) {
-        final SummaryEditTextPreferenceDialogFragment fragment =
-                new SummaryEditTextPreferenceDialogFragment();
+        final ConstrainedEditTextPreferenceDialogFragment fragment =
+                new ConstrainedEditTextPreferenceDialogFragment();
 
         final Bundle b = new Bundle(1);
         b.putString(ARG_KEY, key);
@@ -35,14 +35,14 @@ public class SummaryEditTextPreferenceDialogFragment
 
     @Override
     protected void checkTextValid(final @NonNull CharSequence text) throws IllegalArgumentException {
-        final SummaryEditTextPreference preference = getSummaryEditTextPreference();
+        final ConstrainedEditTextPreference preference = getConstrainedEditTextPreference();
         final int length = text.length();
         if (length < preference.minLength || preference.maxLength < length) {
             throw new IllegalArgumentException();
         }
     }
 
-    private SummaryEditTextPreference getSummaryEditTextPreference() {
-        return (SummaryEditTextPreference) getPreference();
+    private ConstrainedEditTextPreference getConstrainedEditTextPreference() {
+        return (ConstrainedEditTextPreference) getPreference();
     }
 }

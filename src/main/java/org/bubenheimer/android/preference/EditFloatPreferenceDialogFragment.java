@@ -42,7 +42,7 @@ public class EditFloatPreferenceDialogFragment extends ValidatingEditTextPrefere
     }
 
     @Override
-    protected void checkTextValid(final CharSequence text) throws NumberFormatException {
+    protected void checkTextValid(@NonNull final CharSequence text) throws NumberFormatException {
         //noinspection ResultOfMethodCallIgnored
         Float.parseFloat(text.toString());
     }
