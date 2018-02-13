@@ -20,7 +20,7 @@ buildscript {
         maven { url MAVEN_REPOSITORY_URL}
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:' + ANDROID_STUDIO_VERSION
     }
 }
 
@@ -56,12 +56,19 @@ android {
       targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    // TODO change based on resolution of https://issuetracker.google.com/issues/72050365
+    libraryVariants.all {
+        it.generateBuildConfig.enabled = false
+    }
+
     dataBinding {
         enabled = true
     }
 
     dependencies {
-        String dataBindingVersion = '1.3.3'
+        //TODO workaround for databinding bug in more recent versions
+        String dataBindingVersion = '3.1.0-alpha9'
+//        String dataBindingVersion = ANDROID_STUDIO_VERSION
         String supportLibVersion = '27.0.2'
 
         implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'
