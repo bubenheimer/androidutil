@@ -16,25 +16,59 @@
  */
 
 buildscript {
+    ext.android_plugin_version = '3.2.0-beta01'
+    ext.kotlin_version = '1.2.41'
+
     repositories {
-        maven { url MAVEN_REPOSITORY_URL}
+        google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-beta2'
+        classpath "com.android.tools.build:gradle:$android_plugin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 
 repositories {
-    maven { url MAVEN_REPOSITORY_URL}
+    mavenLocal()
+    google()
+    jcenter()
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+group = 'org.bubenheimer'
+version = '1.0-SNAPSHOT'
+
+String supportLibVersion = '28.0.0-alpha1'
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            artifact bundleReleaseAar
+
+            pom.withXml {
+                def deps = asNode().appendNode('dependencies')
+
+                // Give users access to GridLayout attributes, etc.
+                def gridlayout = deps.appendNode('dependency')
+                gridlayout.appendNode('groupId', 'com.android.support')
+                gridlayout.appendNode('artifactId', 'gridlayout-v7')
+                gridlayout.appendNode('version', supportLibVersion)
+            }
+        }
+    }
+}
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
+        targetSdkVersion 28
         minSdkVersion 14
         versionCode 1
         versionName '1.0'
@@ -64,16 +98,15 @@ android {
     dataBinding {
         enabled = true
     }
-
-    dependencies {
-        String supportLibVersion = '27.0.2'
-
-        implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'
-
-        implementation "com.android.support:support-annotations:${supportLibVersion}"
-        implementation "com.android.support:gridlayout-v7:${supportLibVersion}"
-        implementation "com.android.support:preference-v7:${supportLibVersion}"
-    }
 }
 
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+dependencies {
+    implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'
+
+    implementation "com.android.support:support-annotations:$supportLibVersion"
+    implementation "com.android.support:gridlayout-v7:$supportLibVersion"
+    implementation "com.android.support:preference-v7:$supportLibVersion"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    kapt "androidx.databinding:databinding-compiler:$android_plugin_version"
+}
