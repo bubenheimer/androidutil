@@ -16,8 +16,8 @@
  */
 
 buildscript {
-    ext.android_plugin_version = '3.2.0-beta01'
-    ext.kotlin_version = '1.2.41'
+    ext.android_plugin_version = '3.2.0-beta02'
+    ext.kotlin_version = '1.2.50'
 
     repositories {
         google()
@@ -26,6 +26,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 
@@ -37,32 +38,12 @@ repositories {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 group = 'org.bubenheimer'
 version = '1.0-SNAPSHOT'
-
-String supportLibVersion = '28.0.0-alpha1'
-
-publishing {
-    publications {
-        library(MavenPublication) {
-            artifact bundleReleaseAar
-
-            pom.withXml {
-                def deps = asNode().appendNode('dependencies')
-
-                // Give users access to GridLayout attributes, etc.
-                def gridlayout = deps.appendNode('dependency')
-                gridlayout.appendNode('groupId', 'com.android.support')
-                gridlayout.appendNode('artifactId', 'gridlayout-v7')
-                gridlayout.appendNode('version', supportLibVersion)
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion 28
@@ -101,6 +82,8 @@ android {
 }
 
 dependencies {
+    String supportLibVersion = '28.0.0-alpha1'
+
     implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'
 
     implementation "com.android.support:support-annotations:$supportLibVersion"
