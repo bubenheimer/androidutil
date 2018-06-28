@@ -87,7 +87,8 @@ dependencies {
     implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'
 
     implementation "com.android.support:support-annotations:$supportLibVersion"
-    implementation "com.android.support:gridlayout-v7:$supportLibVersion"
+    // Give users access to GridLayout attributes, etc.
+    api "com.android.support:gridlayout-v7:$supportLibVersion"
     implementation "com.android.support:preference-v7:$supportLibVersion"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
