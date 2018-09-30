@@ -18,7 +18,7 @@
 package org.bubenheimer.android.preference;
 
 import android.content.Context;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
 public class EditNonNegFloatPreference extends EditFloatPreference {

@@ -24,7 +24,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 
 import org.bubenheimer.android.internal.CheckInternal;
 

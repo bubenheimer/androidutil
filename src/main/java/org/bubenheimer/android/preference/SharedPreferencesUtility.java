@@ -19,11 +19,11 @@ package org.bubenheimer.android.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.annotation.UiThread;
-import android.support.v4.util.Pair;
-import android.support.v4.util.SimpleArrayMap;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.annotation.UiThread;
+import androidx.core.util.Pair;
+import androidx.collection.SimpleArrayMap;
 
 import org.bubenheimer.android.log.Log;
 import org.bubenheimer.util.Uninstantiable;

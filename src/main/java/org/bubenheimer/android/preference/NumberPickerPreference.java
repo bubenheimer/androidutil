@@ -21,9 +21,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.RestrictTo;
-import android.support.v7.preference.DialogPreference;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import androidx.annotation.RestrictTo;
+import androidx.preference.DialogPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
 import org.bubenheimer.android.ui.StyleUtils;

@@ -17,7 +17,7 @@
 
 package org.bubenheimer.android.preference;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.InputType;
 import android.text.method.DigitsKeyListener;
 import android.widget.EditText;

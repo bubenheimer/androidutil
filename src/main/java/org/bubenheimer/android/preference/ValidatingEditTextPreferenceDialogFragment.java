@@ -17,9 +17,9 @@
 
 package org.bubenheimer.android.preference;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.EditTextPreferenceDialogFragmentCompat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.EditTextPreferenceDialogFragmentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;

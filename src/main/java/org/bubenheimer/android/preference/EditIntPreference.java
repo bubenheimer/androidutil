@@ -20,8 +20,8 @@ package org.bubenheimer.android.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.support.v4.util.Pair;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import androidx.core.util.Pair;
+import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 import android.widget.Toast;
 

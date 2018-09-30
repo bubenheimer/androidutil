@@ -19,8 +19,8 @@ package org.bubenheimer.android.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.UiThread;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import androidx.annotation.UiThread;
+import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 import android.widget.Toast;
 

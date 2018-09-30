@@ -18,7 +18,7 @@
 package org.bubenheimer.android.preference;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public final class EditPosFloatPreferenceDialogFragment
         extends EditNonNegFloatPreferenceDialogFragment {

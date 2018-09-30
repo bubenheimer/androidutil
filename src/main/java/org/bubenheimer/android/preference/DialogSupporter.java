@@ -17,7 +17,7 @@
 
 package org.bubenheimer.android.preference;
 
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 public interface DialogSupporter {
     PreferenceDialogFragmentCompat newDialog();

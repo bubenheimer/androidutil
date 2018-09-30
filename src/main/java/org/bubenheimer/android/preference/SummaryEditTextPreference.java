@@ -18,9 +18,9 @@
 package org.bubenheimer.android.preference;
 
 import android.content.Context;
-import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.EditTextPreferenceDialogFragmentCompat;
-import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import androidx.preference.EditTextPreference;
+import androidx.preference.EditTextPreferenceDialogFragmentCompat;
+import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
 public class SummaryEditTextPreference extends EditTextPreference implements DialogSupporter {
