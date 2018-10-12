@@ -16,17 +16,19 @@
  */
 
 buildscript {
-    ext.android_plugin_version = '3.3.0-alpha12'
+    ext.android_plugin_version = '3.3.0-alpha13'
     ext.kotlin_version = '1.2.71'
 
     repositories {
         google()
         jcenter()
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13'
     }
 }
 
@@ -37,10 +39,15 @@ repositories {
     jcenter()
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xep:OperatorPrecedence:OFF'
+}
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'net.ltgt.errorprone'
 
 group = 'org.bubenheimer'
 version = '1.0-SNAPSHOT'
@@ -82,6 +89,8 @@ android {
 }
 
 dependencies {
+    errorprone 'com.google.errorprone:error_prone_core:2.3.2'
+
     String androidxVersion = '1.0.0'
 
     implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'

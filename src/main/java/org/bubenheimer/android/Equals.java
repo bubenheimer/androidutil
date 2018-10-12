@@ -21,6 +21,7 @@ import org.bubenheimer.util.Uninstantiable;
 
 @SuppressWarnings("unused")
 public final class Equals extends Uninstantiable {
+    @SuppressWarnings("IdentityBinaryExpression")
     public static boolean nanSafeEquals(final float f1, final float f2) {
         return f1 == f2 || f1 != f1 && f2 != f2;
     }

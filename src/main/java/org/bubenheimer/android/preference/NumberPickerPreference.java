@@ -159,10 +159,12 @@ public final class NumberPickerPreference extends DialogPreference implements Di
 
         public static final Creator<SavedState> CREATOR =
                 new Creator<SavedState>() {
+                    @Override
                     public SavedState createFromParcel(final Parcel in) {
                         return new SavedState(in);
                     }
 
+                    @Override
                     public SavedState[] newArray(final int size) {
                         return new SavedState[size];
                     }

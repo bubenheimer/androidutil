@@ -35,6 +35,7 @@ public class SyncObservable {
         protected SimpleObserver() {
         }
 
+        @Override
         public final boolean onEvent(final SyncObservable observable) {
             onSimpleEvent(observable);
             return false;
