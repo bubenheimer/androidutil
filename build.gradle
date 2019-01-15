@@ -106,6 +106,7 @@ dependencies {
     api "androidx.gridlayout:gridlayout:$androidxVersion"
     implementation "androidx.preference:preference:$androidxVersion"
     implementation "androidx.recyclerview:recyclerview-selection:$androidxVersion"
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     kapt "androidx.databinding:databinding-compiler:$android_plugin_version"
