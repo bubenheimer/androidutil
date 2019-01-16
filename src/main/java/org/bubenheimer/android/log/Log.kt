@@ -120,26 +120,28 @@ class Log : Uninstantiable() {
 
         @JvmStatic fun wtf(tag: String?, vararg args: Any?) {
             val msg = toString(*args)
-            android.util.Log.wtf(tag, msg)
-            crashLog(ASSERT, tag, msg)
+            if (!crashLog(ASSERT, tag, msg)) {
+                android.util.Log.wtf(tag, msg)
+            }
         }
 
         @JvmStatic fun wtf(t: Throwable?, tag: String?) {
-            android.util.Log.wtf(tag, t)
-            crashLog(ASSERT, t, tag, "")
+            if (!crashLog(ASSERT, t, tag, "")) {
+                android.util.Log.wtf(tag, t)
+            }
         }
 
         @JvmStatic fun wtf(t: Throwable?, tag: String?, vararg args: Any?) {
             val msg = toString(*args)
-            android.util.Log.wtf(tag, msg, t)
-            crashLog(ASSERT, t, tag, msg)
+            if (!crashLog(ASSERT, t, tag, msg)) {
+                android.util.Log.wtf(tag, msg, t)
+            }
         }
 
         @JvmStatic fun println(priority: Int, tag: String?, vararg args: Any?) {
             val msg = toString(*args)
-            android.util.Log.println(priority, tag, msg)
-            if (priority != VERBOSE) {
-                crashLog(priority, tag, msg)
+            if (priority == VERBOSE || !crashLog(priority, tag, msg)) {
+                android.util.Log.println(priority, tag, msg)
             }
         }
 
@@ -156,12 +158,14 @@ class Log : Uninstantiable() {
             return android.util.Log.getStackTraceString(t)
         }
 
-        private fun crashLog(priority: Int, tag: String?, msg: String?) {
+        private fun crashLog(priority: Int, tag: String?, msg: String?) : Boolean {
             crashLog?.crashLog(priority, tag, msg)
+            return crashLog != null
         }
 
-        private fun crashLog(priority: Int, t: Throwable?, tag: String?, msg: String?) {
+        private fun crashLog(priority: Int, t: Throwable?, tag: String?, msg: String?) : Boolean {
             crashLog?.crashLog(priority, t, tag, msg)
+            return crashLog != null
         }
     }
 }
