@@ -37,6 +37,8 @@ private val HAS_ASYNC: Boolean by lazy {
     }
 }
 
+fun isMainThread() = Thread.currentThread() === MAIN_HANDLER.looper.thread
+
 @JvmOverloads
 fun post(async: Boolean = true, runnable: Runnable) {
     if (Thread.currentThread() === MAIN_HANDLER.looper.thread) {

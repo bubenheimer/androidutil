@@ -36,10 +36,10 @@ public final class ProxyLifecycleObserver implements DefaultLifecycleObserver {
         }
     }
 
-    private final Delegate delegate;
+    private final @NonNull Delegate delegate;
 
     public ProxyLifecycleObserver(
-            final Delegate delegate) {
+            final @NonNull Delegate delegate) {
         this.delegate = delegate;
     }
 
