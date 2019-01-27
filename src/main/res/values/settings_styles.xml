@@ -17,10 +17,10 @@
   -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="Preference.DialogPreference.DurationPickerPreference">
+    <style name="Preference.DialogPreference.Material.DurationPickerPreference">
         <item name="android:dialogLayout">@layout/preference_dialog_duration_picker</item>
     </style>
-    <style name="Preference.DialogPreference.NumberPickerPreference">
+    <style name="Preference.DialogPreference.Material.NumberPickerPreference">
         <item name="android:dialogLayout">@layout/preference_dialog_number_picker</item>
     </style>
 </resources>
