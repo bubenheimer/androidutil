@@ -26,13 +26,13 @@ object HandlerUtil {
 
     @JvmOverloads
     fun createAsync(
-            looper: Looper? = null,
+            looper: Looper = wrapLooper(null),
             callback: Handler.Callback? = null): Handler {
         return if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
             if (callback == null) {
-                Handler.createAsync(wrapLooper(looper))
+                Handler.createAsync(looper)
             } else {
-                Handler.createAsync(wrapLooper(looper), callback)
+                Handler.createAsync(looper, callback)
             }
         } else {
             createReflectiveAsync(looper, callback)
@@ -48,17 +48,17 @@ object HandlerUtil {
     }
 
     private fun createReflectiveAsync(
-            looper: Looper?,
+            looper: Looper,
             callback: Handler.Callback?): Handler {
         constructor?.let {
             try {
                 return@createReflectiveAsync it.newInstance(looper, callback, true)
             } catch (e: IllegalAccessException) {
-                Log.ex(e, TAG)
+                Log.wx(e, TAG)
             } catch (e: InstantiationException) {
-                Log.ex(e, TAG)
+                Log.wx(e, TAG)
             } catch (e: InvocationTargetException) {
-                Log.ex(e, TAG)
+                Log.wx(e, TAG)
             }
         }
         return Handler(looper, callback)
