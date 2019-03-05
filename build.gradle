@@ -43,7 +43,11 @@ repositories {
 
 tasks.withType(JavaCompile) {
     afterEvaluate {
-        options.errorprone.check('OperatorPrecedence', CheckSeverity.OFF)
+        options.errorprone {
+            disableWarningsInGeneratedCode = true
+            check('OperatorPrecedence', CheckSeverity.OFF)
+            excludedPaths = '.*/build/generated/source/.+/databinding/.+\\.java'
+        }
     }
 }
 
