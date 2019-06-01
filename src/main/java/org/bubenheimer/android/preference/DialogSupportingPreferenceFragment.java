@@ -38,7 +38,7 @@ public abstract class DialogSupportingPreferenceFragment extends PreferenceFragm
         }
 
         if (preference instanceof DialogSupporter) {
-            final FragmentManager fragmentManager = getFragmentManager();
+            final FragmentManager fragmentManager = requireFragmentManager();
             if (fragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
                 //Dialog is not showing yet
                 final PreferenceDialogFragmentCompat dialogFragment =
