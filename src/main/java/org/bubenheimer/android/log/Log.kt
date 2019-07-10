@@ -125,7 +125,7 @@ class Log : Uninstantiable() {
             }
         }
 
-        @JvmStatic fun wtf(t: Throwable?, tag: String?) {
+        @JvmStatic fun wtf(t: Throwable, tag: String?) {
             if (!crashLog(ASSERT, t, tag, "")) {
                 android.util.Log.wtf(tag, t)
             }
