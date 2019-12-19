@@ -25,13 +25,14 @@ import androidx.annotation.UiThread;
 import androidx.core.util.Pair;
 import androidx.collection.SimpleArrayMap;
 
+import org.bubenheimer.android.internal.CheckInternal;
 import org.bubenheimer.android.log.Log;
 import org.bubenheimer.util.Uninstantiable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"unused"})
 public final class SharedPreferencesUtility extends Uninstantiable {
     private static final String TAG = SharedPreferencesUtility.class.getSimpleName();
 
@@ -39,47 +40,51 @@ public final class SharedPreferencesUtility extends Uninstantiable {
                     ? extends List<OnSharedPreferenceChangeListener>>>> masterMap =
             new SimpleArrayMap<>();
 
+    @SuppressWarnings("UnnecessaryLambda")
     private static final SharedPreferences.OnSharedPreferenceChangeListener masterListener =
-            new SharedPreferences.OnSharedPreferenceChangeListener() {
-                @UiThread
-                @Override
-                public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences,
-                                                      final String key) {
-                    final SimpleArrayMap<String, Pair<Integer,
-                            ? extends List<OnSharedPreferenceChangeListener>>> prefsEntry =
-                            masterMap.get(sharedPreferences);
-                    if (prefsEntry == null) {
-                        Log.v(TAG, "Shared preferences not registered: ", sharedPreferences);
-                        return;
-                    }
+            (sharedPreferences, key) -> {
+                final SimpleArrayMap<String, Pair<Integer,
+                        ? extends List<OnSharedPreferenceChangeListener>>> prefsEntry =
+                        masterMap.get(sharedPreferences);
+                if (prefsEntry == null) {
+                    Log.v(TAG, "Shared preferences not registered: ", sharedPreferences);
+                    return;
+                }
 
-                    final Pair<Integer, ? extends List<OnSharedPreferenceChangeListener>> pair =
-                            prefsEntry.get(key);
-                    if (pair == null) {
-                        Log.v(TAG, "Shared preference not registered: ",
-                                key, " - ", sharedPreferences);
-                        return;
-                    }
+                final Pair<Integer, ? extends List<OnSharedPreferenceChangeListener>> pair =
+                        prefsEntry.get(key);
+                if (pair == null) {
+                    Log.v(TAG, "Shared preference not registered: ",
+                            key, " - ", sharedPreferences);
+                    return;
+                }
 
-                    final List<OnSharedPreferenceChangeListener> list = pair.second;
-                    final int size = list.size();
-                    for (int i = 0; i < size; ++i) {
-                        list.get(i).onSharedPreferenceChanged(sharedPreferences, pair.first, key);
-                    }
+                final List<OnSharedPreferenceChangeListener> list = pair.second;
+                CheckInternal.notNull(list);
+                final int size = list.size();
+                for (int i = 0; i < size; ++i) {
+                    final @StringRes Integer id = pair.first;
+                    CheckInternal.notNull(id);
+                    list.get(i).onSharedPreferenceChanged(sharedPreferences, id, key);
                 }
             };
 
     public interface OnSharedPreferenceChangeListener {
         @UiThread
-        void onSharedPreferenceChanged(@NonNull final SharedPreferences sharedPreferences,
-                                       @StringRes int id, @NonNull String key);
+        void onSharedPreferenceChanged(
+                @NonNull SharedPreferences sharedPreferences,
+                @StringRes int id,
+                @NonNull String key
+        );
     }
 
     @UiThread
     public static void registerOnSharedPreferenceChangeListener(
-            @NonNull final Context context, @NonNull final SharedPreferences prefs,
-            @NonNull final OnSharedPreferenceChangeListener listener,
-            @StringRes final int... resIds) {
+            final @NonNull Context context,
+            final @NonNull SharedPreferences prefs,
+            final @NonNull OnSharedPreferenceChangeListener listener,
+            final @StringRes int... resIds
+    ) {
         SimpleArrayMap<String, Pair<Integer, ? extends List<OnSharedPreferenceChangeListener>>>
                 prefsEntry = masterMap.get(prefs);
         if (prefsEntry == null) {
@@ -95,18 +100,22 @@ public final class SharedPreferencesUtility extends Uninstantiable {
             Pair<Integer, ? extends List<OnSharedPreferenceChangeListener>> pair =
                     prefsEntry.get(key);
             if (pair == null) {
-                pair = Pair.create(resId, new ArrayList<OnSharedPreferenceChangeListener>());
+                pair = Pair.create(resId, new ArrayList<>());
                 prefsEntry.put(key, pair);
             }
-            pair.second.add(listener);
+            final List<OnSharedPreferenceChangeListener> listeners = pair.second;
+            CheckInternal.notNull(listeners);
+            listeners.add(listener);
         }
     }
 
     @UiThread
     public static void unregisterOnSharedPreferenceChangeListener(
-            @NonNull final Context context, @NonNull final SharedPreferences prefs,
-            @NonNull final OnSharedPreferenceChangeListener listener,
-            @StringRes final int... resIds) {
+            final @NonNull Context context,
+            final @NonNull SharedPreferences prefs,
+            final @NonNull OnSharedPreferenceChangeListener listener,
+            final @StringRes int... resIds
+    ) {
         final SimpleArrayMap<String, Pair<Integer,
                 ? extends List<OnSharedPreferenceChangeListener>>>
                 prefsEntry = masterMap.get(prefs);
@@ -126,6 +135,7 @@ public final class SharedPreferencesUtility extends Uninstantiable {
                 return;
             }
             final List<OnSharedPreferenceChangeListener> list = pair.second;
+            CheckInternal.notNull(list);
             if (!list.remove(listener)) {
                 Log.w(TAG, "Listener not registered: ", key, " - ", prefs);
                 return;
