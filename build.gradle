@@ -116,7 +116,7 @@ publishing {
             afterEvaluate {
                 from components.release
             }
-            artifactId = 'androidutil'
+            artifactId = project.name
         }
     }
 }
