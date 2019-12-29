@@ -98,16 +98,14 @@ dependencies {
     //noinspection GradleDynamicVersion
     errorproneJavac 'com.google.errorprone:javac:9+181-r4173-1'
 
-    String androidxVersion = '1.0.0'
-
     implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'
 
-    implementation "androidx.annotation:annotation:1.1.0-beta01"
+    implementation "androidx.annotation:annotation:1.1.0"
     // Give users access to GridLayout attributes, etc.
-    api "androidx.gridlayout:gridlayout:$androidxVersion"
-    implementation "androidx.preference:preference:$androidxVersion"
-    implementation "androidx.recyclerview:recyclerview-selection:$androidxVersion"
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.1.0-alpha04'
+    api "androidx.gridlayout:gridlayout:1.0.0"
+    implementation "androidx.preference:preference:1.0.0"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-beta01"
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc03'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     kapt "androidx.databinding:databinding-compiler:$android_plugin_version"
