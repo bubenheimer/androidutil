@@ -30,7 +30,6 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'net.ltgt.gradle:gradle-errorprone-plugin:1.1.1'
     }
 }
@@ -53,7 +52,7 @@ tasks.withType(JavaCompile) {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'net.ltgt.errorprone'
@@ -91,22 +90,33 @@ android {
         buildConfig false
         dataBinding true
     }
+
+    dependencies {
+        errorprone 'com.google.errorprone:error_prone_core:2.3.4'
+        //noinspection GradleDynamicVersion
+        errorproneJavac 'com.google.errorprone:javac:9+181-r4173-1'
+
+        implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'
+
+        implementation "androidx.annotation:annotation:1.1.0"
+        // Give users access to GridLayout attributes, etc.
+        api "androidx.gridlayout:gridlayout:1.0.0"
+        implementation "androidx.preference:preference:1.0.0"
+        implementation "androidx.recyclerview:recyclerview-selection:1.1.0-beta01"
+        implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc03'
+
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+        kapt "androidx.databinding:databinding-compiler:$android_plugin_version"
+    }
 }
 
-dependencies {
-    errorprone 'com.google.errorprone:error_prone_core:2.3.4'
-    //noinspection GradleDynamicVersion
-    errorproneJavac 'com.google.errorprone:javac:9+181-r4173-1'
-
-    implementation 'org.bubenheimer:javautil:1.0-SNAPSHOT'
-
-    implementation "androidx.annotation:annotation:1.1.0"
-    // Give users access to GridLayout attributes, etc.
-    api "androidx.gridlayout:gridlayout:1.0.0"
-    implementation "androidx.preference:preference:1.0.0"
-    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-beta01"
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc03'
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    kapt "androidx.databinding:databinding-compiler:$android_plugin_version"
+publishing {
+    publications {
+        release(MavenPublication) {
+            afterEvaluate {
+                from components.release
+            }
+            artifactId = 'androidutil'
+        }
+    }
 }
