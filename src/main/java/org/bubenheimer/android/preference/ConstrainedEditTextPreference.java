@@ -23,6 +23,7 @@ import androidx.core.util.Pair;
 import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
+import org.bubenheimer.android.internal.CheckInternal;
 import org.bubenheimer.android.util.R;
 
 public final class ConstrainedEditTextPreference extends SummaryEditTextPreference {
@@ -37,10 +38,15 @@ public final class ConstrainedEditTextPreference extends SummaryEditTextPreferen
         final TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs, R.styleable.ConstrainedEditTextPreference, 0, 0);
         try {
+            final Integer first = defaults.first;
+            CheckInternal.notNull(first);
             this.minLength =
-                    a.getInteger(R.styleable.ConstrainedEditTextPreference_minLen, defaults.first);
+                    a.getInteger(R.styleable.ConstrainedEditTextPreference_minLen, first);
+
+            final Integer second = defaults.second;
+            CheckInternal.notNull(second);
             this.maxLength =
-                    a.getInteger(R.styleable.ConstrainedEditTextPreference_maxLen, defaults.second);
+                    a.getInteger(R.styleable.ConstrainedEditTextPreference_maxLen, second);
         } finally {
             a.recycle();
         }
