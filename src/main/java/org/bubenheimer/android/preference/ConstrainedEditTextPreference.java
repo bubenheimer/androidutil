@@ -32,7 +32,10 @@ public final class ConstrainedEditTextPreference extends SummaryEditTextPreferen
 
     @SuppressWarnings("WeakerAccess")
     protected ConstrainedEditTextPreference(
-            final Context context, final AttributeSet attrs, final Pair<Integer, Integer> defaults) {
+            final Context context,
+            final AttributeSet attrs,
+            final Pair<Integer, Integer> defaults
+    ) {
         super(context, attrs);
 
         final TypedArray a = context.getTheme().obtainStyledAttributes(
