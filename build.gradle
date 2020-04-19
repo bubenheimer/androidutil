@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Uli Bubenheimer
+ * Copyright (c) 2015-2020 Uli Bubenheimer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 import net.ltgt.gradle.errorprone.CheckSeverity
 
 buildscript {
-    ext.android_plugin_version = '4.1.0-alpha05'
+    ext.android_plugin_version = '4.1.0-alpha06'
     ext.kotlin_version = '1.3.72'
 
     repositories {
