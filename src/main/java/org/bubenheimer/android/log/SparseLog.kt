@@ -20,7 +20,7 @@ package org.bubenheimer.android.log
 import android.os.SystemClock
 
 class SparseLog @JvmOverloads constructor(private val period: Long = 60_000L) {
-    private var lastLog = java.lang.Long.MIN_VALUE
+    private var lastLog = Long.MIN_VALUE
 
     fun v(tag: String?, vararg args: Any?) {
         if (shouldLog()) {
