@@ -17,16 +17,17 @@
 
 package org.bubenheimer.android.preference;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.preference.EditTextPreferenceDialogFragmentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import org.bubenheimer.android.internal.CheckInternal;
+import org.bubenheimer.android.Check;
 import org.bubenheimer.android.log.Log;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.EditTextPreferenceDialogFragmentCompat;
 
 public abstract class ValidatingEditTextPreferenceDialogFragment
         extends EditTextPreferenceDialogFragmentCompat implements TextWatcher {
@@ -37,7 +38,7 @@ public abstract class ValidatingEditTextPreferenceDialogFragment
         super.onBindDialogView(view);
 
         final EditText editText = view.findViewById(android.R.id.edit);
-        CheckInternal.notNull(editText);
+        Check.notNull(editText);
         editText.addTextChangedListener(this);
         onBindEditText(editText);
     }
@@ -59,7 +60,7 @@ public abstract class ValidatingEditTextPreferenceDialogFragment
 
     @Override
     public final void afterTextChanged(final Editable s) {
-        CheckInternal.notNull(s);
+        Check.notNull(s);
         onEditTextChanged(s);
     }
 

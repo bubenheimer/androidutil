@@ -1,8 +1,28 @@
--assumenosideeffects class org.bubenheimer.android.internal.CheckInternal {
+-assumenosideeffects class org.bubenheimer.android.Check {
     public static void notNull(...);
     public static void isNull(...);
     public static void equals(...);
     public static void notEquals(...);
+    public static void same(...);
+    public static void notSame(...);
+    public static void lessThan(...);
+    public static void lessOrEqual(...);
+    public static void inRangeInclusive(...);
+    public static void inRangeExclusive(...);
+    public static void isOneOf(...);
+    public static void notOneOf(...);
+    public static void isOneOfObjects(...);
+    public static void notOneOfObjects(...);
     public static void isTrue(...);
     public static void isFalse(...);
+    public static void fail(...);
+    public static void nofail(...);
+    public static void onThread(...);
+    public static void offThread(...);
+    public static void onLooperThread(...);
+    public static void offLooperThread(...);
+    public static void onHandlerThread(...);
+    public static void offHandlerThread(...);
+    public static void onMainThread(...);
+    public static void onWorkerThread(...);
 }

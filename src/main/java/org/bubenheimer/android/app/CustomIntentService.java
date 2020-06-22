@@ -24,9 +24,10 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import androidx.annotation.WorkerThread;
 
-import org.bubenheimer.android.internal.CheckInternal;
+import org.bubenheimer.android.Check;
+
+import androidx.annotation.WorkerThread;
 
 /**
  * CustomIntentService is a base class for {@link Service}s that handle asynchronous
@@ -131,7 +132,7 @@ public abstract class CustomIntentService extends Service {
         msg.arg1 = startId;
         msg.obj = intent;
         final boolean result = mServiceHandler.sendMessage(msg);
-        CheckInternal.isTrue(result);
+        Check.isTrue(result);
 
         return mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;
     }

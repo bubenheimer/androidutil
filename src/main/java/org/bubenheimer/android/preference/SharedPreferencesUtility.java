@@ -19,18 +19,19 @@ package org.bubenheimer.android.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.annotation.UiThread;
-import androidx.core.util.Pair;
-import androidx.collection.SimpleArrayMap;
 
-import org.bubenheimer.android.internal.CheckInternal;
+import org.bubenheimer.android.Check;
 import org.bubenheimer.android.log.Log;
 import org.bubenheimer.util.Uninstantiable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.annotation.UiThread;
+import androidx.collection.SimpleArrayMap;
+import androidx.core.util.Pair;
 
 @SuppressWarnings({"unused"})
 public final class SharedPreferencesUtility extends Uninstantiable {
@@ -60,11 +61,11 @@ public final class SharedPreferencesUtility extends Uninstantiable {
                 }
 
                 final List<OnSharedPreferenceChangeListener> list = pair.second;
-                CheckInternal.notNull(list);
+                Check.notNull(list);
                 final int size = list.size();
                 for (int i = 0; i < size; ++i) {
                     final @StringRes Integer id = pair.first;
-                    CheckInternal.notNull(id);
+                    Check.notNull(id);
                     list.get(i).onSharedPreferenceChanged(sharedPreferences, id, key);
                 }
             };
@@ -104,7 +105,7 @@ public final class SharedPreferencesUtility extends Uninstantiable {
                 prefsEntry.put(key, pair);
             }
             final List<OnSharedPreferenceChangeListener> listeners = pair.second;
-            CheckInternal.notNull(listeners);
+            Check.notNull(listeners);
             listeners.add(listener);
         }
     }
@@ -135,7 +136,7 @@ public final class SharedPreferencesUtility extends Uninstantiable {
                 return;
             }
             final List<OnSharedPreferenceChangeListener> list = pair.second;
-            CheckInternal.notNull(list);
+            Check.notNull(list);
             if (!list.remove(listener)) {
                 Log.w(TAG, "Listener not registered: ", key, " - ", prefs);
                 return;

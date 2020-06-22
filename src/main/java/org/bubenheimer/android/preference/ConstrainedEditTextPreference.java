@@ -19,12 +19,13 @@ package org.bubenheimer.android.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import androidx.core.util.Pair;
-import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
-import org.bubenheimer.android.internal.CheckInternal;
+import org.bubenheimer.android.Check;
 import org.bubenheimer.android.util.R;
+
+import androidx.core.util.Pair;
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 public final class ConstrainedEditTextPreference extends SummaryEditTextPreference {
     final int minLength;
@@ -42,12 +43,12 @@ public final class ConstrainedEditTextPreference extends SummaryEditTextPreferen
                 attrs, R.styleable.ConstrainedEditTextPreference, 0, 0);
         try {
             final Integer first = defaults.first;
-            CheckInternal.notNull(first);
+            Check.notNull(first);
             this.minLength =
                     a.getInteger(R.styleable.ConstrainedEditTextPreference_minLen, first);
 
             final Integer second = defaults.second;
-            CheckInternal.notNull(second);
+            Check.notNull(second);
             this.maxLength =
                     a.getInteger(R.styleable.ConstrainedEditTextPreference_maxLen, second);
         } finally {
