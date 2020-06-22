@@ -15,8 +15,6 @@
  *
  */
 
-@file:JvmName("MainThreadRunner")
-
 package org.bubenheimer.android.threading
 
 import android.annotation.SuppressLint
@@ -26,12 +24,11 @@ import android.os.Looper
 import android.os.Message
 import org.bubenheimer.android.log.Log
 
-// Is there a simple better way besides hard-coding it? (and besides companion object or class)
-private val TAG = "MainThreadRunner"
+private const val TAG = "MainThreadRunner"
 
 private val MAIN_HANDLER = Handler(Looper.getMainLooper())
 
-private val HAS_ASYNC: Boolean by lazy {
+private val HAS_ASYNC: Boolean = run {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
         // Confirm the method is there
         val message = Message.obtain()
@@ -52,55 +49,49 @@ private val HAS_ASYNC: Boolean by lazy {
 
 fun isMainThread() = Thread.currentThread() === MAIN_HANDLER.looper.thread
 
-@JvmOverloads
-fun post(async: Boolean = true, runnable: Runnable) {
+fun post(async: Boolean = true, runnable: () -> Unit) {
     if (Thread.currentThread() === MAIN_HANDLER.looper.thread) {
-        runnable.run()
+        runnable()
     } else {
         forcePost(async, runnable)
     }
 }
 
 @Suppress("unused")
-@JvmOverloads
-fun postDelayed(async: Boolean = true, runnable: Runnable, delayMs: Long) {
+fun postDelayed(delayMs: Long, async: Boolean = true, runnable: () -> Unit) {
     if (delayMs <= 0L && Thread.currentThread() === MAIN_HANDLER.looper.thread) {
-        runnable.run()
+        runnable()
     } else {
-        forcePostDelayed(async, runnable, delayMs);
+        forcePostDelayed(delayMs, async, runnable);
     }
 }
 
-@JvmOverloads
-fun forcePost(async: Boolean = true, runnable: Runnable) {
+fun forcePost(async: Boolean = true, runnable: () -> Unit) {
     obtainMessage(async, runnable).sendToTarget()
 }
 
-@JvmOverloads
-fun forcePostDelayed(async: Boolean = true, runnable: Runnable, delayMs: Long) {
+fun forcePostDelayed(delayMs: Long, async: Boolean = true, runnable: () -> Unit) {
     val msg = obtainMessage(async, runnable)
     msg.target.sendMessageDelayed(msg, delayMs)
 }
 
 @Suppress("unused")
-@JvmOverloads
-fun postAtFrontOfQueue(async: Boolean = true, runnable: Runnable) {
+fun postAtFrontOfQueue(async: Boolean = true, runnable: () -> Unit) {
     if (Thread.currentThread() === MAIN_HANDLER.looper.thread) {
-        runnable.run()
+        runnable()
     } else {
         forcePostAtFrontOfQueue(async, runnable)
     }
 }
 
-@JvmOverloads
-fun forcePostAtFrontOfQueue(async: Boolean = true, runnable: Runnable) {
+fun forcePostAtFrontOfQueue(async: Boolean = true, runnable: () -> Unit) {
     val msg = obtainMessage(async, runnable)
     val result = msg.target.sendMessageAtFrontOfQueue(msg)
     check(result)
 }
 
 @SuppressLint("NewApi")
-private fun obtainMessage(async: Boolean, runnable: Runnable) : Message {
+private fun obtainMessage(async: Boolean, runnable: () -> Unit) : Message {
     val msg = Message.obtain(MAIN_HANDLER, runnable)
     if (async && HAS_ASYNC) {
         msg.isAsynchronous = true
