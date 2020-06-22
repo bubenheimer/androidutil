@@ -15,8 +15,6 @@
  *
  */
 
-@file:JvmName("UIUtil")
-
 package org.bubenheimer.android.ui
 
 import android.content.Context
@@ -32,11 +30,10 @@ import androidx.fragment.app.Fragment
  * @return the parent Fragment if it exists, otherwise the non-null Context (typically an
  * Activity).
  */
-fun getFragmentParent(fragment: Fragment) =
-    fragment.parentFragment ?: fragment.requireContext()
+val Fragment.parent: Any get() = parentFragment ?: requireContext()
 
-fun appToast(context: Context, text: CharSequence, duration: Int) =
-        Toast.makeText(context.applicationContext, text, duration)
+fun Context.appToast(text: CharSequence, duration: Int) =
+        Toast.makeText(applicationContext, text, duration)
 
-fun appToast(context: Context, resId: Int, duration: Int) =
-        Toast.makeText(context.applicationContext, resId, duration)
+fun Context.appToast(resId: Int, duration: Int) =
+        Toast.makeText(applicationContext, resId, duration)
