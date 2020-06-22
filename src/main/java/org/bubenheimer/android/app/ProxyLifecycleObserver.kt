@@ -14,81 +14,29 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.app
 
-package org.bubenheimer.android.app;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.DefaultLifecycleObserver;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 
 /**
- * Proxies {@link DefaultLifecycleObserver} with a delegate pattern to enable obfuscation,
- * at the cost of one additional object per {@link LifecycleObserver}.
+ * Proxies [DefaultLifecycleObserver] with a delegate pattern to enable obfuscation,
+ * at the cost of one additional object per [LifecycleObserver].
  */
-public final class ProxyLifecycleObserver implements DefaultLifecycleObserver {
-    @SuppressWarnings("unused")
-    public interface Delegate {
-        default void onCreate(
-                @NonNull LifecycleOwner owner) {
-        }
-        default void onStart(
-                @NonNull LifecycleOwner owner) {
-        }
-        default void onResume(
-                @NonNull LifecycleOwner owner) {
-        }
-        default void onPause(
-                @NonNull LifecycleOwner owner) {
-        }
-        default void onStop(
-                @NonNull LifecycleOwner owner) {
-        }
-        default void onDestroy(
-                @NonNull LifecycleOwner owner) {
-        }
+class ProxyLifecycleObserver(private val delegate: Delegate) : DefaultLifecycleObserver {
+    interface Delegate {
+        fun onCreate(owner: LifecycleOwner) {}
+        fun onStart(owner: LifecycleOwner) {}
+        fun onResume(owner: LifecycleOwner) {}
+        fun onPause(owner: LifecycleOwner) {}
+        fun onStop(owner: LifecycleOwner) {}
+        fun onDestroy(owner: LifecycleOwner) {}
     }
 
-    private final @NonNull Delegate delegate;
-
-    public ProxyLifecycleObserver(
-            final @NonNull Delegate delegate) {
-        this.delegate = delegate;
-    }
-
-    @Override
-    public void onCreate(
-            final @NonNull LifecycleOwner owner) {
-        delegate.onCreate(owner);
-    }
-
-    @Override
-    public void onStart(
-            final @NonNull LifecycleOwner owner) {
-        delegate.onStart(owner);
-    }
-
-    @Override
-    public void onResume(
-            final @NonNull LifecycleOwner owner) {
-        delegate.onResume(owner);
-    }
-
-    @Override
-    public void onPause(
-            final @NonNull LifecycleOwner owner) {
-        delegate.onPause(owner);
-    }
-
-    @Override
-    public void onStop(
-            final @NonNull LifecycleOwner owner) {
-        delegate.onStop(owner);
-    }
-
-    @Override
-    public void onDestroy(
-            final @NonNull LifecycleOwner owner) {
-        delegate.onDestroy(owner);
-    }
+    override fun onCreate(owner: LifecycleOwner) = delegate.onCreate(owner)
+    override fun onStart(owner: LifecycleOwner) = delegate.onStart(owner)
+    override fun onResume(owner: LifecycleOwner) = delegate.onResume(owner)
+    override fun onPause(owner: LifecycleOwner) = delegate.onPause(owner)
+    override fun onStop(owner: LifecycleOwner) = delegate.onStop(owner)
+    override fun onDestroy(owner: LifecycleOwner) = delegate.onDestroy(owner)
 }
