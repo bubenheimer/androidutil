@@ -14,51 +14,21 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.database
 
-package org.bubenheimer.android.database;
+import android.annotation.TargetApi
+import android.database.ContentObserver
+import android.net.Uri
+import android.os.Build
+import android.os.Handler
 
-import android.annotation.TargetApi;
-import android.database.ContentObserver;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Handler;
-
-import java.util.Collection;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-public abstract class StdContentObserver extends ContentObserver {
-    public StdContentObserver(
-            final Handler handler
-    ) {
-        super(handler);
-    }
-
-    @Override
-    public final void onChange(
-            final boolean selfChange
-    ) {
-        throw new UnsupportedOperationException();
-    }
+abstract class StdContentObserver(handler: Handler?) : ContentObserver(handler) {
+    override fun onChange(selfChange: Boolean) = throw UnsupportedOperationException()
 
     @TargetApi(Build.VERSION_CODES.R)
-    @Override
-    public void onChange(
-            final boolean selfChange,
-            final @Nullable Uri uri,
-            final int flags
-    ) {
-        onChange(selfChange, uri);
-    }
+    override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int) = onChange(selfChange, uri)
 
     @TargetApi(Build.VERSION_CODES.R)
-    @Override
-    public void onChange(
-            final boolean selfChange,
-            final @NonNull Collection<Uri> uris,
-            final int flags
-    ) {
-        uris.forEach(uri -> onChange(selfChange, uri));
-    }
+    override fun onChange(selfChange: Boolean, uris: Collection<Uri>, flags: Int) =
+            uris.forEach { onChange(selfChange, it) }
 }
