@@ -21,14 +21,15 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.preference.DialogPreference;
-import androidx.preference.PreferenceDialogFragmentCompat;
 import android.util.AttributeSet;
 
 import org.bubenheimer.android.ui.StyleUtils;
 import org.bubenheimer.android.util.R;
 
 import java.util.Locale;
+
+import androidx.preference.DialogPreference;
+import androidx.preference.PreferenceDialogFragmentCompat;
 
 @SuppressWarnings("unused")
 public final class DurationPickerPreference extends DialogPreference implements DialogSupporter {

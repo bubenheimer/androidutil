@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Uli Bubenheimer
+ * Copyright (c) 2015-2020 Uli Bubenheimer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,15 @@
  *
  */
 
-package org.bubenheimer.android.ui;
+@file:JvmName("StyleUtils")
 
-import android.content.Context;
-import android.util.TypedValue;
+package org.bubenheimer.android.ui
 
-import org.bubenheimer.util.Uninstantiable;
+import android.content.Context
+import android.util.TypedValue
 
-
-public final class StyleUtils extends Uninstantiable {
-    public static int getAttr(final Context context, final int attr, final int fallbackAttr) {
-        final TypedValue value = new TypedValue();
-        context.getTheme().resolveAttribute(attr, value, true);
-        if (value.resourceId != 0) {
-            return attr;
-        }
-        return fallbackAttr;
-    }
+fun Context.getAttr(attr: Int, fallbackAttr: Int): Int {
+    val value = TypedValue()
+    theme.resolveAttribute(attr, value, true)
+    return if (value.resourceId != 0) attr else fallbackAttr
 }
