@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 Uli Bubenheimer
+ * Copyright (c) 2015-2020 Uli Bubenheimer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,60 +14,40 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.ui
 
-package org.bubenheimer.android.ui;
+import android.os.Bundle
+import androidx.core.os.bundleOf
+import androidx.recyclerview.selection.MutableSelection
+import androidx.recyclerview.selection.Selection
+import androidx.recyclerview.selection.StorageStrategy
 
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.selection.MutableSelection;
-import androidx.recyclerview.selection.Selection;
-import androidx.recyclerview.selection.StorageStrategy;
-
-public final class IntStorageStrategy extends StorageStrategy<Integer> {
-    private static final String SELECTION_ENTRIES =
-            "org.bubenheimer.recyclerview.selection.entries";
-    private static final String SELECTION_KEY_TYPE =
-            "org.bubenheimer.recyclerview.selection.type";
-
-    public IntStorageStrategy() {
-        super(Integer.class);
+class IntStorageStrategy : StorageStrategy<Int>(Int::class.java) {
+    private companion object {
+        private const val SELECTION_ENTRIES = "org.bubenheimer.recyclerview.selection.entries"
+        private const val SELECTION_KEY_TYPE = "org.bubenheimer.recyclerview.selection.type"
     }
 
-    @Override
-    public @Nullable Selection<Integer> asSelection(
-            final @NonNull Bundle state) {
-        final String keyType = state.getString(SELECTION_KEY_TYPE, null);
-        if (keyType == null || !keyType.equals(Integer.class.getCanonicalName())) {
-            return null;
+    override fun asSelection(state: Bundle): Selection<Int>? {
+        val keyType = state.getString(SELECTION_KEY_TYPE)
+        if (keyType == null || keyType != Int::class.java.canonicalName) {
+            return null
         }
 
-        final @Nullable int[] stored = state.getIntArray(SELECTION_ENTRIES);
-        if (stored == null) {
-            return null;
-        }
+        val stored = state.getIntArray(SELECTION_ENTRIES) ?: return null
 
-        final MutableSelection<Integer> selection = new MutableSelection<>();
-        for (final int key : stored) {
-            selection.add(key);
-        }
-        return selection;
+        val selection = MutableSelection<Int>()
+        stored.forEach { selection.add(it) }
+        return selection
     }
 
-    @Override
-    public @NonNull Bundle asBundle(
-            final @NonNull Selection<Integer> selection) {
-        final Bundle bundle = new Bundle();
-        bundle.putString(SELECTION_KEY_TYPE, Integer.class.getCanonicalName());
+    override fun asBundle(selection: Selection<Int>): Bundle {
+        val entries = IntArray(selection.size())
+        selection.forEachIndexed { index: Int, key: Int -> entries[index] = key }
 
-        final int[] value = new int[selection.size()];
-        int i = 0;
-        for (final Integer key : selection) {
-            value[i++] = key;
-        }
-        bundle.putIntArray(SELECTION_ENTRIES, value);
-
-        return bundle;
+        return bundleOf(
+                SELECTION_KEY_TYPE to Int::class.java.canonicalName,
+                SELECTION_ENTRIES to entries
+        )
     }
 }
