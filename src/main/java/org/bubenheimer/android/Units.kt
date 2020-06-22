@@ -15,8 +15,6 @@
  *
  */
 
-@file:JvmName("Units")
-
 package org.bubenheimer.android
 
 const val FOOT_METER_RATIO = .3048f
