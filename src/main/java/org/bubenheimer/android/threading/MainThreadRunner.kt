@@ -28,7 +28,7 @@ private const val TAG = "MainThreadRunner"
 
 private val MAIN_HANDLER = Handler(Looper.getMainLooper())
 
-private val HAS_ASYNC: Boolean = run {
+internal val HAS_ASYNC: Boolean = run {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
         // Confirm the method is there
         val message = Message.obtain()
