@@ -25,9 +25,9 @@ import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
 
 object HandlerUtil {
-    private val TAG = HandlerUtil::class.java.simpleName
+    private val TAG = HandlerUtil::class.simpleName!!
 
-    private val constructor: Constructor<Handler>? by lazy {
+    private val constructor: Constructor<Handler>? by lazy(LazyThreadSafetyMode.PUBLICATION) {
         try {
             Handler::class.java.getConstructor(
                     Looper::class.java, Handler.Callback::class.java, java.lang.Boolean.TYPE)
@@ -37,41 +37,35 @@ object HandlerUtil {
         }
     }
 
-    @JvmOverloads
     fun createAsync(
             looper: Looper = wrapLooper(null),
-            callback: Handler.Callback? = null): Handler {
-        return if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
-            if (callback == null) {
-                Handler.createAsync(looper)
+            callback: Handler.Callback? = null
+    ): Handler =
+            if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+                if (callback == null) Handler.createAsync(looper)
+                else Handler.createAsync(looper, callback)
             } else {
-                Handler.createAsync(looper, callback)
+                createReflectiveAsync(looper, callback)
             }
-        } else {
-            createReflectiveAsync(looper, callback)
-        }
-    }
 
-    private fun wrapLooper(looper: Looper?): Looper {
-        return looper
-                ?: Looper.myLooper()
-                ?: throw RuntimeException(
-                        "Can't create handler inside thread " + Thread.currentThread()
-                                + " that has not called Looper.prepare()")
-    }
+    private fun wrapLooper(@Suppress("SameParameterValue") looper: Looper?): Looper =
+            looper
+                    ?: Looper.myLooper()
+                    ?: throw RuntimeException("Can't create handler inside thread" +
+                            " ${Thread.currentThread()} that has not called Looper.prepare()")
 
-    private fun createReflectiveAsync(
-            looper: Looper,
-            callback: Handler.Callback?): Handler {
+    private fun createReflectiveAsync(looper: Looper, callback: Handler.Callback?): Handler {
         constructor?.let {
             try {
-                return@createReflectiveAsync it.newInstance(looper, callback, true)
-            } catch (e: IllegalAccessException) {
-                Log.wx(e, TAG)
-            } catch (e: InstantiationException) {
-                Log.wx(e, TAG)
-            } catch (e: InvocationTargetException) {
-                Log.wx(e, TAG)
+                return it.newInstance(looper, callback, true)
+            } catch (e: Exception) {
+                when (e) {
+                    is IllegalAccessException,
+                    is InstantiationException,
+                    is InvocationTargetException
+                    -> Log.wx(e, TAG)
+                    else -> throw e
+                }
             }
         }
         return Handler(looper, callback)
