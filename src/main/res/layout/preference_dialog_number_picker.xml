@@ -16,28 +16,25 @@
   ~
   -->
 
-<layout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
     >
-    <LinearLayout
+    <Space
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        >
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
-        <NumberPicker
-            android:id="@+id/number_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            />
-    </LinearLayout>
-</layout>
+        android:layout_weight="1"
+        />
+    <NumberPicker
+        android:id="@+id/number_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        />
+</LinearLayout>

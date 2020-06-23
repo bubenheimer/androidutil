@@ -14,31 +14,39 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.os.Build
+import android.text.InputType
+import android.text.method.DigitsKeyListener
+import android.widget.EditText
+import androidx.preference.EditTextPreferenceDialogFragmentCompat
 
-import androidx.annotation.NonNull;
-import android.text.InputType;
-import android.text.method.DigitsKeyListener;
-import android.widget.EditText;
-
-public class EditIntPreferenceDialogFragment extends ValidatingEditTextPreferenceDialogFragment {
-    @Override
-    protected void onBindEditText(final @NonNull EditText editText) {
-        editText.setKeyListener(new DigitsKeyListener(true, false));
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+open class EditIntPreferenceDialogFragment : ValidatingEditTextPreferenceDialogFragment() {
+    companion object {
+        fun newInstance(key: String): EditTextPreferenceDialogFragmentCompat =
+                EditTextPreferenceDialogFragmentCompat.newInstance(key)
     }
 
-    @Override
-    protected void checkTextValid(final @NonNull CharSequence text) throws NumberFormatException {
-        final int number = Integer.parseInt(text.toString());
-        final EditIntPreference preference = getEditIntPreference();
-        if (preference.min > number || number > preference.max) {
-            throw new NumberFormatException();
+    private val editIntPreference: EditIntPreference
+        get() = preference as EditIntPreference
+
+    override fun EditText.onBindEditText() {
+        keyListener = if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+            DigitsKeyListener(null, true, false)
+        } else {
+            @Suppress("DEPRECATION")
+            DigitsKeyListener(true, false)
         }
+        inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
     }
 
-    private EditIntPreference getEditIntPreference() {
-        return (EditIntPreference) getPreference();
+    @Throws(NumberFormatException::class)
+    override fun checkTextValid(text: CharSequence) {
+        val number = text.toString().toInt()
+        val preference = editIntPreference
+        if (number < preference.min || preference.max < number) {
+            throw NumberFormatException()
+        }
     }
 }

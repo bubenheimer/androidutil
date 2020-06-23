@@ -14,165 +14,100 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.content.res.TypedArray
+import android.os.Parcel
+import android.os.Parcelable
+import android.os.Parcelable.Creator
+import android.util.AttributeSet
+import androidx.annotation.RestrictTo
+import androidx.core.content.withStyledAttributes
+import androidx.preference.DialogPreference
+import org.bubenheimer.android.util.R
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.os.Parcel;
-import android.os.Parcelable;
-import androidx.annotation.RestrictTo;
-import androidx.preference.DialogPreference;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import android.util.AttributeSet;
+class NumberPickerPreference @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = R.attr.numberPickerPreferenceStyle,
+        defStyleRes: Int = 0
+) : DialogPreference(context, attrs, defStyleAttr, defStyleRes), DialogSupporter {
+    internal companion object {
+        @RestrictTo(RestrictTo.Scope.LIBRARY)
+        internal const val DEFAULT_VALUE = 0
+    }
 
-import org.bubenheimer.android.ui.StyleUtils;
-import org.bubenheimer.android.util.R;
+    internal val min: Int
+    internal val max: Int
 
-public final class NumberPickerPreference extends DialogPreference implements DialogSupporter {
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
-    static final int DEFAULT_VALUE = 0;
-
-    private final int min;
-    private final int max;
-
-    private int value = DEFAULT_VALUE;
-
-    public NumberPickerPreference(final Context context, final AttributeSet attrs,
-                                  final int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-
-        final TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs, R.styleable.NumberPickerPreference, 0, 0);
-        try {
-            min = a.getInteger(R.styleable.NumberPickerPreference_min, Integer.MIN_VALUE);
-            max = a.getInteger(R.styleable.NumberPickerPreference_max, Integer.MAX_VALUE);
-        } finally {
-            a.recycle();
+    init {
+        var tmpMin = 0
+        var tmpMax = 0
+        context.withStyledAttributes(attrs, R.styleable.NumberPickerPreference) {
+            tmpMin = getInteger(R.styleable.NumberPickerPreference_min, Int.MIN_VALUE)
+            tmpMax = getInteger(R.styleable.NumberPickerPreference_max, Int.MAX_VALUE)
         }
+        min = tmpMin
+        max = tmpMax
     }
 
-    public NumberPickerPreference(final Context context, final AttributeSet attrs,
-                                  final int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public NumberPickerPreference(final Context context, final AttributeSet attrs) {
-        this(context, attrs, StyleUtils.getAttr(
-                context, R.attr.numberPickerPreferenceStyle,
-                R.attr.numberPickerPreferenceStyle));
-    }
-
-    public NumberPickerPreference(final Context context) {
-        this(context, null);
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public int getValue() {
-        return value;
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public void setValue(final int value) {
-        this.value = value;
-        persistInt(value);
-        // Update summary
-        notifyChanged();
-    }
-
-    @Override
-    public CharSequence getSummary() {
-        final CharSequence summary = super.getSummary();
-        if (summary == null) {
-            return null;
-        } else {
-            return String.format(summary.toString(), value);
-        }
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public int getMin() {
-        return min;
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    public int getMax() {
-        return max;
-    }
-
-    @Override
-    protected Object onGetDefaultValue(final TypedArray a, final int index) {
-        return a.getInteger(index, DEFAULT_VALUE);
-    }
-
-    @Override
-    protected void onSetInitialValue(final boolean restorePersistedValue,
-                                     final Object defaultValue) {
-        setValue(restorePersistedValue ? getPersistedInt(value) : (int) defaultValue);
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        final Parcelable superState = super.onSaveInstanceState();
-        if (isPersistent()) {
-            // No need to save instance state since it's persistent
-            return superState;
+    var value = DEFAULT_VALUE
+        set(value) {
+            field = value
+            persistInt(value)
+            // Update summary
+            notifyChanged()
         }
 
-        final SavedState myState = new SavedState(superState);
-        myState.value = getValue();
-        return myState;
+    override fun getSummary(): CharSequence? =
+            super.getSummary()?.let { String.format(it.toString(), value) }
+
+    override fun onGetDefaultValue(a: TypedArray, index: Int): Any =
+            a.getInteger(index, DEFAULT_VALUE)
+
+    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
+        value = if (restorePersistedValue) getPersistedInt(value) else defaultValue as Int
     }
 
-    @Override
-    protected void onRestoreInstanceState(final Parcelable state) {
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        // No need to save instance state since it's persistent
+        return if (isPersistent) superState
+        else SavedState(superState).apply { value = this@NumberPickerPreference.value }
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
         // Check whether we saved the state in onSaveInstanceState
-        if (state == null || !state.getClass().equals(SavedState.class)) {
+        if (state.javaClass == SavedState::class.java) {
+            // Cast state to custom BaseSavedState and pass to superclass
+            val myState = state as SavedState
+            super.onRestoreInstanceState(myState.superState)
+            value = myState.value
+        } else {
             // Didn't save the state, so call superclass
-            super.onRestoreInstanceState(state);
-            return;
+            super.onRestoreInstanceState(state)
         }
-
-        // Cast state to custom BaseSavedState and pass to superclass
-        final SavedState myState = (SavedState) state;
-        super.onRestoreInstanceState(myState.getSuperState());
-        setValue(myState.value);
     }
 
-    private static final class SavedState extends BaseSavedState {
-        int value;
+    override fun newDialog() = NumberPickerPreferenceDialogFragment.newInstance(key)
 
-        SavedState(final Parcelable superState) {
-            super(superState);
+    private class SavedState : BaseSavedState {
+        internal var value = 0
+
+        internal constructor(superState: Parcelable?) : super(superState)
+        private constructor(source: Parcel) : super(source) {
+            value = source.readInt()
         }
 
-        SavedState(final Parcel source) {
-            super(source);
-            value = source.readInt();
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            super.writeToParcel(dest, flags)
+            dest.writeInt(value)
         }
 
-        @Override
-        public void writeToParcel(final Parcel dest, final int flags) {
-            super.writeToParcel(dest, flags);
-            dest.writeInt(value);
+        companion object CREATOR : Creator<SavedState> {
+            override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
+            override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
         }
-
-        public static final Creator<SavedState> CREATOR =
-                new Creator<SavedState>() {
-                    @Override
-                    public SavedState createFromParcel(final Parcel in) {
-                        return new SavedState(in);
-                    }
-
-                    @Override
-                    public SavedState[] newArray(final int size) {
-                        return new SavedState[size];
-                    }
-                };
-    }
-
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return NumberPickerPreferenceDialogFragment.newInstance(getKey());
     }
 }

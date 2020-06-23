@@ -14,62 +14,52 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.Toast
+import androidx.annotation.UiThread
+import androidx.preference.PreferenceDialogFragmentCompat
+import org.bubenheimer.android.log.Log
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import androidx.annotation.UiThread;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import android.util.AttributeSet;
-import android.widget.Toast;
-
-import org.bubenheimer.android.log.Log;
-
-public class EditFloatPreference extends EditNumberPreference {
-    private static final String TAG = EditFloatPreference.class.getSimpleName();
-
-    @SuppressWarnings("WeakerAccess")
-    public EditFloatPreference(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
+open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
+        EditNumberPreference(context, attrs) {
+    private companion object {
+        private val TAG = EditFloatPreference::class.simpleName!!
     }
 
     @UiThread
-    @Override
-    protected boolean persistString(final String value) {
+    override fun persistString(value: String?): Boolean {
         if (value == null) {
-            return true;
+            return true
         }
-        final float number;
-        try {
-            number = Float.parseFloat(value);
-        } catch (final NumberFormatException e) {
-            Log.e(TAG, "Invalid number: ", value);
-            Toast.makeText(getContext(), "Invalid number: " + value, Toast.LENGTH_LONG).show();
-            return false;
+
+        val number: Float = try {
+            value.toFloat()
+        } catch (e: NumberFormatException) {
+            Log.e(TAG, "Invalid number: $value")
+            Toast.makeText(context, "Invalid number: $value", Toast.LENGTH_LONG).show()
+            return false
         }
-        return persistFloat(number);
+        return persistFloat(number)
     }
 
-    @Override
-    protected String getPersistedString(final String defaultReturnValue) {
+    override fun getPersistedString(defaultReturnValue: String): String {
         if (!shouldPersist()) {
-            return defaultReturnValue;
+            return defaultReturnValue
         }
 
-        final SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
-        final String key = getKey();
+        val sharedPreferences = preferenceManager.sharedPreferences
+        val key = key
         if (!sharedPreferences.contains(key)) {
-            return defaultReturnValue;
+            return defaultReturnValue
         }
 
-        //the 0 default will never be used - we've covered the case of value absence above
-        final float value = sharedPreferences.getFloat(key, Float.NaN);
-        return Float.toString(value);
+        //the default will never be used - we've covered the case of value absence above
+        return sharedPreferences.getFloat(key, Float.NaN).toString()
     }
 
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return EditFloatPreferenceDialogFragment.newInstance(getKey());
-    }
+    override fun newDialog(): PreferenceDialogFragmentCompat =
+            EditFloatPreferenceDialogFragment.newInstance(key)
 }

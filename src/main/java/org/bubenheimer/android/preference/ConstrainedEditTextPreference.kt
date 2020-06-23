@@ -14,55 +14,35 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.util.AttributeSet
+import androidx.core.content.withStyledAttributes
+import androidx.preference.PreferenceDialogFragmentCompat
+import org.bubenheimer.android.util.R
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
+class ConstrainedEditTextPreference private constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defaults: Pair<Int, Int> = 0 to Int.MAX_VALUE
+) : SummaryEditTextPreference(context, attrs) {
+    internal val minLength: Int
+    internal val maxLength: Int
 
-import org.bubenheimer.android.Check;
-import org.bubenheimer.android.util.R;
-
-import androidx.core.util.Pair;
-import androidx.preference.PreferenceDialogFragmentCompat;
-
-public final class ConstrainedEditTextPreference extends SummaryEditTextPreference {
-    final int minLength;
-    final int maxLength;
-
-    @SuppressWarnings("WeakerAccess")
-    protected ConstrainedEditTextPreference(
-            final Context context,
-            final AttributeSet attrs,
-            final Pair<Integer, Integer> defaults
-    ) {
-        super(context, attrs);
-
-        final TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs, R.styleable.ConstrainedEditTextPreference, 0, 0);
-        try {
-            final Integer first = defaults.first;
-            Check.notNull(first);
-            this.minLength =
-                    a.getInteger(R.styleable.ConstrainedEditTextPreference_minLen, first);
-
-            final Integer second = defaults.second;
-            Check.notNull(second);
-            this.maxLength =
-                    a.getInteger(R.styleable.ConstrainedEditTextPreference_maxLen, second);
-        } finally {
-            a.recycle();
+    init {
+        var tmpMin = 0
+        var tmpMax = 0
+        context.withStyledAttributes(attrs, R.styleable.ConstrainedEditTextPreference) {
+            val (minLenDef, maxLenDef) = defaults
+            tmpMin = getInteger(R.styleable.ConstrainedEditTextPreference_minLen, minLenDef)
+            tmpMax = getInteger(R.styleable.ConstrainedEditTextPreference_maxLen, maxLenDef)
         }
+        minLength = tmpMin
+        maxLength = tmpMax
     }
 
-    @SuppressWarnings("unused")
-    public ConstrainedEditTextPreference(final Context context, final AttributeSet attrs) {
-        this(context, attrs, new Pair<>(0, Integer.MAX_VALUE));
-    }
-
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return ConstrainedEditTextPreferenceDialogFragment.newInstance(getKey());
+    override fun newDialog(): PreferenceDialogFragmentCompat {
+        return ConstrainedEditTextPreferenceDialogFragment.newInstance(key)
     }
 }

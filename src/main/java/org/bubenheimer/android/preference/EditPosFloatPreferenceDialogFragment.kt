@@ -14,29 +14,25 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import androidx.core.os.bundleOf
+import androidx.preference.PreferenceDialogFragmentCompat
 
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-
-public final class EditPosFloatPreferenceDialogFragment
-        extends EditNonNegFloatPreferenceDialogFragment {
-    public static EditPosFloatPreferenceDialogFragment newInstance(final String key) {
-        final EditPosFloatPreferenceDialogFragment fragment =
-                new EditPosFloatPreferenceDialogFragment();
-
-        final Bundle b = new Bundle(1);
-        b.putString(ARG_KEY, key);
-        fragment.setArguments(b);
-        return fragment;
+class EditPosFloatPreferenceDialogFragment : EditNonNegFloatPreferenceDialogFragment() {
+    internal companion object {
+        internal fun newInstance(key: String): EditPosFloatPreferenceDialogFragment {
+            return EditPosFloatPreferenceDialogFragment().apply {
+                arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
+            }
+        }
     }
 
-    @Override
-    protected void checkTextValid(final @NonNull CharSequence text) throws NumberFormatException {
-        final float number = Float.parseFloat(text.toString());
+    @Throws(NumberFormatException::class)
+    override fun checkTextValid(text: CharSequence) {
+        val number = text.toString().toFloat()
         if (number <= 0.0f) {
-            throw new NumberFormatException();
+            throw NumberFormatException()
         }
     }
 }

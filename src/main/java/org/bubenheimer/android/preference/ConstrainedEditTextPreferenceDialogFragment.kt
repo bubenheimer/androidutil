@@ -14,35 +14,28 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import androidx.core.os.bundleOf
+import androidx.preference.PreferenceDialogFragmentCompat
 
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-
-public class ConstrainedEditTextPreferenceDialogFragment
-        extends ValidatingEditTextPreferenceDialogFragment {
-    public static ConstrainedEditTextPreferenceDialogFragment newInstance(
-            final String key) {
-        final ConstrainedEditTextPreferenceDialogFragment fragment =
-                new ConstrainedEditTextPreferenceDialogFragment();
-
-        final Bundle b = new Bundle(1);
-        b.putString(ARG_KEY, key);
-        fragment.setArguments(b);
-        return fragment;
-    }
-
-    @Override
-    protected void checkTextValid(final @NonNull CharSequence text) throws IllegalArgumentException {
-        final ConstrainedEditTextPreference preference = getConstrainedEditTextPreference();
-        final int length = text.length();
-        if (length < preference.minLength || preference.maxLength < length) {
-            throw new IllegalArgumentException();
+internal class ConstrainedEditTextPreferenceDialogFragment :
+        ValidatingEditTextPreferenceDialogFragment() {
+    internal companion object {
+        fun newInstance(key: String) = ConstrainedEditTextPreferenceDialogFragment().apply {
+            arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
         }
     }
 
-    private ConstrainedEditTextPreference getConstrainedEditTextPreference() {
-        return (ConstrainedEditTextPreference) getPreference();
+    private val constrainedEditTextPreference: ConstrainedEditTextPreference
+        get() = preference as ConstrainedEditTextPreference
+
+    @Throws(IllegalArgumentException::class)
+    override fun checkTextValid(text: CharSequence) {
+        val preference = constrainedEditTextPreference
+        val length = text.length
+        if (length < preference.minLength || preference.maxLength < length) {
+            throw IllegalArgumentException()
+        }
     }
 }

@@ -69,6 +69,7 @@ android {
         versionName '1.0'
         consumerProguardFiles 'proguard-rules.pro'
     }
+
     buildTypes {
         debug {
         }
@@ -80,14 +81,14 @@ android {
             renderscriptDebuggable false
         }
     }
-    compileOptions {
-      sourceCompatibility JavaVersion.VERSION_1_8
-      targetCompatibility JavaVersion.VERSION_1_8
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 
     buildFeatures {
         buildConfig false
-        dataBinding true
+        viewBinding true
     }
 
     dependencies {

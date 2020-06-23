@@ -14,72 +14,60 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.Toast
+import androidx.preference.ListPreference
+import org.bubenheimer.android.log.Log.e
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import androidx.preference.ListPreference;
-import android.util.AttributeSet;
-import android.widget.Toast;
-
-import org.bubenheimer.android.log.Log;
-
-public final class NumberListPreference extends ListPreference {
-    private static final String TAG = NumberListPreference.class.getSimpleName();
-
-    @SuppressWarnings("unused")
-    public NumberListPreference(final Context context, final AttributeSet attrs,
-                                final int defStyleAttr, final int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+@Suppress("unused")
+class NumberListPreference : ListPreference {
+    private companion object {
+        private val TAG = NumberListPreference::class.simpleName!!
     }
 
-    @SuppressWarnings("unused")
-    public NumberListPreference(final Context context, final AttributeSet attrs,
-                                final int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
+    @Suppress("unused")
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
+            super(context, attrs, defStyleAttr, defStyleRes)
+    @Suppress("unused")
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
+            super(context, attrs, defStyleAttr)
+    @Suppress("unused")
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
-    @SuppressWarnings("unused")
-    public NumberListPreference(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-    }
+    @Suppress("unused")
+    constructor(context: Context?) : super(context)
 
-    @SuppressWarnings("unused")
-    public NumberListPreference(final Context context) {
-        super(context);
-    }
-
-    @Override
-    protected boolean persistString(final String value) {
+    override fun persistString(value: String?): Boolean {
         if (value == null) {
-            return true;
+            return true
         }
-        final int number;
-        try {
-            number = Integer.parseInt(value);
-        } catch (final NumberFormatException e) {
-            Log.e(TAG, "Invalid number: ", value);
-            Toast.makeText(getContext(), "Invalid number: " + value, Toast.LENGTH_LONG).show();
-            return false;
+
+        val number = try {
+            value.toInt()
+        } catch (e: NumberFormatException) {
+            e(TAG, "Invalid number: $value")
+            Toast.makeText(context, "Invalid number: $value", Toast.LENGTH_LONG).show()
+            return false
         }
-        return persistInt(number);
+
+        return persistInt(number)
     }
 
-    @Override
-    protected String getPersistedString(final String defaultReturnValue) {
+    override fun getPersistedString(defaultReturnValue: String): String {
         if (!shouldPersist()) {
-            return defaultReturnValue;
+            return defaultReturnValue
         }
 
-        final SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
-        final String key = getKey();
+        val sharedPreferences = preferenceManager.sharedPreferences
+        val key = key
         if (!sharedPreferences.contains(key)) {
-            return defaultReturnValue;
+            return defaultReturnValue
         }
 
-        //the 0 default will never be used - we've covered the case of value absence above
-        final int value = sharedPreferences.getInt(key, 0);
-        return Integer.toString(value);
+        //the default will never be used - we've covered the case of value absence above
+        return sharedPreferences.getInt(key, 0).toString()
     }
 }

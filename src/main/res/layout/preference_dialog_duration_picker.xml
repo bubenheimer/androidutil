@@ -16,71 +16,72 @@
   ~
   -->
 
-<layout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fadeScrollbars="false"
     >
-    <ScrollView
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fadeScrollbars="false"
+        app:columnCount="5"
+        app:useDefaultMargins="true"
+        app:alignmentMode="alignBounds"
         >
-        <androidx.gridlayout.widget.GridLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            app:columnCount="5"
-            app:useDefaultMargins="true"
-            app:alignmentMode="alignBounds"
-            >
-            <Space
-                app:layout_rowWeight="1.0"
-                app:layout_columnSpan="5"
-                app:layout_gravity="fill"
-                />
-            <Space
-                app:layout_rowSpan="2"
-                app:layout_gravity="fill"
-                app:layout_columnWeight="1.0"
-                />
-            <TextView
-                app:layout_gravity="center_horizontal"
-                android:lines="1"
-                android:text="Days"/>
-            <TextView
-                app:layout_gravity="center_horizontal"
-                android:lines="1"
-                android:text="Hours"/>
-            <TextView
-                app:layout_gravity="center_horizontal"
-                android:lines="1"
-                android:text="Minutes"/>
-            <Space
-                app:layout_rowSpan="2"
-                app:layout_gravity="fill"
-                app:layout_columnWeight="1.0"
-                />
-            <NumberPicker
-                android:id="@+id/picker_days"
-                app:layout_gravity="center_horizontal"
-                />
-            <NumberPicker
-                android:id="@+id/picker_hours"
-                app:layout_gravity="center_horizontal"
-                />
-            <NumberPicker
-                android:id="@+id/picker_minutes"
-                app:layout_gravity="center_horizontal"
-                />
-            <TextView
-                android:text="All 0 for unlimited duration"
-                app:layout_columnSpan="5"
-                app:layout_gravity="center_horizontal"
-                />
-            <Space
-                app:layout_rowWeight="1.0"
-                app:layout_columnSpan="5"
-                app:layout_gravity="fill"
-                />
-        </androidx.gridlayout.widget.GridLayout>
-    </ScrollView>
-</layout>
+        <Space
+            app:layout_rowWeight="1.0"
+            app:layout_columnSpan="5"
+            app:layout_gravity="fill"
+            />
+        <Space
+            app:layout_rowSpan="2"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1.0"
+            />
+        <TextView
+            app:layout_gravity="center_horizontal"
+            android:lines="1"
+            android:text="Days"
+            />
+        <TextView
+            app:layout_gravity="center_horizontal"
+            android:lines="1"
+            android:text="Hours"
+            />
+        <TextView
+            app:layout_gravity="center_horizontal"
+            android:lines="1"
+            android:text="Minutes"
+            />
+        <Space
+            app:layout_rowSpan="2"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1.0"
+            />
+        <NumberPicker
+            android:id="@+id/picker_days"
+            app:layout_gravity="center_horizontal"
+            />
+        <NumberPicker
+            android:id="@+id/picker_hours"
+            app:layout_gravity="center_horizontal"
+            />
+        <NumberPicker
+            android:id="@+id/picker_minutes"
+            app:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:text="All 0 for unlimited duration"
+            app:layout_columnSpan="5"
+            app:layout_gravity="center_horizontal"
+            />
+        <Space
+            app:layout_rowWeight="1.0"
+            app:layout_columnSpan="5"
+            app:layout_gravity="fill"
+            />
+    </androidx.gridlayout.widget.GridLayout>
+</ScrollView>
+

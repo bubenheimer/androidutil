@@ -14,39 +14,30 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.util.AttributeSet
+import androidx.core.content.withStyledAttributes
+import androidx.preference.PreferenceDialogFragmentCompat
+import org.bubenheimer.android.util.R
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import androidx.core.util.Pair;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import android.util.AttributeSet;
+class EditNonNegIntPreference(context: Context, attrs: AttributeSet) :
+        EditIntPreference(context, attrs, extractMinMax(context, attrs)) {
+    private companion object {
+        private fun extractMinMax(context: Context, attrs: AttributeSet): Pair<Int, Int> {
+            var min = 0
+            var max = 0
 
-import org.bubenheimer.android.util.R;
+            context.withStyledAttributes(attrs, R.styleable.EditNonNegIntPreference) {
+                min = getInteger(R.styleable.EditNonNegIntPreference_min, 0)
+                max = getInteger(R.styleable.EditNonNegIntPreference_max, Int.MAX_VALUE)
+            }
 
-public final class EditNonNegIntPreference extends EditIntPreference {
-    public EditNonNegIntPreference(final Context context, final AttributeSet attrs) {
-        super(context, attrs, extractMinMax(context, attrs));
-    }
-
-    private static Pair<Integer, Integer> extractMinMax(
-            final Context context, final AttributeSet attrs) {
-        final int min;
-        final int max;
-        final TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs, R.styleable.EditNonNegIntPreference, 0, 0);
-        try {
-            min = a.getInteger(R.styleable.EditNonNegIntPreference_min, 0);
-            max = a.getInteger(R.styleable.EditNonNegIntPreference_max, Integer.MAX_VALUE);
-        } finally {
-            a.recycle();
+            return Pair(min, max)
         }
-        return new Pair<>(min, max);
     }
 
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return EditNonNegIntPreferenceDialogFragment.newInstance(getKey());
-    }
+    override fun newDialog(): PreferenceDialogFragmentCompat =
+            EditNonNegIntPreferenceDialogFragment.newInstance(key)
 }

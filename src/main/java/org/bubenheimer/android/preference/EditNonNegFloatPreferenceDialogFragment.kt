@@ -14,37 +14,37 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.os.Build
+import android.text.InputType
+import android.text.method.DigitsKeyListener
+import android.widget.EditText
+import androidx.core.os.bundleOf
+import androidx.preference.PreferenceDialogFragmentCompat
 
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import android.text.InputType;
-import android.text.method.DigitsKeyListener;
-import android.widget.EditText;
-
-public class EditNonNegFloatPreferenceDialogFragment extends EditFloatPreferenceDialogFragment {
-    public static EditNonNegFloatPreferenceDialogFragment newInstance(final String key) {
-        final EditNonNegFloatPreferenceDialogFragment fragment =
-                new EditNonNegFloatPreferenceDialogFragment();
-
-        final Bundle b = new Bundle(1);
-        b.putString(ARG_KEY, key);
-        fragment.setArguments(b);
-        return fragment;
+open class EditNonNegFloatPreferenceDialogFragment : EditFloatPreferenceDialogFragment() {
+    companion object {
+        fun newInstance(key: String) = EditNonNegFloatPreferenceDialogFragment().apply {
+            arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
+        }
     }
 
-    @Override
-    protected void onBindEditText(final @NonNull EditText editText) {
-        editText.setKeyListener(new DigitsKeyListener(true, true));
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+    override fun EditText.onBindEditText() {
+        keyListener = if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+            DigitsKeyListener(null, true, true)
+        } else {
+            @Suppress("DEPRECATION")
+            DigitsKeyListener(true, true)
+        }
+        inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
     }
 
-    @Override
-    protected void checkTextValid(final @NonNull CharSequence text) throws NumberFormatException {
-        final float number = Float.parseFloat(text.toString());
+    @Throws(NumberFormatException::class)
+    override fun checkTextValid(text: CharSequence) {
+        val number = text.toString().toFloat()
         if (number < 0) {
-            throw new NumberFormatException();
+            throw NumberFormatException()
         }
     }
 }

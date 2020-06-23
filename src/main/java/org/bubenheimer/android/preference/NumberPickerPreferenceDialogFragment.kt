@@ -14,76 +14,60 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.os.Bundle
+import android.view.View
+import androidx.core.os.bundleOf
+import androidx.preference.PreferenceDialogFragmentCompat
+import org.bubenheimer.android.util.databinding.PreferenceDialogNumberPickerBinding
 
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import android.view.View;
-import android.widget.NumberPicker;
-
-import org.bubenheimer.android.util.databinding.PreferenceDialogNumberPickerBinding;
-
-public final class NumberPickerPreferenceDialogFragment
-        extends PreferenceDialogFragmentCompat {
-    private static final String SAVE_STATE_NUMBER = "NumberPickerPreferenceDialogFragment.text";
-
-    private int value;
-    private PreferenceDialogNumberPickerBinding binding;
-
-    public static NumberPickerPreferenceDialogFragment newInstance(final String key) {
-        final NumberPickerPreferenceDialogFragment fragment =
-                new NumberPickerPreferenceDialogFragment();
-        final Bundle b = new Bundle(1);
-        b.putString(ARG_KEY, key);
-        fragment.setArguments(b);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (savedInstanceState == null) {
-            value = getNumberPickerPreference().getValue();
-        } else {
-            value = savedInstanceState.getInt(
-                    SAVE_STATE_NUMBER, NumberPickerPreference.DEFAULT_VALUE);
+class NumberPickerPreferenceDialogFragment : PreferenceDialogFragmentCompat() {
+    companion object {
+        internal fun newInstance(key: String?) = NumberPickerPreferenceDialogFragment().apply {
+            arguments = bundleOf(ARG_KEY to key)
         }
+
+        private const val SAVE_STATE_NUMBER = "NumberPickerPreferenceDialogFragment.text"
     }
 
-    @Override
-    public void onSaveInstanceState(final @NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(SAVE_STATE_NUMBER, binding.numberPicker.getValue());
+    private var value = 0
+
+    private lateinit var binding: PreferenceDialogNumberPickerBinding
+
+    private val numberPickerPreference: NumberPickerPreference
+        get() = preference as NumberPickerPreference
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        value = savedInstanceState?.getInt(SAVE_STATE_NUMBER, NumberPickerPreference.DEFAULT_VALUE)
+                ?: numberPickerPreference.value
     }
 
-    @Override
-    protected void onBindDialogView(final View view) {
-        super.onBindDialogView(view);
-
-        binding = PreferenceDialogNumberPickerBinding.bind(view);
-
-        final NumberPicker numberPicker = binding.numberPicker;
-        final NumberPickerPreference preference = getNumberPickerPreference();
-        numberPicker.setMinValue(preference.getMin());
-        numberPicker.setMaxValue(preference.getMax());
-        numberPicker.setValue(value);
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(SAVE_STATE_NUMBER, binding.numberPicker.value)
     }
 
-    @Override
-    public void onDialogClosed(final boolean positiveResult) {
+    override fun onBindDialogView(view: View) {
+        super.onBindDialogView(view)
+
+        binding = PreferenceDialogNumberPickerBinding.bind(view)
+        val numberPicker = binding.numberPicker
+        val preference = numberPickerPreference
+        numberPicker.minValue = preference.min
+        numberPicker.maxValue = preference.max
+        numberPicker.value = value
+    }
+
+    override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            value = binding.numberPicker.getValue();
-            final NumberPickerPreference preference = getNumberPickerPreference();
+            value = binding.numberPicker.value
+            val preference = numberPickerPreference
             if (preference.callChangeListener(value)) {
-                preference.setValue(value);
+                preference.value = value
             }
         }
-    }
-
-    private NumberPickerPreference getNumberPickerPreference() {
-        return (NumberPickerPreference) getPreference();
     }
 }

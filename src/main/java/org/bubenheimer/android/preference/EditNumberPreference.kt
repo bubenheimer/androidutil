@@ -14,15 +14,10 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.util.AttributeSet
 
-import android.content.Context;
-import android.util.AttributeSet;
-
-@SuppressWarnings("WeakerAccess")
-public abstract class EditNumberPreference extends SummaryEditTextPreference {
-    protected EditNumberPreference(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-    }
-}
+abstract class EditNumberPreference protected constructor(context: Context, attrs: AttributeSet?) :
+        SummaryEditTextPreference(context, attrs)

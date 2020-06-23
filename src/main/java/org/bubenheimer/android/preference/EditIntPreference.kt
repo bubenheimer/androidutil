@@ -14,81 +14,69 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.Toast
+import androidx.core.content.withStyledAttributes
+import androidx.preference.PreferenceDialogFragmentCompat
+import org.bubenheimer.android.log.Log.e
+import org.bubenheimer.android.util.R
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import androidx.core.util.Pair;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import android.util.AttributeSet;
-import android.widget.Toast;
+open class EditIntPreference(
+        context: Context,
+        attrs: AttributeSet?,
+        defaults: Pair<Int, Int> = Int.MIN_VALUE to Int.MAX_VALUE
+) : EditNumberPreference(context, attrs) {
+    private companion object {
+        private val TAG = EditIntPreference::class.simpleName!!
+    }
 
-import org.bubenheimer.android.log.Log;
-import org.bubenheimer.android.util.R;
+    internal val min: Int
+    internal val max: Int
 
-public class EditIntPreference extends EditNumberPreference {
-    private static final String TAG = EditIntPreference.class.getSimpleName();
-
-    final int min;
-    final int max;
-
-    @SuppressWarnings("WeakerAccess")
-    protected EditIntPreference(
-            final Context context, final AttributeSet attrs, final Pair<Integer, Integer> defaults) {
-        super(context, attrs);
-
-        final TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs, R.styleable.EditIntPreference, 0, 0);
-        try {
-            this.min = a.getInteger(R.styleable.EditIntPreference_min, defaults.first);
-            this.max = a.getInteger(R.styleable.EditIntPreference_max, defaults.second);
-        } finally {
-            a.recycle();
+    init {
+        var tmpMin = 0
+        var tmpMax = 0
+        context.withStyledAttributes(attrs, R.styleable.EditIntPreference) {
+            tmpMin = getInteger(R.styleable.EditIntPreference_min, defaults.first)
+            tmpMax = getInteger(R.styleable.EditIntPreference_max, defaults.second)
         }
+        min = tmpMin
+        max = tmpMax
     }
 
-    @SuppressWarnings("unused")
-    public EditIntPreference(final Context context, final AttributeSet attrs) {
-        this(context, attrs, new Pair<>(Integer.MIN_VALUE, Integer.MAX_VALUE));
-    }
-
-    @Override
-    protected final boolean persistString(final String value) {
+    override fun persistString(value: String?): Boolean {
         if (value == null) {
-            return true;
+            return true
         }
-        final int number;
-        try {
-            number = Integer.parseInt(value);
-        } catch (final NumberFormatException e) {
-            Log.e(TAG, "Invalid number: ", value);
-            Toast.makeText(getContext(), "Invalid number: " + value, Toast.LENGTH_LONG).show();
-            return false;
+
+        val number = try {
+            value.toInt()
+        } catch (e: NumberFormatException) {
+            e(TAG, "Invalid number: $value")
+            Toast.makeText(context, "Invalid number: $value", Toast.LENGTH_LONG).show()
+            return false
         }
-        return persistInt(number);
+        return persistInt(number)
     }
 
-    @Override
-    protected final String getPersistedString(final String defaultReturnValue) {
+    override fun getPersistedString(defaultReturnValue: String): String {
         if (!shouldPersist()) {
-            return defaultReturnValue;
+            return defaultReturnValue
         }
 
-        final SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
-        final String key = getKey();
+        val sharedPreferences = preferenceManager.sharedPreferences
+        val key = key
         if (!sharedPreferences.contains(key)) {
-            return defaultReturnValue;
+            return defaultReturnValue
         }
 
-        //the 0 default will never be used - we've covered the case of value absence above
-        final int value = sharedPreferences.getInt(key, 0);
-        return Integer.toString(value);
+        //the default will never be used - we've covered the case of value absence above
+        return sharedPreferences.getInt(key, 0).toString()
     }
 
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return EditIntPreferenceDialogFragment.newInstance(getKey());
-    }
+    override fun newDialog(): PreferenceDialogFragmentCompat =
+            EditIntPreferenceDialogFragment.newInstance(key)
 }

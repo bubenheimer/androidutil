@@ -14,29 +14,31 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.os.Build
+import android.text.InputType
+import android.text.method.DigitsKeyListener
+import android.widget.EditText
+import androidx.core.os.bundleOf
+import androidx.preference.PreferenceDialogFragmentCompat
 
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import android.text.InputType;
-import android.text.method.DigitsKeyListener;
-import android.widget.EditText;
-
-public final class EditNonNegIntPreferenceDialogFragment extends EditIntPreferenceDialogFragment {
-    public static EditNonNegIntPreferenceDialogFragment newInstance(final String key) {
-        final EditNonNegIntPreferenceDialogFragment fragment =
-                new EditNonNegIntPreferenceDialogFragment();
-
-        final Bundle b = new Bundle(1);
-        b.putString(ARG_KEY, key);
-        fragment.setArguments(b);
-        return fragment;
+class EditNonNegIntPreferenceDialogFragment : EditIntPreferenceDialogFragment() {
+    internal companion object {
+        internal fun newInstance(key: String): EditNonNegIntPreferenceDialogFragment {
+            return EditNonNegIntPreferenceDialogFragment().apply {
+                arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
+            }
+        }
     }
 
-    @Override
-    protected void onBindEditText(final @NonNull EditText editText) {
-        editText.setKeyListener(new DigitsKeyListener(false, false));
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+    override fun EditText.onBindEditText() {
+        keyListener = if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+            DigitsKeyListener(null, false, false)
+        } else {
+            @Suppress("DEPRECATION")
+            DigitsKeyListener(false, false)
+        }
+        inputType = InputType.TYPE_CLASS_NUMBER
     }
 }

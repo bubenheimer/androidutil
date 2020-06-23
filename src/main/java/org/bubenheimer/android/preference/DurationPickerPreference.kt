@@ -14,163 +14,104 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.content.res.TypedArray
+import android.os.Parcel
+import android.os.Parcelable
+import android.util.AttributeSet
+import androidx.preference.DialogPreference
+import androidx.preference.PreferenceDialogFragmentCompat
+import org.bubenheimer.android.util.R
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.AttributeSet;
+class DurationPickerPreference @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = R.attr.durationPickerPreferenceStyle,
+        defStyleRes: Int = 0
+) : DialogPreference(context, attrs, defStyleAttr, defStyleRes), DialogSupporter {
+    internal companion object {
+        //Default duration: 2 hours
+        internal const val DEFAULT_VALUE = 120
 
-import org.bubenheimer.android.ui.StyleUtils;
-import org.bubenheimer.android.util.R;
+        fun getDays(minutes: Int): Int {
+            return minutes / (60 * 24)
+        }
 
-import java.util.Locale;
+        fun getHours(minutes: Int): Int {
+            return minutes % (60 * 24) / 60
+        }
 
-import androidx.preference.DialogPreference;
-import androidx.preference.PreferenceDialogFragmentCompat;
-
-@SuppressWarnings("unused")
-public final class DurationPickerPreference extends DialogPreference implements DialogSupporter {
-    //Default duration: 2 hours
-    static final int DEFAULT_VALUE = 120;
-
-    private int value = DEFAULT_VALUE;
-
-    public DurationPickerPreference(final Context context, final AttributeSet attrs,
-                                  final int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    public DurationPickerPreference(final Context context, final AttributeSet attrs,
-                                  final int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public DurationPickerPreference(final Context context, final AttributeSet attrs) {
-        this(context, attrs, StyleUtils.getAttr(
-                context, R.attr.durationPickerPreferenceStyle,
-                R.attr.durationPickerPreferenceStyle));
-    }
-
-    public DurationPickerPreference(final Context context) {
-        this(context, null);
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(final int value) {
-        this.value = value;
-        persistInt(value);
-        notifyChanged();
-    }
-
-    static int getDays(final int minutes) {
-        return minutes / (60 * 24);
-    }
-
-    static int getHours(final int minutes) {
-        return minutes % (60 * 24) / 60;
-    }
-
-    static int getMinutes(final int minutes) {
-        return minutes % 60;
-    }
-
-    @Override
-    protected Object onGetDefaultValue(final TypedArray a, final int index) {
-        return a.getInteger(index, DEFAULT_VALUE);
-    }
-
-    @Override
-    protected void onSetInitialValue(final boolean restorePersistedValue,
-                                     final Object defaultValue) {
-        setValue(restorePersistedValue ? getPersistedInt(value) : (int) defaultValue);
-    }
-
-    @Override
-    public CharSequence getSummary() {
-        final CharSequence summary = super.getSummary();
-        if (summary == null) {
-            if (value == 0) {
-                return "Unlimited";
-            } else {
-                return String.format((Locale) null, "%dd %dh %dm",
-                        getDays(value), getHours(value), getMinutes(value));
-            }
-        } else {
-            return summary;
+        fun getMinutes(minutes: Int): Int {
+            return minutes % 60
         }
     }
 
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        final Parcelable superState = super.onSaveInstanceState();
+    var value = DEFAULT_VALUE
+        set(value) {
+            field = value
+            persistInt(value)
+            notifyChanged()
+        }
+
+    override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
+        return a.getInteger(index, DEFAULT_VALUE)
+    }
+
+    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
+        value = if (restorePersistedValue) getPersistedInt(value) else defaultValue as Int
+    }
+
+    override fun getSummary(): CharSequence = super.getSummary() ?: (if (value == 0) "Unlimited"
+    else String.format("%dd %dh %dm", getDays(value), getHours(value), getMinutes(value)))
+
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+
         // Check whether this Preference is persistent (continually saved)
-        if (isPersistent()) {
-            // No need to save instance state since it's persistent, use superclass state
-            return superState;
-        }
 
-        final SavedState myState = new SavedState(superState);
-        myState.value = value;
-        return myState;
+        // No need to save instance state since it's persistent, use superclass state
+        return if (isPersistent) superState
+        else SavedState(superState).apply { value = this@DurationPickerPreference.value }
     }
 
-    @Override
-    protected void onRestoreInstanceState(final Parcelable state) {
+    override fun onRestoreInstanceState(state: Parcelable) {
         // Check whether we saved the state in onSaveInstanceState
-        if (state == null || !state.getClass().equals(SavedState.class)) {
+        if (state.javaClass != SavedState::class.java) {
             // Didn't save the state, so call superclass
-            super.onRestoreInstanceState(state);
-            return;
+            super.onRestoreInstanceState(state)
+            return
         }
 
         // Cast state to custom BaseSavedState and pass to superclass
-        final SavedState myState = (SavedState) state;
-        super.onRestoreInstanceState(myState.getSuperState());
+        val myState = state as SavedState
+
+        super.onRestoreInstanceState(myState.superState)
 
         // Set this Preference's widget to reflect the restored state; the widget better exist
-        setValue(myState.value);
+        value = myState.value
     }
 
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return DurationPickerPreferenceDialogFragment.newInstance(getKey());
-    }
+    override fun newDialog(): PreferenceDialogFragmentCompat =
+            DurationPickerPreferenceDialogFragment.newInstance(key)
 
-    private static final class SavedState extends BaseSavedState {
-        int value;
+    private class SavedState : BaseSavedState {
+        internal var value = 0
 
-        SavedState(final Parcelable superState) {
-            super(superState);
+        internal constructor(superState: Parcelable) : super(superState)
+        private constructor(source: Parcel) : super(source) {
+            value = source.readInt()
         }
 
-        SavedState(final Parcel source) {
-            super(source);
-            value = source.readInt();
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            super.writeToParcel(dest, flags)
+            dest.writeInt(value)
         }
 
-        @Override
-        public void writeToParcel(final Parcel dest, final int flags) {
-            super.writeToParcel(dest, flags);
-            dest.writeInt(value);
+        companion object CREATOR : Parcelable.Creator<SavedState> {
+            override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
+            override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
         }
-
-        public static final Creator<SavedState> CREATOR =
-                new Creator<SavedState>() {
-                    @Override
-                    public SavedState createFromParcel(final Parcel in) {
-                        return new SavedState(in);
-                    }
-
-                    @Override
-                    public SavedState[] newArray(final int size) {
-                        return new SavedState[size];
-                    }
-                };
     }
 }

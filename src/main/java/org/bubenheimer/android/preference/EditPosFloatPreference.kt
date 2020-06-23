@@ -14,21 +14,14 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.util.AttributeSet
+import androidx.preference.PreferenceDialogFragmentCompat
 
-import android.content.Context;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import android.util.AttributeSet;
-
-@SuppressWarnings("unused")
-public final class EditPosFloatPreference extends EditNonNegFloatPreference {
-    public EditPosFloatPreference(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return EditPosFloatPreferenceDialogFragment.newInstance(getKey());
-    }
+class EditPosFloatPreference(context: Context, attrs: AttributeSet?) :
+        EditNonNegFloatPreference(context, attrs) {
+    override fun newDialog(): PreferenceDialogFragmentCompat =
+            EditPosFloatPreferenceDialogFragment.newInstance(key)
 }

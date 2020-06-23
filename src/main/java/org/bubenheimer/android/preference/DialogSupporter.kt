@@ -14,11 +14,10 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import androidx.preference.PreferenceDialogFragmentCompat
 
-import androidx.preference.PreferenceDialogFragmentCompat;
-
-public interface DialogSupporter {
-    PreferenceDialogFragmentCompat newDialog();
+interface DialogSupporter {
+    fun newDialog(): PreferenceDialogFragmentCompat
 }

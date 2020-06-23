@@ -14,40 +14,31 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import androidx.preference.PreferenceFragmentCompat;
+abstract class DialogSupportingPreferenceFragment : PreferenceFragmentCompat() {
+    private companion object {
+        private const val DIALOG_FRAGMENT_TAG =
+                "org.bubenheimer.android.preference.DialogSupportingPreferenceFragment.DIALOG"
+    }
 
-@SuppressWarnings("unused")
-public abstract class DialogSupportingPreferenceFragment extends PreferenceFragmentCompat {
-    private static final String DIALOG_FRAGMENT_TAG =
-            "org.bubenheimer.android.preference.DialogSupportingPreferenceFragment.DIALOG";
+    override fun onDisplayPreferenceDialog(preference: Preference) {
+        (activity as? OnPreferenceDisplayDialogCallback)
+                ?.takeIf { it.onPreferenceDisplayDialog(this, preference) }?.let { return }
 
-    @Override
-    public void onDisplayPreferenceDialog(final Preference preference) {
-        final FragmentActivity activity = getActivity();
-        if (activity instanceof PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback &&
-                ((PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback) activity)
-                        .onPreferenceDisplayDialog(this, preference)) {
-            return;
-        }
-
-        if (preference instanceof DialogSupporter) {
-            final FragmentManager fragmentManager = requireFragmentManager();
+        if (preference is DialogSupporter) {
+            val fragmentManager = parentFragmentManager
             if (fragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
                 //Dialog is not showing yet
-                final PreferenceDialogFragmentCompat dialogFragment =
-                        ((DialogSupporter) preference).newDialog();
-                dialogFragment.setTargetFragment(this, 0);
-                dialogFragment.show(fragmentManager, DIALOG_FRAGMENT_TAG);
+                val dialogFragment = (preference as DialogSupporter).newDialog()
+                dialogFragment.setTargetFragment(this, 0)
+                dialogFragment.show(fragmentManager, DIALOG_FRAGMENT_TAG)
             }
         } else {
-            super.onDisplayPreferenceDialog(preference);
+            super.onDisplayPreferenceDialog(preference)
         }
     }
 }

@@ -14,36 +14,36 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.os.Build
+import android.text.InputType
+import android.text.method.DigitsKeyListener
+import android.widget.EditText
+import androidx.core.os.bundleOf
+import androidx.preference.PreferenceDialogFragmentCompat
 
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import android.text.InputType;
-import android.text.method.DigitsKeyListener;
-import android.widget.EditText;
-
-public class EditFloatPreferenceDialogFragment extends ValidatingEditTextPreferenceDialogFragment {
-    public static EditFloatPreferenceDialogFragment newInstance(final String key) {
-        final EditFloatPreferenceDialogFragment fragment =
-                new EditFloatPreferenceDialogFragment();
-
-        final Bundle b = new Bundle(1);
-        b.putString(ARG_KEY, key);
-        fragment.setArguments(b);
-        return fragment;
+open class EditFloatPreferenceDialogFragment : ValidatingEditTextPreferenceDialogFragment() {
+    internal companion object {
+        internal fun newInstance(key: String) = EditFloatPreferenceDialogFragment().apply {
+            arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
+        }
     }
 
-    @Override
-    protected void onBindEditText(final @NonNull EditText editText) {
-        editText.setKeyListener(new DigitsKeyListener(true, true));
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER |
-                InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+    override fun EditText.onBindEditText() {
+        keyListener = if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
+            DigitsKeyListener(null, true, true)
+        } else {
+            @Suppress("DEPRECATION")
+            DigitsKeyListener(true, true)
+        }
+        inputType = InputType.TYPE_CLASS_NUMBER or
+                InputType.TYPE_NUMBER_FLAG_DECIMAL or
+                InputType.TYPE_NUMBER_FLAG_SIGNED
     }
 
-    @Override
-    protected void checkTextValid(@NonNull final CharSequence text) throws NumberFormatException {
-        //noinspection ResultOfMethodCallIgnored
-        Float.parseFloat(text.toString());
+    @Throws(NumberFormatException::class)
+    override fun checkTextValid(text: CharSequence) {
+        text.toString().toFloat()
     }
 }

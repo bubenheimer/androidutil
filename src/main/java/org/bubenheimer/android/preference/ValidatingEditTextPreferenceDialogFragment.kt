@@ -14,75 +14,43 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doAfterTextChanged
+import androidx.preference.EditTextPreferenceDialogFragmentCompat
+import org.bubenheimer.android.log.Log.v
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
-
-import org.bubenheimer.android.Check;
-import org.bubenheimer.android.log.Log;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.preference.EditTextPreferenceDialogFragmentCompat;
-
-public abstract class ValidatingEditTextPreferenceDialogFragment
-        extends EditTextPreferenceDialogFragmentCompat implements TextWatcher {
-    private static final String TAG = ValidatingEditTextPreferenceDialogFragment.class.getSimpleName();
-
-    @Override
-    protected final void onBindDialogView(final View view) {
-        super.onBindDialogView(view);
-
-        final EditText editText = view.findViewById(android.R.id.edit);
-        Check.notNull(editText);
-        editText.addTextChangedListener(this);
-        onBindEditText(editText);
+abstract class ValidatingEditTextPreferenceDialogFragment :
+        EditTextPreferenceDialogFragmentCompat() {
+    companion object {
+        private val TAG = ValidatingEditTextPreferenceDialogFragment::class.simpleName!!
     }
 
-    protected void onBindEditText(final @NonNull EditText editText) {
-    }
+    override fun onBindDialogView(view: View) {
+        super.onBindDialogView(view)
 
-    // TextWatcher implementation
+        val editText = view.findViewById<EditText>(android.R.id.edit)
 
-    @Override
-    public final void onTextChanged(
-            final CharSequence s, final int start, final int before, final int count) {
-    }
-
-    @Override
-    public final void beforeTextChanged(
-            final CharSequence s, final int start, final int before, final int count) {
-    }
-
-    @Override
-    public final void afterTextChanged(final Editable s) {
-        Check.notNull(s);
-        onEditTextChanged(s);
-    }
-
-    // Misc
-
-    private void onEditTextChanged(final CharSequence text) {
-        boolean enabled;
-        try {
-            checkTextValid(text);
-            enabled = true;
-        } catch (final IllegalArgumentException e) {
-            Log.v(TAG, "Invalid number: ", text);
-            enabled = false;
+        editText.doAfterTextChanged {
+            // If it were not an AlertDialog, I'd need to make other changes.
+            // The dialog may not be displayed yet - was not a user input, no need to check.
+            (dialog as AlertDialog?)?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = try {
+                checkTextValid(it!!)
+                true
+            } catch (e: IllegalArgumentException) {
+                v(TAG, "Invalid number: $it")
+                false
+            }
         }
-        //If it were not an AlertDialog, I'd need to make other changes
-        final AlertDialog dialog = (AlertDialog) getDialog();
-        //The dialog may not be displayed yet - was not a user input, no need to check
-        if (dialog != null) {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enabled);
-        }
+
+        editText.onBindEditText()
     }
 
-    protected void checkTextValid(final @NonNull CharSequence text) throws IllegalArgumentException {
-    }
+    protected open fun EditText.onBindEditText() {}
+
+    @Throws(IllegalArgumentException::class)
+    protected open fun checkTextValid(text: CharSequence) {}
 }

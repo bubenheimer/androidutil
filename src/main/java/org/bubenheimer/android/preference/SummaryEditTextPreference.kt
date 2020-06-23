@@ -14,41 +14,25 @@
  * limitations under the License.
  *
  */
+package org.bubenheimer.android.preference
 
-package org.bubenheimer.android.preference;
+import android.content.Context
+import android.util.AttributeSet
+import androidx.preference.EditTextPreference
+import androidx.preference.EditTextPreferenceDialogFragmentCompat
+import androidx.preference.PreferenceDialogFragmentCompat
 
-import android.content.Context;
-import androidx.preference.EditTextPreference;
-import androidx.preference.EditTextPreferenceDialogFragmentCompat;
-import androidx.preference.PreferenceDialogFragmentCompat;
-import android.util.AttributeSet;
+open class SummaryEditTextPreference(context: Context, attrs: AttributeSet?) :
+        EditTextPreference(context, attrs), DialogSupporter {
+    override fun getSummary(): CharSequence? =
+            super.getSummary()?.let { String.format(it.toString(), text ?: "") }
 
-public class SummaryEditTextPreference extends EditTextPreference implements DialogSupporter {
-    @SuppressWarnings("WeakerAccess")
-    public SummaryEditTextPreference(final Context context, final AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    @Override
-    public CharSequence getSummary() {
-        final CharSequence summary = super.getSummary();
-        if (summary == null) {
-            return null;
-        } else {
-            final CharSequence value = getText();
-            return String.format(summary.toString(), value == null ? "" : value);
-        }
-    }
-
-    @Override
-    public void setText(final String text) {
-        super.setText(text);
+    override fun setText(text: String) {
+        super.setText(text)
         // Update summary
-        notifyChanged();
+        notifyChanged()
     }
 
-    @Override
-    public PreferenceDialogFragmentCompat newDialog() {
-        return EditTextPreferenceDialogFragmentCompat.newInstance(getKey());
-    }
+    override fun newDialog(): PreferenceDialogFragmentCompat =
+            EditTextPreferenceDialogFragmentCompat.newInstance(key)
 }
