@@ -41,72 +41,71 @@ object Log {
         else -> buildString { args.forEach { append(it) } }
     }
 
-    @set:JvmStatic
     var crashLog: CrashLog? = null
         set(value) {
             field = value
             w(TAG, "Crash log reset")
         }
 
-    @JvmStatic fun v(tag: String?, vararg args: Any?) = println(VERBOSE, tag, *args)
+    fun v(tag: String?, vararg args: Any?) = println(VERBOSE, tag, *args)
 
-    @JvmStatic fun v(t: Throwable?, tag: String?, vararg args: Any?) =
+    fun v(t: Throwable?, tag: String?, vararg args: Any?) =
             println(VERBOSE, t, tag, *args)
 
-    @JvmStatic fun d(tag: String?, vararg args: Any?) = println(DEBUG, tag, *args)
+    fun d(tag: String?, vararg args: Any?) = println(DEBUG, tag, *args)
 
-    @JvmStatic fun d(t: Throwable?, tag: String?, vararg args: Any?) = println(DEBUG, t, tag, *args)
+    fun d(t: Throwable?, tag: String?, vararg args: Any?) = println(DEBUG, t, tag, *args)
 
-    @JvmStatic fun dx(t: Throwable?, tag: String?) = println(DEBUG, t, tag, t?.message)
+    fun dx(t: Throwable?, tag: String?) = println(DEBUG, t, tag, t?.message)
 
-    @JvmStatic fun i(tag: String?, vararg args: Any?) = println(INFO, tag, *args)
+    fun i(tag: String?, vararg args: Any?) = println(INFO, tag, *args)
 
-    @JvmStatic fun i(t: Throwable?, tag: String?, vararg args: Any?) = println(INFO, t, tag, *args)
+    fun i(t: Throwable?, tag: String?, vararg args: Any?) = println(INFO, t, tag, *args)
 
-    @JvmStatic fun ix(t: Throwable?, tag: String?) = println(INFO, t, tag, t?.message)
+    fun ix(t: Throwable?, tag: String?) = println(INFO, t, tag, t?.message)
 
-    @JvmStatic fun w(tag: String?, vararg args: Any?) = println(WARN, tag, *args)
+    fun w(tag: String?, vararg args: Any?) = println(WARN, tag, *args)
 
-    @JvmStatic fun w(t: Throwable?, tag: String?, vararg args: Any?) = println(WARN, t, tag, *args)
+    fun w(t: Throwable?, tag: String?, vararg args: Any?) = println(WARN, t, tag, *args)
 
-    @JvmStatic fun w(t: Throwable?, tag: String?) = println(WARN, t, tag)
+    fun w(t: Throwable?, tag: String?) = println(WARN, t, tag)
 
-    @JvmStatic fun wx(t: Throwable?, tag: String?) = println(WARN, t, tag, t?.message)
+    fun wx(t: Throwable?, tag: String?) = println(WARN, t, tag, t?.message)
 
-    @JvmStatic fun e(tag: String?, vararg args: Any?) = println(ERROR, tag, *args)
+    fun e(tag: String?, vararg args: Any?) = println(ERROR, tag, *args)
 
-    @JvmStatic fun e(t: Throwable?, tag: String?, vararg args: Any?) = println(ERROR, t, tag, *args)
+    fun e(t: Throwable?, tag: String?, vararg args: Any?) = println(ERROR, t, tag, *args)
 
-    @JvmStatic fun ex(t: Throwable?, tag: String?) = println(ERROR, t, tag, t?.message)
+    fun ex(t: Throwable?, tag: String?) = println(ERROR, t, tag, t?.message)
 
-    @JvmStatic fun wtf(tag: String?, vararg args: Any?) {
+    fun wtf(tag: String?, vararg args: Any?) {
         val msg = toString(*args)
         if (!crashLog(ASSERT, tag, msg)) {
             android.util.Log.wtf(tag, msg)
         }
     }
 
-    @JvmStatic fun wtf(t: Throwable, tag: String?) {
+    fun wtf(t: Throwable, tag: String?) {
         if (!crashLog(ASSERT, t, tag, "")) {
             android.util.Log.wtf(tag, t)
         }
     }
 
-    @JvmStatic fun wtf(t: Throwable?, tag: String?, vararg args: Any?) {
+    fun wtf(t: Throwable?, tag: String?, vararg args: Any?) {
         val msg = toString(*args)
         if (!crashLog(ASSERT, t, tag, msg)) {
             android.util.Log.wtf(tag, msg, t)
         }
     }
 
-    @JvmStatic fun println(priority: Int, tag: String?, vararg args: Any?) {
+    fun println(priority: Int, tag: String?, vararg args: Any?) {
         val msg = toString(*args)
         if (priority == VERBOSE || !crashLog(priority, tag, msg)) {
             android.util.Log.println(priority, tag, msg)
         }
     }
 
-    @JvmStatic fun println(priority: Int, t: Throwable?, tag: String?, vararg args: Any?) {
+    fun println(priority: Int, t: Throwable?, tag: String?, vararg args: Any?) {
         val msg = toString(*args)
         android.util.Log.println(priority, tag, "$msg\n${android.util.Log.getStackTraceString(t)}")
         if (priority != VERBOSE) {
@@ -114,7 +113,7 @@ object Log {
         }
     }
 
-    @JvmStatic fun getStackTraceString(t: Throwable?): String {
+    fun getStackTraceString(t: Throwable?): String {
         return android.util.Log.getStackTraceString(t)
     }
 
