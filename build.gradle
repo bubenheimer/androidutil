@@ -30,7 +30,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:1.1.1'
+        classpath 'net.ltgt.gradle:gradle-errorprone-plugin:1.2.1'
     }
 }
 
@@ -92,7 +92,7 @@ android {
     }
 
     dependencies {
-        errorprone 'com.google.errorprone:error_prone_core:2.3.4'
+        errorprone 'com.google.errorprone:error_prone_core:2.4.0'
         //noinspection GradleDynamicVersion
         errorproneJavac 'com.google.errorprone:javac:9+181-r4173-1'
 
