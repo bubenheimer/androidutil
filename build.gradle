@@ -53,7 +53,6 @@ tasks.withType(JavaCompile) {
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'net.ltgt.errorprone'
 
 group = 'org.bubenheimer'
