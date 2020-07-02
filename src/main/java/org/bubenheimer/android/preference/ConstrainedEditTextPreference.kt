@@ -22,10 +22,10 @@ import androidx.core.content.withStyledAttributes
 import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.util.R
 
-class ConstrainedEditTextPreference private constructor(
-        context: Context,
-        attrs: AttributeSet?,
-        defaults: Pair<Int, Int> = 0 to Int.MAX_VALUE
+class ConstrainedEditTextPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet?,
+    defaults: Pair<Int, Int> = 0 to Int.MAX_VALUE
 ) : SummaryEditTextPreference(context, attrs) {
     internal val minLength: Int
     internal val maxLength: Int

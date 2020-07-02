@@ -24,10 +24,10 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.log.Log.e
 import org.bubenheimer.android.util.R
 
-open class EditIntPreference(
-        context: Context,
-        attrs: AttributeSet?,
-        defaults: Pair<Int, Int> = Int.MIN_VALUE to Int.MAX_VALUE
+open class EditIntPreference @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet?,
+    defaults: Pair<Int, Int> = Int.MIN_VALUE to Int.MAX_VALUE
 ) : EditNumberPreference(context, attrs) {
     private companion object {
         private val TAG = EditIntPreference::class.simpleName!!
@@ -78,5 +78,5 @@ open class EditIntPreference(
     }
 
     override fun newDialog(): PreferenceDialogFragmentCompat =
-            EditIntPreferenceDialogFragment.newInstance(key)
+        EditIntPreferenceDialogFragment.newInstance(key)
 }
