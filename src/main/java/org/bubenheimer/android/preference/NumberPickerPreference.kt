@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.os.Parcel
 import android.os.Parcelable
-import android.os.Parcelable.Creator
 import android.util.AttributeSet
 import androidx.annotation.RestrictTo
 import androidx.core.content.withStyledAttributes
@@ -95,7 +94,7 @@ class NumberPickerPreference @JvmOverloads constructor(
     private class SavedState : BaseSavedState {
         internal var value = 0
 
-        internal constructor(superState: Parcelable?) : super(superState)
+        internal constructor(superState: Parcelable) : super(superState)
         private constructor(source: Parcel) : super(source) {
             value = source.readInt()
         }
@@ -105,9 +104,9 @@ class NumberPickerPreference @JvmOverloads constructor(
             dest.writeInt(value)
         }
 
-        companion object CREATOR : Creator<SavedState> {
+        companion object CREATOR : Parcelable.Creator<SavedState> {
             override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
-            override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
+            override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
         }
     }
 }
