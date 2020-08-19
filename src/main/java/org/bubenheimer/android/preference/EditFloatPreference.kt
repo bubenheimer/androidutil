@@ -24,7 +24,7 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.log.Log
 
 open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
-        EditNumberPreference(context, attrs) {
+    EditNumberPreference(context, attrs) {
     private companion object {
         private val TAG = EditFloatPreference::class.simpleName!!
     }
@@ -45,7 +45,7 @@ open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
         return persistFloat(number)
     }
 
-    override fun getPersistedString(defaultReturnValue: String): String {
+    override fun getPersistedString(defaultReturnValue: String?): String? {
         if (!shouldPersist()) {
             return defaultReturnValue
         }
@@ -61,5 +61,5 @@ open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
     }
 
     override fun newDialog(): PreferenceDialogFragmentCompat =
-            EditFloatPreferenceDialogFragment.newInstance(key)
+        EditFloatPreferenceDialogFragment.newInstance(key)
 }

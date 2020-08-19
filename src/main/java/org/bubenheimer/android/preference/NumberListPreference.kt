@@ -56,7 +56,7 @@ class NumberListPreference : ListPreference {
         return persistInt(number)
     }
 
-    override fun getPersistedString(defaultReturnValue: String): String {
+    override fun getPersistedString(defaultReturnValue: String?): String? {
         if (!shouldPersist()) {
             return defaultReturnValue
         }

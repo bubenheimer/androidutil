@@ -27,10 +27,10 @@ import androidx.preference.DialogPreference
 import org.bubenheimer.android.util.R
 
 class NumberPickerPreference @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = R.attr.numberPickerPreferenceStyle,
-        defStyleRes: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = R.attr.numberPickerPreferenceStyle,
+    defStyleRes: Int = 0
 ) : DialogPreference(context, attrs, defStyleAttr, defStyleRes), DialogSupporter {
     internal companion object {
         @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -60,13 +60,13 @@ class NumberPickerPreference @JvmOverloads constructor(
         }
 
     override fun getSummary(): CharSequence? =
-            super.getSummary()?.let { String.format(it.toString(), value) }
+        super.getSummary()?.let { String.format(it.toString(), value) }
 
     override fun onGetDefaultValue(a: TypedArray, index: Int): Any =
-            a.getInteger(index, DEFAULT_VALUE)
+        a.getInteger(index, DEFAULT_VALUE)
 
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
-        value = if (restorePersistedValue) getPersistedInt(value) else defaultValue as Int
+    override fun onSetInitialValue(defaultValue: Any?) {
+        value = getPersistedInt(defaultValue as Int? ?: value)
     }
 
     override fun onSaveInstanceState(): Parcelable {

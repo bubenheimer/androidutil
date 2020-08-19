@@ -59,8 +59,8 @@ class DurationPickerPreference @JvmOverloads constructor(
         return a.getInteger(index, DEFAULT_VALUE)
     }
 
-    override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any) {
-        value = if (restorePersistedValue) getPersistedInt(value) else defaultValue as Int
+    override fun onSetInitialValue(defaultValue: Any?) {
+        value = getPersistedInt(defaultValue as Int? ?: value)
     }
 
     override fun getSummary(): CharSequence = super.getSummary() ?: (if (value == 0) "Unlimited"
