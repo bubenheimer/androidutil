@@ -20,8 +20,8 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.PreferenceDialogFragmentCompat
 
-open class EditNonNegFloatPreference(context: Context, attrs: AttributeSet?) :
-        EditFloatPreference(context, attrs) {
-    override fun newDialog(): PreferenceDialogFragmentCompat =
-            EditNonNegFloatPreferenceDialogFragment.newInstance(key)
+public open class EditNonNegFloatPreference(context: Context, attrs: AttributeSet?) :
+    EditFloatPreference(context, attrs) {
+    public override fun newDialog(): PreferenceDialogFragmentCompat =
+        EditNonNegFloatPreferenceDialogFragment.newInstance(key)
 }

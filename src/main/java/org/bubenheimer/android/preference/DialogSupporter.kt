@@ -18,6 +18,6 @@ package org.bubenheimer.android.preference
 
 import androidx.preference.PreferenceDialogFragmentCompat
 
-interface DialogSupporter {
-    fun newDialog(): PreferenceDialogFragmentCompat
+public interface DialogSupporter {
+    public fun newDialog(): PreferenceDialogFragmentCompat
 }

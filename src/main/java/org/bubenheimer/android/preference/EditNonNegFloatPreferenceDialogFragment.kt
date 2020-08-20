@@ -23,14 +23,15 @@ import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceDialogFragmentCompat
 
-open class EditNonNegFloatPreferenceDialogFragment : EditFloatPreferenceDialogFragment() {
-    companion object {
-        fun newInstance(key: String) = EditNonNegFloatPreferenceDialogFragment().apply {
-            arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
-        }
+public open class EditNonNegFloatPreferenceDialogFragment : EditFloatPreferenceDialogFragment() {
+    public companion object {
+        public fun newInstance(key: String): EditNonNegFloatPreferenceDialogFragment =
+            EditNonNegFloatPreferenceDialogFragment().apply {
+                arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
+            }
     }
 
-    override fun EditText.onBindEditText() {
+    public override fun EditText.onBindEditText() {
         keyListener = if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
             DigitsKeyListener(null, true, true)
         } else {
@@ -41,7 +42,7 @@ open class EditNonNegFloatPreferenceDialogFragment : EditFloatPreferenceDialogFr
     }
 
     @Throws(NumberFormatException::class)
-    override fun checkTextValid(text: CharSequence) {
+    public override fun checkTextValid(text: CharSequence) {
         val number = text.toString().toFloat()
         if (number < 0) {
             throw NumberFormatException()

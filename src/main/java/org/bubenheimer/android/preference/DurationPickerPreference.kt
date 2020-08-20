@@ -25,7 +25,7 @@ import androidx.preference.DialogPreference
 import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.util.R
 
-class DurationPickerPreference @JvmOverloads constructor(
+public class DurationPickerPreference @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = R.attr.durationPickerPreferenceStyle,
@@ -35,38 +35,38 @@ class DurationPickerPreference @JvmOverloads constructor(
         //Default duration: 2 hours
         internal const val DEFAULT_VALUE = 120
 
-        fun getDays(minutes: Int): Int {
+        public fun getDays(minutes: Int): Int {
             return minutes / (60 * 24)
         }
 
-        fun getHours(minutes: Int): Int {
+        public fun getHours(minutes: Int): Int {
             return minutes % (60 * 24) / 60
         }
 
-        fun getMinutes(minutes: Int): Int {
+        public fun getMinutes(minutes: Int): Int {
             return minutes % 60
         }
     }
 
-    var value = DEFAULT_VALUE
+    public var value: Int = DEFAULT_VALUE
         set(value) {
             field = value
             persistInt(value)
             notifyChanged()
         }
 
-    override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
+    public override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
         return a.getInteger(index, DEFAULT_VALUE)
     }
 
-    override fun onSetInitialValue(defaultValue: Any?) {
+    public override fun onSetInitialValue(defaultValue: Any?) {
         value = getPersistedInt(defaultValue as Int? ?: value)
     }
 
-    override fun getSummary(): CharSequence = super.getSummary() ?: (if (value == 0) "Unlimited"
+    public override fun getSummary(): CharSequence = super.getSummary() ?: (if (value == 0) "Unlimited"
     else String.format("%dd %dh %dm", getDays(value), getHours(value), getMinutes(value)))
 
-    override fun onSaveInstanceState(): Parcelable {
+    public override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
 
         // Check whether this Preference is persistent (continually saved)
@@ -76,7 +76,7 @@ class DurationPickerPreference @JvmOverloads constructor(
         else SavedState(superState).apply { value = this@DurationPickerPreference.value }
     }
 
-    override fun onRestoreInstanceState(state: Parcelable) {
+    public override fun onRestoreInstanceState(state: Parcelable) {
         // Check whether we saved the state in onSaveInstanceState
         if (state.javaClass != SavedState::class.java) {
             // Didn't save the state, so call superclass
@@ -93,7 +93,7 @@ class DurationPickerPreference @JvmOverloads constructor(
         value = myState.value
     }
 
-    override fun newDialog(): PreferenceDialogFragmentCompat =
+    public override fun newDialog(): PreferenceDialogFragmentCompat =
             DurationPickerPreferenceDialogFragment.newInstance(key)
 
     private class SavedState : BaseSavedState {

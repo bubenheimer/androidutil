@@ -23,13 +23,13 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import org.bubenheimer.android.log.Log.v
 
-abstract class ValidatingEditTextPreferenceDialogFragment :
+public abstract class ValidatingEditTextPreferenceDialogFragment :
         EditTextPreferenceDialogFragmentCompat() {
-    companion object {
+    public companion object {
         private val TAG = ValidatingEditTextPreferenceDialogFragment::class.simpleName!!
     }
 
-    override fun onBindDialogView(view: View) {
+    public override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         val editText = view.findViewById<EditText>(android.R.id.edit)

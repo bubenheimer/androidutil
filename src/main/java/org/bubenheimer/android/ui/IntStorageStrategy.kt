@@ -22,13 +22,13 @@ import androidx.recyclerview.selection.MutableSelection
 import androidx.recyclerview.selection.Selection
 import androidx.recyclerview.selection.StorageStrategy
 
-class IntStorageStrategy : StorageStrategy<Int>(Int::class.java) {
+public class IntStorageStrategy : StorageStrategy<Int>(Int::class.java) {
     private companion object {
         private const val SELECTION_ENTRIES = "org.bubenheimer.recyclerview.selection.entries"
         private const val SELECTION_KEY_TYPE = "org.bubenheimer.recyclerview.selection.type"
     }
 
-    override fun asSelection(state: Bundle): Selection<Int>? {
+    public override fun asSelection(state: Bundle): Selection<Int>? {
         val keyType = state.getString(SELECTION_KEY_TYPE)
         if (keyType == null || keyType != Int::class.java.canonicalName) {
             return null
@@ -41,7 +41,7 @@ class IntStorageStrategy : StorageStrategy<Int>(Int::class.java) {
         return selection
     }
 
-    override fun asBundle(selection: Selection<Int>): Bundle {
+    public override fun asBundle(selection: Selection<Int>): Bundle {
         val entries = IntArray(selection.size())
         selection.forEachIndexed { index: Int, key: Int -> entries[index] = key }
 

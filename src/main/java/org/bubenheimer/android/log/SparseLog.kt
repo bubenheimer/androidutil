@@ -19,88 +19,88 @@ package org.bubenheimer.android.log
 
 import android.os.SystemClock
 
-class SparseLog constructor(private val period: Long = 60_000L) {
+public class SparseLog constructor(private val period: Long = 60_000L) {
     private var lastLog = Long.MIN_VALUE
 
-    fun v(tag: String?, vararg args: Any?) {
+    public fun v(tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.v(tag, *args)
         }
     }
 
-    fun v(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun v(t: Throwable, tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.v(t, tag, *args)
         }
     }
 
-    fun d(tag: String?, vararg args: Any?) {
+    public fun d(tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.d(tag, *args)
         }
     }
 
-    fun d(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun d(t: Throwable, tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.d(t, tag, *args)
         }
     }
 
-    fun i(tag: String?, vararg args: Any?) {
+    public fun i(tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.i(tag, *args)
         }
     }
 
-    fun i(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun i(t: Throwable, tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.i(t, tag, *args)
         }
     }
 
-    fun w(tag: String?, vararg args: Any?) {
+    public fun w(tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.w(tag, *args)
         }
     }
 
-    fun w(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun w(t: Throwable, tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.w(t, tag, *args)
         }
     }
 
-    fun w(t: Throwable, tag: String?) {
+    public fun w(t: Throwable, tag: String?) {
         if (shouldLog()) {
             Log.w(t, tag)
         }
     }
 
-    fun e(tag: String?, vararg args: Any?) {
+    public fun e(tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.e(tag, *args)
         }
     }
 
-    fun e(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun e(t: Throwable, tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.e(t, tag, *args)
         }
     }
 
-    fun wtf(tag: String?, vararg args: Any?) {
+    public fun wtf(tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.wtf(tag, *args)
         }
     }
 
-    fun wtf(t: Throwable, tag: String?) {
+    public fun wtf(t: Throwable, tag: String?) {
         if (shouldLog()) {
             Log.wtf(t, tag)
         }
     }
 
-    fun wtf(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun wtf(t: Throwable, tag: String?, vararg args: Any?) {
         if (shouldLog()) {
             Log.wtf(t, tag, *args)
         }

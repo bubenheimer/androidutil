@@ -22,7 +22,7 @@ import androidx.core.content.withStyledAttributes
 import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.util.R
 
-class EditNonNegIntPreference(context: Context, attrs: AttributeSet) :
+public class EditNonNegIntPreference(context: Context, attrs: AttributeSet) :
         EditIntPreference(context, attrs, extractMinMax(context, attrs)) {
     private companion object {
         private fun extractMinMax(context: Context, attrs: AttributeSet): Pair<Int, Int> {
@@ -38,6 +38,6 @@ class EditNonNegIntPreference(context: Context, attrs: AttributeSet) :
         }
     }
 
-    override fun newDialog(): PreferenceDialogFragmentCompat =
+    public override fun newDialog(): PreferenceDialogFragmentCompat =
             EditNonNegIntPreferenceDialogFragment.newInstance(key)
 }

@@ -24,35 +24,38 @@ import org.bubenheimer.android.log.Log
 import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
 
-object HandlerUtil {
+public object HandlerUtil {
     private val TAG = HandlerUtil::class.simpleName!!
 
     private val constructor: Constructor<Handler>? by lazy(LazyThreadSafetyMode.PUBLICATION) {
         try {
             Handler::class.java.getConstructor(
-                    Looper::class.java, Handler.Callback::class.java, java.lang.Boolean.TYPE)
+                Looper::class.java, Handler.Callback::class.java, java.lang.Boolean.TYPE
+            )
         } catch (e: NoSuchMethodException) {
             Log.wx(e, TAG)
             null
         }
     }
 
-    fun createAsync(
-            looper: Looper = wrapLooper(null),
-            callback: Handler.Callback? = null
+    public fun createAsync(
+        looper: Looper = wrapLooper(null),
+        callback: Handler.Callback? = null
     ): Handler =
-            if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
-                if (callback == null) Handler.createAsync(looper)
-                else Handler.createAsync(looper, callback)
-            } else {
-                createReflectiveAsync(looper, callback)
-            }
+        if (Build.VERSION_CODES.P <= Build.VERSION.SDK_INT) {
+            if (callback == null) Handler.createAsync(looper)
+            else Handler.createAsync(looper, callback)
+        } else {
+            createReflectiveAsync(looper, callback)
+        }
 
     private fun wrapLooper(@Suppress("SameParameterValue") looper: Looper?): Looper =
-            looper
-                    ?: Looper.myLooper()
-                    ?: throw RuntimeException("Can't create handler inside thread" +
-                            " ${Thread.currentThread()} that has not called Looper.prepare()")
+        looper
+            ?: Looper.myLooper()
+            ?: throw RuntimeException(
+                "Can't create handler inside thread" +
+                        " ${Thread.currentThread()} that has not called Looper.prepare()"
+            )
 
     private fun createReflectiveAsync(looper: Looper, callback: Handler.Callback?): Handler {
         constructor?.let {

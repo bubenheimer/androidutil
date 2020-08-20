@@ -19,13 +19,13 @@ package org.bubenheimer.android.preference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 
-abstract class DialogSupportingPreferenceFragment : PreferenceFragmentCompat() {
+public abstract class DialogSupportingPreferenceFragment : PreferenceFragmentCompat() {
     private companion object {
         private const val DIALOG_FRAGMENT_TAG =
                 "org.bubenheimer.android.preference.DialogSupportingPreferenceFragment.DIALOG"
     }
 
-    override fun onDisplayPreferenceDialog(preference: Preference) {
+    public override fun onDisplayPreferenceDialog(preference: Preference) {
         (activity as? OnPreferenceDisplayDialogCallback)
                 ?.takeIf { it.onPreferenceDisplayDialog(this, preference) }?.let { return }
 

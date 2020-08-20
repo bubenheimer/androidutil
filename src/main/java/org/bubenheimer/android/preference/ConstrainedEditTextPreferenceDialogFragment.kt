@@ -22,7 +22,7 @@ import androidx.preference.PreferenceDialogFragmentCompat
 internal class ConstrainedEditTextPreferenceDialogFragment :
         ValidatingEditTextPreferenceDialogFragment() {
     internal companion object {
-        fun newInstance(key: String) = ConstrainedEditTextPreferenceDialogFragment().apply {
+        public fun newInstance(key: String) = ConstrainedEditTextPreferenceDialogFragment().apply {
             arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
         }
     }
@@ -31,7 +31,7 @@ internal class ConstrainedEditTextPreferenceDialogFragment :
         get() = preference as ConstrainedEditTextPreference
 
     @Throws(IllegalArgumentException::class)
-    override fun checkTextValid(text: CharSequence) {
+    public override fun checkTextValid(text: CharSequence) {
         val preference = constrainedEditTextPreference
         val length = text.length
         if (length < preference.minLength || preference.maxLength < length) {

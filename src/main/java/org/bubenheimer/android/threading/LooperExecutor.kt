@@ -23,12 +23,12 @@ import android.os.Looper
 import android.os.Message
 import java.util.concurrent.Executor
 
-class LooperExecutor(looper: Looper, async: Boolean = true) : Executor {
+public class LooperExecutor(looper: Looper, async: Boolean = true) : Executor {
     private val handler = Handler(looper)
     private val async = async && HAS_ASYNC
 
     @SuppressLint("NewApi")
-    override fun execute(command: Runnable) {
+    public override fun execute(command: Runnable) {
         val msg = Message.obtain(handler, command)
         if (async) {
             msg.isAsynchronous = async

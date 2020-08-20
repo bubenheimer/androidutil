@@ -26,7 +26,7 @@ import androidx.core.content.withStyledAttributes
 import androidx.preference.DialogPreference
 import org.bubenheimer.android.util.R
 
-class NumberPickerPreference @JvmOverloads constructor(
+public class NumberPickerPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.numberPickerPreferenceStyle,
@@ -51,7 +51,7 @@ class NumberPickerPreference @JvmOverloads constructor(
         max = tmpMax
     }
 
-    var value = DEFAULT_VALUE
+    public var value: Int = DEFAULT_VALUE
         set(value) {
             field = value
             persistInt(value)
@@ -59,24 +59,24 @@ class NumberPickerPreference @JvmOverloads constructor(
             notifyChanged()
         }
 
-    override fun getSummary(): CharSequence? =
+    public override fun getSummary(): CharSequence? =
         super.getSummary()?.let { String.format(it.toString(), value) }
 
-    override fun onGetDefaultValue(a: TypedArray, index: Int): Any =
+    public override fun onGetDefaultValue(a: TypedArray, index: Int): Any =
         a.getInteger(index, DEFAULT_VALUE)
 
-    override fun onSetInitialValue(defaultValue: Any?) {
+    public override fun onSetInitialValue(defaultValue: Any?) {
         value = getPersistedInt(defaultValue as Int? ?: value)
     }
 
-    override fun onSaveInstanceState(): Parcelable {
+    public override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
         // No need to save instance state since it's persistent
         return if (isPersistent) superState
         else SavedState(superState).apply { value = this@NumberPickerPreference.value }
     }
 
-    override fun onRestoreInstanceState(state: Parcelable) {
+    public override fun onRestoreInstanceState(state: Parcelable) {
         // Check whether we saved the state in onSaveInstanceState
         if (state.javaClass == SavedState::class.java) {
             // Cast state to custom BaseSavedState and pass to superclass
@@ -89,7 +89,8 @@ class NumberPickerPreference @JvmOverloads constructor(
         }
     }
 
-    override fun newDialog() = NumberPickerPreferenceDialogFragment.newInstance(key)
+    public override fun newDialog(): NumberPickerPreferenceDialogFragment =
+        NumberPickerPreferenceDialogFragment.newInstance(key)
 
     private class SavedState : BaseSavedState {
         internal var value = 0
@@ -99,14 +100,14 @@ class NumberPickerPreference @JvmOverloads constructor(
             value = source.readInt()
         }
 
-        override fun writeToParcel(dest: Parcel, flags: Int) {
+        public override fun writeToParcel(dest: Parcel, flags: Int) {
             super.writeToParcel(dest, flags)
             dest.writeInt(value)
         }
 
         companion object CREATOR : Parcelable.Creator<SavedState> {
-            override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
-            override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
+            public override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
+            public override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
         }
     }
 }

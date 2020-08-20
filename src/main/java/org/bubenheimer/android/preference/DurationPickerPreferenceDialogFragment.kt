@@ -22,8 +22,8 @@ import androidx.core.os.bundleOf
 import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.util.databinding.PreferenceDialogDurationPickerBinding
 
-class DurationPickerPreferenceDialogFragment : PreferenceDialogFragmentCompat() {
-    companion object {
+public class DurationPickerPreferenceDialogFragment : PreferenceDialogFragmentCompat() {
+    public companion object {
         internal fun newInstance(key: String) = DurationPickerPreferenceDialogFragment().apply {
             arguments = bundleOf(ARG_KEY to key)
         }
@@ -46,15 +46,15 @@ class DurationPickerPreferenceDialogFragment : PreferenceDialogFragmentCompat() 
     private val durationPickerPreference: DurationPickerPreference
         get() = preference as DurationPickerPreference
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         value = savedInstanceState
-                ?.getInt(SAVE_STATE_DURATION, DurationPickerPreference.DEFAULT_VALUE)
-                ?: durationPickerPreference.value
+            ?.getInt(SAVE_STATE_DURATION, DurationPickerPreference.DEFAULT_VALUE)
+            ?: durationPickerPreference.value
     }
 
-    override fun onBindDialogView(view: View) {
+    public override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         binding = PreferenceDialogDurationPickerBinding.bind(view)
@@ -75,7 +75,7 @@ class DurationPickerPreferenceDialogFragment : PreferenceDialogFragmentCompat() 
         minutesPicker.value = DurationPickerPreference.getMinutes(value)
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
+    public override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
             value = dialogValue
 
@@ -86,7 +86,7 @@ class DurationPickerPreferenceDialogFragment : PreferenceDialogFragmentCompat() 
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
+    public override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(SAVE_STATE_DURATION, dialogValue)
     }

@@ -22,13 +22,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 
-abstract class StdContentObserver(handler: Handler?) : ContentObserver(handler) {
-    override fun onChange(selfChange: Boolean) = throw UnsupportedOperationException()
+public abstract class StdContentObserver(handler: Handler?) : ContentObserver(handler) {
+    public override fun onChange(selfChange: Boolean): Unit = throw UnsupportedOperationException()
 
     @TargetApi(Build.VERSION_CODES.R)
-    override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int) = onChange(selfChange, uri)
+    public override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int): Unit =
+        onChange(selfChange, uri)
 
     @TargetApi(Build.VERSION_CODES.R)
-    override fun onChange(selfChange: Boolean, uris: Collection<Uri>, flags: Int) =
-            uris.forEach { onChange(selfChange, it) }
+    public override fun onChange(selfChange: Boolean, uris: Collection<Uri>, flags: Int): Unit =
+        uris.forEach { onChange(selfChange, it) }
 }

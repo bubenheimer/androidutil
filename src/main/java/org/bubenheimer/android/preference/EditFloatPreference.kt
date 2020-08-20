@@ -23,14 +23,14 @@ import androidx.annotation.UiThread
 import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.log.Log
 
-open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
+public open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
     EditNumberPreference(context, attrs) {
     private companion object {
         private val TAG = EditFloatPreference::class.simpleName!!
     }
 
     @UiThread
-    override fun persistString(value: String?): Boolean {
+    public override fun persistString(value: String?): Boolean {
         if (value == null) {
             return true
         }
@@ -45,7 +45,7 @@ open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
         return persistFloat(number)
     }
 
-    override fun getPersistedString(defaultReturnValue: String?): String? {
+    public override fun getPersistedString(defaultReturnValue: String?): String? {
         if (!shouldPersist()) {
             return defaultReturnValue
         }
@@ -60,6 +60,6 @@ open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
         return sharedPreferences.getFloat(key, Float.NaN).toString()
     }
 
-    override fun newDialog(): PreferenceDialogFragmentCompat =
+    public override fun newDialog(): PreferenceDialogFragmentCompat =
         EditFloatPreferenceDialogFragment.newInstance(key)
 }

@@ -19,5 +19,5 @@ package org.bubenheimer.android.preference
 import android.content.Context
 import android.util.AttributeSet
 
-abstract class EditNumberPreference protected constructor(context: Context, attrs: AttributeSet?) :
+public abstract class EditNumberPreference protected constructor(context: Context, attrs: AttributeSet?) :
         SummaryEditTextPreference(context, attrs)

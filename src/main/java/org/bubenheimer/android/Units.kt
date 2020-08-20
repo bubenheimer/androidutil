@@ -17,5 +17,5 @@
 
 package org.bubenheimer.android
 
-const val FOOT_METER_RATIO = .3048f
-const val MILE_METER_RATIO = 1609.344f
+public const val FOOT_METER_RATIO: Float = .3048f
+public const val MILE_METER_RATIO: Float = 1609.344f

@@ -23,7 +23,7 @@ import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceDialogFragmentCompat
 
-class EditNonNegIntPreferenceDialogFragment : EditIntPreferenceDialogFragment() {
+public class EditNonNegIntPreferenceDialogFragment : EditIntPreferenceDialogFragment() {
     internal companion object {
         internal fun newInstance(key: String): EditNonNegIntPreferenceDialogFragment {
             return EditNonNegIntPreferenceDialogFragment().apply {
@@ -32,7 +32,7 @@ class EditNonNegIntPreferenceDialogFragment : EditIntPreferenceDialogFragment() 
         }
     }
 
-    override fun EditText.onBindEditText() {
+    public override fun EditText.onBindEditText() {
         keyListener = if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
             DigitsKeyListener(null, false, false)
         } else {

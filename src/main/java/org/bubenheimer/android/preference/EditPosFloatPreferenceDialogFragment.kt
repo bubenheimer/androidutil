@@ -19,7 +19,7 @@ package org.bubenheimer.android.preference
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceDialogFragmentCompat
 
-class EditPosFloatPreferenceDialogFragment : EditNonNegFloatPreferenceDialogFragment() {
+public class EditPosFloatPreferenceDialogFragment : EditNonNegFloatPreferenceDialogFragment() {
     internal companion object {
         internal fun newInstance(key: String): EditPosFloatPreferenceDialogFragment {
             return EditPosFloatPreferenceDialogFragment().apply {
@@ -29,7 +29,7 @@ class EditPosFloatPreferenceDialogFragment : EditNonNegFloatPreferenceDialogFrag
     }
 
     @Throws(NumberFormatException::class)
-    override fun checkTextValid(text: CharSequence) {
+    public override fun checkTextValid(text: CharSequence) {
         val number = text.toString().toFloat()
         if (number <= 0.0f) {
             throw NumberFormatException()

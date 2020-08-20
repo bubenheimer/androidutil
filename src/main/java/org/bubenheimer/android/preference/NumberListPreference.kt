@@ -23,24 +23,31 @@ import androidx.preference.ListPreference
 import org.bubenheimer.android.log.Log.e
 
 @Suppress("unused")
-class NumberListPreference : ListPreference {
+public class NumberListPreference : ListPreference {
     private companion object {
         private val TAG = NumberListPreference::class.simpleName!!
     }
 
     @Suppress("unused")
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
+    public constructor(
+        context: Context?,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) :
             super(context, attrs, defStyleAttr, defStyleRes)
+
     @Suppress("unused")
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
+    public constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
             super(context, attrs, defStyleAttr)
-    @Suppress("unused")
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
     @Suppress("unused")
-    constructor(context: Context?) : super(context)
+    public constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
-    override fun persistString(value: String?): Boolean {
+    @Suppress("unused")
+    public constructor(context: Context?) : super(context)
+
+    public override fun persistString(value: String?): Boolean {
         if (value == null) {
             return true
         }
@@ -56,7 +63,7 @@ class NumberListPreference : ListPreference {
         return persistInt(number)
     }
 
-    override fun getPersistedString(defaultReturnValue: String?): String? {
+    public override fun getPersistedString(defaultReturnValue: String?): String? {
         if (!shouldPersist()) {
             return defaultReturnValue
         }

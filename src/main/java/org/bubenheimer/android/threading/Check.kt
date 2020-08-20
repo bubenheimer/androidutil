@@ -20,10 +20,10 @@ package org.bubenheimer.android.threading
 import android.os.Handler
 import android.os.Looper
 
-fun Thread.isCurrent() = this === Thread.currentThread()
+public fun Thread.isCurrent(): Boolean = this === Thread.currentThread()
 
-fun Looper.onCurrentThread() = thread.isCurrent()
+public fun Looper.onCurrentThread(): Boolean = thread.isCurrent()
 
-fun Handler.onCurrentThread() = looper.onCurrentThread()
+public fun Handler.onCurrentThread(): Boolean = looper.onCurrentThread()
 
-fun onMainThread() = Looper.getMainLooper().onCurrentThread()
+public fun onMainThread(): Boolean = Looper.getMainLooper().onCurrentThread()

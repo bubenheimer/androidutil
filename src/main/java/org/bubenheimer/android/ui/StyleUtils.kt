@@ -22,7 +22,7 @@ package org.bubenheimer.android.ui
 import android.content.Context
 import android.util.TypedValue
 
-fun Context.getAttr(attr: Int, fallbackAttr: Int): Int {
+public fun Context.getAttr(attr: Int, fallbackAttr: Int): Int {
     val value = TypedValue()
     theme.resolveAttribute(attr, value, true)
     return if (value.resourceId != 0) attr else fallbackAttr

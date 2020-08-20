@@ -22,146 +22,148 @@ import androidx.core.util.ObjectsCompat
 import org.bubenheimer.android.threading.isCurrent
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-object Check {
-    fun notNull(obj: Any?) {
+public object Check {
+    public fun notNull(obj: Any?) {
         if (obj == null) throw AssertionError()
     }
 
-    fun isNull(obj: Any?) {
+    public fun isNull(obj: Any?) {
         if (obj != null) throw AssertionError()
     }
 
-    fun equals(expected: Int, actual: Int) {
+    public fun equals(expected: Int, actual: Int) {
         if (expected != actual) throw AssertionError()
     }
 
-    fun equals(expected: Long, actual: Long) {
+    public fun equals(expected: Long, actual: Long) {
         if (expected != actual) throw AssertionError()
     }
 
-    fun equals(expected: Short, actual: Short) {
+    public fun equals(expected: Short, actual: Short) {
         if (expected != actual) throw AssertionError()
     }
 
-    fun equals(expected: Byte, actual: Byte) {
+    public fun equals(expected: Byte, actual: Byte) {
         if (expected != actual) throw AssertionError()
     }
 
-    fun equals(expected: Char, actual: Char) {
+    public fun equals(expected: Char, actual: Char) {
         if (expected != actual) throw AssertionError()
     }
 
-    fun equals(expected: Any, actual: Any?) {
+    public fun equals(expected: Any, actual: Any?) {
         if (expected != actual) throw AssertionError(
-                "Objects not equal -  expected: $expected  actual: $actual")
+            "Objects not equal -  expected: $expected  actual: $actual"
+        )
     }
 
-    fun notEquals(expected: Int, actual: Int) {
+    public fun notEquals(expected: Int, actual: Int) {
         if (expected == actual) throw AssertionError()
     }
 
-    fun notEquals(expected: Long, actual: Long) {
+    public fun notEquals(expected: Long, actual: Long) {
         if (expected == actual) throw AssertionError()
     }
 
-    fun notEquals(expected: Short, actual: Short) {
+    public fun notEquals(expected: Short, actual: Short) {
         if (expected == actual) throw AssertionError()
     }
 
-    fun notEquals(expected: Byte, actual: Byte) {
+    public fun notEquals(expected: Byte, actual: Byte) {
         if (expected == actual) throw AssertionError()
     }
 
-    fun notEquals(expected: Char, actual: Char) {
+    public fun notEquals(expected: Char, actual: Char) {
         if (expected == actual) throw AssertionError()
     }
 
-    fun notEquals(expected: Any, actual: Any?) {
+    public fun notEquals(expected: Any, actual: Any?) {
         if (ObjectsCompat.equals(expected, actual)) throw AssertionError()
     }
 
-    fun same(expected: Any, actual: Any) {
+    public fun same(expected: Any, actual: Any) {
         if (expected !== actual) throw AssertionError(
-                "Objects not the same -  expected: $expected  actual: $actual")
+            "Objects not the same -  expected: $expected  actual: $actual"
+        )
     }
 
-    fun notSame(expected: Any, actual: Any?) {
+    public fun notSame(expected: Any, actual: Any?) {
         if (expected === actual) throw AssertionError()
     }
 
-    fun lessThan(value1: Int, value2: Int) {
+    public fun lessThan(value1: Int, value2: Int) {
         if (value1 >= value2) throw AssertionError()
     }
 
-    fun lessOrEqual(value1: Int, value2: Int) {
+    public fun lessOrEqual(value1: Int, value2: Int) {
         if (value1 > value2) throw AssertionError()
     }
 
-    fun inRangeInclusive(value1: Int, value2: Int, value3: Int) {
+    public fun inRangeInclusive(value1: Int, value2: Int, value3: Int) {
         if (value1 > value2 || value2 > value3) throw AssertionError()
     }
 
-    fun inRangeExclusive(value1: Int, value2: Int, value3: Int) {
+    public fun inRangeExclusive(value1: Int, value2: Int, value3: Int) {
         if (value1 >= value2 || value2 >= value3) throw AssertionError()
     }
 
-    fun lessThan(value1: Long, value2: Long) {
+    public fun lessThan(value1: Long, value2: Long) {
         if (value1 >= value2) throw AssertionError()
     }
 
-    fun lessOrEqual(value1: Long, value2: Long) {
+    public fun lessOrEqual(value1: Long, value2: Long) {
         if (value1 > value2) throw AssertionError()
     }
 
-    fun inRangeInclusive(value1: Long, value2: Long, value3: Long) {
+    public fun inRangeInclusive(value1: Long, value2: Long, value3: Long) {
         if (value1 > value2 || value2 > value3) throw AssertionError()
     }
 
-    fun inRangeExclusive(value1: Long, value2: Long, value3: Long) {
+    public fun inRangeExclusive(value1: Long, value2: Long, value3: Long) {
         if (value1 >= value2 || value2 >= value3) throw AssertionError()
     }
 
-    fun isOneOf(value: Int, vararg set: Int) {
+    public fun isOneOf(value: Int, vararg set: Int) {
         if (set.none { value == it }) throw AssertionError()
     }
 
-    fun notOneOf(value: Int, vararg set: Int) {
+    public fun notOneOf(value: Int, vararg set: Int) {
         if (set.any { value == it }) throw AssertionError()
     }
 
-    fun isOneOf(value: Long, vararg set: Long) {
+    public fun isOneOf(value: Long, vararg set: Long) {
         if (set.none { value == it }) throw AssertionError()
     }
 
-    fun notOneOf(value: Long, vararg set: Long) {
+    public fun notOneOf(value: Long, vararg set: Long) {
         if (set.any { value == it }) throw AssertionError()
     }
 
-    fun isOneOfObjects(value: Any?, vararg set: Any) {
+    public fun isOneOfObjects(value: Any?, vararg set: Any) {
         if (set.none { value == it }) throw AssertionError()
     }
 
-    fun notOneOfObjects(value: Any?, vararg set: Any) {
+    public fun notOneOfObjects(value: Any?, vararg set: Any) {
         if (set.any { value == it }) throw AssertionError()
     }
 
-    fun isTrue(value: Boolean) {
+    public fun isTrue(value: Boolean) {
         isTrue("", value)
     }
 
-    fun isTrue(message: String, value: Boolean) {
+    public fun isTrue(message: String, value: Boolean) {
         if (!value) throw AssertionError(message)
     }
 
-    fun isFalse(value: Boolean) {
+    public fun isFalse(value: Boolean) {
         isFalse("", value)
     }
 
-    fun isFalse(message: String, value: Boolean) {
+    public fun isFalse(message: String, value: Boolean) {
         if (value) throw AssertionError(message)
     }
 
-    fun fail(function: () -> Any?) {
+    public fun fail(function: () -> Any?) {
         try {
             function()
         } catch (e: Throwable) {
@@ -170,7 +172,7 @@ object Check {
         throw AssertionError()
     }
 
-    fun nofail(function: () -> Any?) {
+    public fun nofail(function: () -> Any?) {
         try {
             function()
         } catch (e: Error) {
@@ -180,39 +182,39 @@ object Check {
         }
     }
 
-    fun fail() {
+    public fun fail() {
         throw AssertionError()
     }
 
-    fun onThread(thread: Thread) {
+    public fun onThread(thread: Thread) {
         if (!thread.isCurrent()) throw AssertionError()
     }
 
-    fun offThread(thread: Thread) {
+    public fun offThread(thread: Thread) {
         if (thread.isCurrent()) throw AssertionError()
     }
 
-    fun onLooperThread(looper: Looper) {
+    public fun onLooperThread(looper: Looper) {
         onThread(looper.thread)
     }
 
-    fun offLooperThread(looper: Looper) {
+    public fun offLooperThread(looper: Looper) {
         offThread(looper.thread)
     }
 
-    fun onHandlerThread(handler: Handler) {
+    public fun onHandlerThread(handler: Handler) {
         onLooperThread(handler.looper)
     }
 
-    fun offHandlerThread(handler: Handler) {
+    public fun offHandlerThread(handler: Handler) {
         offLooperThread(handler.looper)
     }
 
-    fun onMainThread() {
+    public fun onMainThread() {
         onLooperThread(Looper.getMainLooper())
     }
 
-    fun onWorkerThread() {
+    public fun onWorkerThread() {
         offLooperThread(Looper.getMainLooper())
     }
 }

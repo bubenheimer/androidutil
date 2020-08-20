@@ -22,7 +22,7 @@ import androidx.core.content.withStyledAttributes
 import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.util.R
 
-class ConstrainedEditTextPreference @JvmOverloads constructor(
+public class ConstrainedEditTextPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet?,
     defaults: Pair<Int, Int> = 0 to Int.MAX_VALUE
@@ -42,7 +42,7 @@ class ConstrainedEditTextPreference @JvmOverloads constructor(
         maxLength = tmpMax
     }
 
-    override fun newDialog(): PreferenceDialogFragmentCompat {
+    public override fun newDialog(): PreferenceDialogFragmentCompat {
         return ConstrainedEditTextPreferenceDialogFragment.newInstance(key)
     }
 }

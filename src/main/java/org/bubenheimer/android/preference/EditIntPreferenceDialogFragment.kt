@@ -22,16 +22,16 @@ import android.text.method.DigitsKeyListener
 import android.widget.EditText
 import androidx.preference.EditTextPreferenceDialogFragmentCompat
 
-open class EditIntPreferenceDialogFragment : ValidatingEditTextPreferenceDialogFragment() {
-    companion object {
-        fun newInstance(key: String): EditTextPreferenceDialogFragmentCompat =
-                EditTextPreferenceDialogFragmentCompat.newInstance(key)
+public open class EditIntPreferenceDialogFragment : ValidatingEditTextPreferenceDialogFragment() {
+    public companion object {
+        public fun newInstance(key: String): EditTextPreferenceDialogFragmentCompat =
+            EditTextPreferenceDialogFragmentCompat.newInstance(key)
     }
 
     private val editIntPreference: EditIntPreference
         get() = preference as EditIntPreference
 
-    override fun EditText.onBindEditText() {
+    public override fun EditText.onBindEditText() {
         keyListener = if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) {
             DigitsKeyListener(null, true, false)
         } else {
@@ -42,7 +42,7 @@ open class EditIntPreferenceDialogFragment : ValidatingEditTextPreferenceDialogF
     }
 
     @Throws(NumberFormatException::class)
-    override fun checkTextValid(text: CharSequence) {
+    public override fun checkTextValid(text: CharSequence) {
         val number = text.toString().toInt()
         val preference = editIntPreference
         if (number < preference.min || preference.max < number) {

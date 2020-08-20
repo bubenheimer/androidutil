@@ -24,7 +24,7 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.log.Log.e
 import org.bubenheimer.android.util.R
 
-open class EditIntPreference @JvmOverloads constructor(
+public open class EditIntPreference @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet?,
     defaults: Pair<Int, Int> = Int.MIN_VALUE to Int.MAX_VALUE
@@ -47,7 +47,7 @@ open class EditIntPreference @JvmOverloads constructor(
         max = tmpMax
     }
 
-    override fun persistString(value: String?): Boolean {
+    public override fun persistString(value: String?): Boolean {
         if (value == null) {
             return true
         }
@@ -62,7 +62,7 @@ open class EditIntPreference @JvmOverloads constructor(
         return persistInt(number)
     }
 
-    override fun getPersistedString(defaultReturnValue: String?): String? {
+    public override fun getPersistedString(defaultReturnValue: String?): String? {
         if (!shouldPersist()) {
             return defaultReturnValue
         }
@@ -77,6 +77,6 @@ open class EditIntPreference @JvmOverloads constructor(
         return sharedPreferences.getInt(key, 0).toString()
     }
 
-    override fun newDialog(): PreferenceDialogFragmentCompat =
+    public override fun newDialog(): PreferenceDialogFragmentCompat =
         EditIntPreferenceDialogFragment.newInstance(key)
 }

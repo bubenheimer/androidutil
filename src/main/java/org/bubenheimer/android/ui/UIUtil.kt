@@ -30,10 +30,10 @@ import androidx.fragment.app.Fragment
  * @return the parent Fragment if it exists, otherwise the non-null Context (typically an
  * Activity).
  */
-val Fragment.parent: Any get() = parentFragment ?: requireContext()
+public val Fragment.parent: Any get() = parentFragment ?: requireContext()
 
-fun Context.appToast(text: CharSequence, duration: Int) =
-        Toast.makeText(applicationContext, text, duration)
+public fun Context.appToast(text: CharSequence, duration: Int): Toast =
+    Toast.makeText(applicationContext, text, duration)
 
-fun Context.appToast(resId: Int, duration: Int) =
-        Toast.makeText(applicationContext, resId, duration)
+public fun Context.appToast(resId: Int, duration: Int): Toast =
+    Toast.makeText(applicationContext, resId, duration)

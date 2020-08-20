@@ -47,9 +47,9 @@ internal val HAS_ASYNC: Boolean = run {
     }
 }
 
-fun isMainThread() = Thread.currentThread() === MAIN_HANDLER.looper.thread
+public fun isMainThread(): Boolean = Thread.currentThread() === MAIN_HANDLER.looper.thread
 
-fun post(async: Boolean = true, runnable: () -> Unit) {
+public fun post(async: Boolean = true, runnable: () -> Unit) {
     if (Thread.currentThread() === MAIN_HANDLER.looper.thread) {
         runnable()
     } else {
@@ -58,7 +58,7 @@ fun post(async: Boolean = true, runnable: () -> Unit) {
 }
 
 @Suppress("unused")
-fun postDelayed(delayMs: Long, async: Boolean = true, runnable: () -> Unit) {
+public fun postDelayed(delayMs: Long, async: Boolean = true, runnable: () -> Unit) {
     if (delayMs <= 0L && Thread.currentThread() === MAIN_HANDLER.looper.thread) {
         runnable()
     } else {
@@ -66,17 +66,17 @@ fun postDelayed(delayMs: Long, async: Boolean = true, runnable: () -> Unit) {
     }
 }
 
-fun forcePost(async: Boolean = true, runnable: () -> Unit) {
+public fun forcePost(async: Boolean = true, runnable: () -> Unit) {
     obtainMessage(async, runnable).sendToTarget()
 }
 
-fun forcePostDelayed(delayMs: Long, async: Boolean = true, runnable: () -> Unit) {
+public fun forcePostDelayed(delayMs: Long, async: Boolean = true, runnable: () -> Unit) {
     val msg = obtainMessage(async, runnable)
     msg.target.sendMessageDelayed(msg, delayMs)
 }
 
 @Suppress("unused")
-fun postAtFrontOfQueue(async: Boolean = true, runnable: () -> Unit) {
+public fun postAtFrontOfQueue(async: Boolean = true, runnable: () -> Unit) {
     if (Thread.currentThread() === MAIN_HANDLER.looper.thread) {
         runnable()
     } else {
@@ -84,7 +84,7 @@ fun postAtFrontOfQueue(async: Boolean = true, runnable: () -> Unit) {
     }
 }
 
-fun forcePostAtFrontOfQueue(async: Boolean = true, runnable: () -> Unit) {
+public fun forcePostAtFrontOfQueue(async: Boolean = true, runnable: () -> Unit) {
     val msg = obtainMessage(async, runnable)
     val result = msg.target.sendMessageAtFrontOfQueue(msg)
     check(result)

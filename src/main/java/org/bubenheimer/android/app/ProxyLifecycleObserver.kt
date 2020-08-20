@@ -23,20 +23,20 @@ import androidx.lifecycle.LifecycleOwner
  * Proxies [DefaultLifecycleObserver] with a delegate pattern to enable obfuscation,
  * at the cost of one additional object per [LifecycleObserver].
  */
-class ProxyLifecycleObserver(private val delegate: Delegate) : DefaultLifecycleObserver {
-    interface Delegate {
-        fun onCreate(owner: LifecycleOwner) {}
-        fun onStart(owner: LifecycleOwner) {}
-        fun onResume(owner: LifecycleOwner) {}
-        fun onPause(owner: LifecycleOwner) {}
-        fun onStop(owner: LifecycleOwner) {}
-        fun onDestroy(owner: LifecycleOwner) {}
+public class ProxyLifecycleObserver(private val delegate: Delegate) : DefaultLifecycleObserver {
+    public interface Delegate {
+        public fun onCreate(owner: LifecycleOwner) {}
+        public fun onStart(owner: LifecycleOwner) {}
+        public fun onResume(owner: LifecycleOwner) {}
+        public fun onPause(owner: LifecycleOwner) {}
+        public fun onStop(owner: LifecycleOwner) {}
+        public fun onDestroy(owner: LifecycleOwner) {}
     }
 
-    override fun onCreate(owner: LifecycleOwner) = delegate.onCreate(owner)
-    override fun onStart(owner: LifecycleOwner) = delegate.onStart(owner)
-    override fun onResume(owner: LifecycleOwner) = delegate.onResume(owner)
-    override fun onPause(owner: LifecycleOwner) = delegate.onPause(owner)
-    override fun onStop(owner: LifecycleOwner) = delegate.onStop(owner)
-    override fun onDestroy(owner: LifecycleOwner) = delegate.onDestroy(owner)
+    public override fun onCreate(owner: LifecycleOwner): Unit = delegate.onCreate(owner)
+    public override fun onStart(owner: LifecycleOwner): Unit = delegate.onStart(owner)
+    public override fun onResume(owner: LifecycleOwner): Unit = delegate.onResume(owner)
+    public override fun onPause(owner: LifecycleOwner): Unit = delegate.onPause(owner)
+    public override fun onStop(owner: LifecycleOwner): Unit = delegate.onStop(owner)
+    public override fun onDestroy(owner: LifecycleOwner): Unit = delegate.onDestroy(owner)
 }
