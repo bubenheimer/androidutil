@@ -26,24 +26,24 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.util.R
 
 public class DurationPickerPreference @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = R.attr.durationPickerPreferenceStyle,
-        defStyleRes: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = R.attr.durationPickerPreferenceStyle,
+    defStyleRes: Int = 0
 ) : DialogPreference(context, attrs, defStyleAttr, defStyleRes), DialogSupporter {
     internal companion object {
         //Default duration: 2 hours
         internal const val DEFAULT_VALUE = 120
 
-        public fun getDays(minutes: Int): Int {
+        fun getDays(minutes: Int): Int {
             return minutes / (60 * 24)
         }
 
-        public fun getHours(minutes: Int): Int {
+        fun getHours(minutes: Int): Int {
             return minutes % (60 * 24) / 60
         }
 
-        public fun getMinutes(minutes: Int): Int {
+        fun getMinutes(minutes: Int): Int {
             return minutes % 60
         }
     }
@@ -63,8 +63,9 @@ public class DurationPickerPreference @JvmOverloads constructor(
         value = getPersistedInt(defaultValue as Int? ?: value)
     }
 
-    public override fun getSummary(): CharSequence = super.getSummary() ?: (if (value == 0) "Unlimited"
-    else String.format("%dd %dh %dm", getDays(value), getHours(value), getMinutes(value)))
+    public override fun getSummary(): CharSequence =
+        super.getSummary() ?: (if (value == 0) "Unlimited"
+        else String.format("%dd %dh %dm", getDays(value), getHours(value), getMinutes(value)))
 
     public override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
@@ -94,7 +95,7 @@ public class DurationPickerPreference @JvmOverloads constructor(
     }
 
     public override fun newDialog(): PreferenceDialogFragmentCompat =
-            DurationPickerPreferenceDialogFragment.newInstance(key)
+        DurationPickerPreferenceDialogFragment.newInstance(key)
 
     private class SavedState : BaseSavedState {
         internal var value = 0

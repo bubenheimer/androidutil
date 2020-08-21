@@ -62,7 +62,7 @@ public fun postDelayed(delayMs: Long, async: Boolean = true, runnable: () -> Uni
     if (delayMs <= 0L && Thread.currentThread() === MAIN_HANDLER.looper.thread) {
         runnable()
     } else {
-        forcePostDelayed(delayMs, async, runnable);
+        forcePostDelayed(delayMs, async, runnable)
     }
 }
 

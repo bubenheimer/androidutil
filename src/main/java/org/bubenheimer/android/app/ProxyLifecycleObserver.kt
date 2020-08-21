@@ -21,7 +21,7 @@ import androidx.lifecycle.LifecycleOwner
 
 /**
  * Proxies [DefaultLifecycleObserver] with a delegate pattern to enable obfuscation,
- * at the cost of one additional object per [LifecycleObserver].
+ * at the cost of one additional object per [androidx.lifecycle.LifecycleObserver].
  */
 public class ProxyLifecycleObserver(private val delegate: Delegate) : DefaultLifecycleObserver {
     public interface Delegate {

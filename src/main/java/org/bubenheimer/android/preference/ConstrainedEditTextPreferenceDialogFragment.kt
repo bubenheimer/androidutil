@@ -20,9 +20,9 @@ import androidx.core.os.bundleOf
 import androidx.preference.PreferenceDialogFragmentCompat
 
 internal class ConstrainedEditTextPreferenceDialogFragment :
-        ValidatingEditTextPreferenceDialogFragment() {
+    ValidatingEditTextPreferenceDialogFragment() {
     internal companion object {
-        public fun newInstance(key: String) = ConstrainedEditTextPreferenceDialogFragment().apply {
+        fun newInstance(key: String) = ConstrainedEditTextPreferenceDialogFragment().apply {
             arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key)
         }
     }
