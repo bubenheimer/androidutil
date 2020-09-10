@@ -20,14 +20,22 @@ import android.os.Handler
 import android.os.Looper
 import androidx.core.util.ObjectsCompat
 import org.bubenheimer.android.threading.isCurrent
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 public object Check {
+    @ExperimentalContracts
     public fun notNull(obj: Any?) {
+        contract { returns() implies (obj != null) }
+
         if (obj == null) throw AssertionError()
     }
 
+    @ExperimentalContracts
     public fun isNull(obj: Any?) {
+        contract { returns() implies (obj == null) }
+
         if (obj != null) throw AssertionError()
     }
 
@@ -147,19 +155,31 @@ public object Check {
         if (set.any { value == it }) throw AssertionError()
     }
 
+    @ExperimentalContracts
     public fun isTrue(value: Boolean) {
+        contract { returns() implies value }
+
         isTrue("", value)
     }
 
+    @ExperimentalContracts
     public fun isTrue(message: String, value: Boolean) {
+        contract { returns() implies value }
+
         if (!value) throw AssertionError(message)
     }
 
+    @ExperimentalContracts
     public fun isFalse(value: Boolean) {
+        contract { returns() implies !value }
+
         isFalse("", value)
     }
 
+    @ExperimentalContracts
     public fun isFalse(message: String, value: Boolean) {
+        contract { returns() implies !value }
+
         if (value) throw AssertionError(message)
     }
 
@@ -182,7 +202,10 @@ public object Check {
         }
     }
 
+    @ExperimentalContracts
     public fun fail() {
+        contract { returns() implies false }
+
         throw AssertionError()
     }
 
