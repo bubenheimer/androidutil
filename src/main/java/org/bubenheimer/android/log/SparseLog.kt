@@ -108,7 +108,7 @@ public class SparseLog constructor(private val period: Long = 60_000L) {
 
     private fun shouldLog(): Boolean {
         val time = SystemClock.elapsedRealtime()
-        return if (time > lastLog + period) {
+        return if (lastLog + period < time) {
             lastLog = time
             true
         } else {
