@@ -19,7 +19,7 @@ package org.bubenheimer.android
 import android.os.Handler
 import android.os.Looper
 import androidx.core.util.ObjectsCompat
-import org.bubenheimer.android.threading.isCurrent
+import org.bubenheimer.util.isCurrent
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
