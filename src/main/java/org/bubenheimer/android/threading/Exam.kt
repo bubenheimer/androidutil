@@ -19,21 +19,8 @@ package org.bubenheimer.android.threading
 
 import android.os.Handler
 import android.os.Looper
-import org.bubenheimer.util.isCurrent
-
-//TODO refactor the first 2 methods
-
-private fun examOnThread(thread: Thread, msg: String = "") {
-    if (!thread.isCurrent()) throw AssertionError(
-        "Not on expected thread \"$thread\"  msg: \"$msg\""
-    )
-}
-
-private fun examOffThread(thread: Thread, msg: String = "") {
-    if (thread.isCurrent()) throw AssertionError(
-        "Not off thread \"$thread\"  msg: \"$msg\""
-    )
-}
+import org.bubenheimer.util.examOffThread
+import org.bubenheimer.util.examOnThread
 
 public fun examOnLooperThread(looper: Looper, msg: String = "") {
     examOnThread(looper.thread, "Not on Looper thread; msg: \"$msg\" ")

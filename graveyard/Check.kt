@@ -16,6 +16,8 @@
  */
 package org.bubenheimer.android
 
+import android.os.Handler
+import android.os.Looper
 import androidx.core.util.ObjectsCompat
 import org.bubenheimer.util.isCurrent
 import kotlin.contracts.ExperimentalContracts
@@ -213,5 +215,29 @@ public object Check {
 
     public fun offThread(thread: Thread) {
         if (thread.isCurrent()) throw AssertionError()
+    }
+
+    public fun onLooperThread(looper: Looper) {
+        onThread(looper.thread)
+    }
+
+    public fun offLooperThread(looper: Looper) {
+        offThread(looper.thread)
+    }
+
+    public fun onHandlerThread(handler: Handler) {
+        onLooperThread(handler.looper)
+    }
+
+    public fun offHandlerThread(handler: Handler) {
+        offLooperThread(handler.looper)
+    }
+
+    public fun onMainThread() {
+        onLooperThread(Looper.getMainLooper())
+    }
+
+    public fun onWorkerThread() {
+        offLooperThread(Looper.getMainLooper())
     }
 }
