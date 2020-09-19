@@ -22,51 +22,51 @@ import android.os.SystemClock
 public class SparseLog constructor(private val period: Long = 60_000L) {
     private var lastLog = Long.MIN_VALUE
 
-    public fun v(tag: String?, vararg args: Any?) {
+    public fun v(tag: String?, text: String) {
         if (shouldLog()) {
-            Log.v(tag, *args)
+            Log.v(tag, text)
         }
     }
 
-    public fun v(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun v(t: Throwable, tag: String?, text: String) {
         if (shouldLog()) {
-            Log.v(t, tag, *args)
+            Log.v(t, tag, text)
         }
     }
 
-    public fun d(tag: String?, vararg args: Any?) {
+    public fun d(tag: String?, text: String) {
         if (shouldLog()) {
-            Log.d(tag, *args)
+            Log.d(tag, text)
         }
     }
 
-    public fun d(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun d(t: Throwable, tag: String?, text: String) {
         if (shouldLog()) {
-            Log.d(t, tag, *args)
+            Log.d(t, tag, text)
         }
     }
 
-    public fun i(tag: String?, vararg args: Any?) {
+    public fun i(tag: String?, text: String) {
         if (shouldLog()) {
-            Log.i(tag, *args)
+            Log.i(tag, text)
         }
     }
 
-    public fun i(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun i(t: Throwable, tag: String?, text: String) {
         if (shouldLog()) {
-            Log.i(t, tag, *args)
+            Log.i(t, tag, text)
         }
     }
 
-    public fun w(tag: String?, vararg args: Any?) {
+    public fun w(tag: String?, text: String) {
         if (shouldLog()) {
-            Log.w(tag, *args)
+            Log.w(tag, text)
         }
     }
 
-    public fun w(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun w(t: Throwable, tag: String?, text: String) {
         if (shouldLog()) {
-            Log.w(t, tag, *args)
+            Log.w(t, tag, text)
         }
     }
 
@@ -76,21 +76,21 @@ public class SparseLog constructor(private val period: Long = 60_000L) {
         }
     }
 
-    public fun e(tag: String?, vararg args: Any?) {
+    public fun e(tag: String?, text: String) {
         if (shouldLog()) {
-            Log.e(tag, *args)
+            Log.e(tag, text)
         }
     }
 
-    public fun e(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun e(t: Throwable, tag: String?, text: String) {
         if (shouldLog()) {
-            Log.e(t, tag, *args)
+            Log.e(t, tag, text)
         }
     }
 
-    public fun wtf(tag: String?, vararg args: Any?) {
+    public fun wtf(tag: String?, text: String) {
         if (shouldLog()) {
-            Log.wtf(tag, *args)
+            Log.wtf(tag, text)
         }
     }
 
@@ -100,9 +100,9 @@ public class SparseLog constructor(private val period: Long = 60_000L) {
         }
     }
 
-    public fun wtf(t: Throwable, tag: String?, vararg args: Any?) {
+    public fun wtf(t: Throwable, tag: String?, text: String) {
         if (shouldLog()) {
-            Log.wtf(t, tag, *args)
+            Log.wtf(t, tag, text)
         }
     }
 

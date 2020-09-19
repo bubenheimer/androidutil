@@ -32,56 +32,50 @@ public object Log {
     public const val ERROR: Int = android.util.Log.ERROR
     public const val ASSERT: Int = android.util.Log.ASSERT
 
-    private fun toString(vararg args: Any?) = when {
-        args.isEmpty() -> ""
-
-        //Common special case
-        args.size == 1 -> args[0].toString()
-
-        else -> buildString { args.forEach { append(it) } }
-    }
-
     public var crashLog: CrashLog? = null
         set(value) {
             field = value
             w(TAG, "Crash log reset")
         }
 
-    public fun v(tag: String?, vararg args: Any?): Unit = println(VERBOSE, tag, *args)
+    public fun v(tag: String?, text: String): Unit = println(VERBOSE, tag, text)
 
-    public fun v(t: Throwable?, tag: String?, vararg args: Any?): Unit =
-        println(VERBOSE, t, tag, *args)
+    public fun v(t: Throwable?, tag: String?, text: String): Unit =
+        println(VERBOSE, t, tag, text)
 
-    public fun d(tag: String?, vararg args: Any?): Unit = println(DEBUG, tag, *args)
+    public fun d(tag: String?, text: String): Unit = println(DEBUG, tag, text)
 
-    public fun d(t: Throwable?, tag: String?, vararg args: Any?): Unit = println(DEBUG, t, tag, *args)
+    public fun d(t: Throwable?, tag: String?, text: String): Unit = println(DEBUG, t, tag, text)
+
+    public fun d(t: Throwable?, tag: String?): Unit = println(DEBUG, t, tag)
 
     public fun dx(t: Throwable?, tag: String?): Unit = println(DEBUG, t, tag, t?.message)
 
-    public fun i(tag: String?, vararg args: Any?): Unit = println(INFO, tag, *args)
+    public fun i(tag: String?, text: String): Unit = println(INFO, tag, text)
 
-    public fun i(t: Throwable?, tag: String?, vararg args: Any?): Unit = println(INFO, t, tag, *args)
+    public fun i(t: Throwable?, tag: String?, text: String): Unit = println(INFO, t, tag, text)
 
     public fun ix(t: Throwable?, tag: String?): Unit = println(INFO, t, tag, t?.message)
 
-    public fun w(tag: String?, vararg args: Any?): Unit = println(WARN, tag, *args)
+    public fun w(tag: String?, text: String): Unit = println(WARN, tag, text)
 
-    public fun w(t: Throwable?, tag: String?, vararg args: Any?): Unit = println(WARN, t, tag, *args)
+    public fun w(t: Throwable?, tag: String?, text: String): Unit = println(WARN, t, tag, text)
 
     public fun w(t: Throwable?, tag: String?): Unit = println(WARN, t, tag)
 
     public fun wx(t: Throwable?, tag: String?): Unit = println(WARN, t, tag, t?.message)
 
-    public fun e(tag: String?, vararg args: Any?): Unit = println(ERROR, tag, *args)
+    public fun e(tag: String?, text: String): Unit = println(ERROR, tag, text)
 
-    public fun e(t: Throwable?, tag: String?, vararg args: Any?): Unit = println(ERROR, t, tag, *args)
+    public fun e(t: Throwable?, tag: String?, text: String): Unit = println(ERROR, t, tag, text)
+
+    public fun e(t: Throwable?, tag: String?): Unit = println(ERROR, t, tag)
 
     public fun ex(t: Throwable?, tag: String?): Unit = println(ERROR, t, tag, t?.message)
 
-    public fun wtf(tag: String?, vararg args: Any?) {
-        val msg = toString(*args)
-        if (!crashLog(ASSERT, tag, msg)) {
-            android.util.Log.wtf(tag, msg)
+    public fun wtf(tag: String?, text: String) {
+        if (!crashLog(ASSERT, tag, text)) {
+            android.util.Log.wtf(tag, text)
         }
     }
 
@@ -91,22 +85,21 @@ public object Log {
         }
     }
 
-    public fun wtf(t: Throwable?, tag: String?, vararg args: Any?) {
-        val msg = toString(*args)
-        if (!crashLog(ASSERT, t, tag, msg)) {
-            android.util.Log.wtf(tag, msg, t)
+    public fun wtf(t: Throwable?, tag: String?, text: String) {
+        if (!crashLog(ASSERT, t, tag, text)) {
+            android.util.Log.wtf(tag, text, t)
         }
     }
 
-    public fun println(priority: Int, tag: String?, vararg args: Any?) {
-        val msg = toString(*args)
+    public fun println(priority: Int, tag: String?, text: String? = null) {
+        val msg = text ?: ""
         if (priority == VERBOSE || !crashLog(priority, tag, msg)) {
             android.util.Log.println(priority, tag, msg)
         }
     }
 
-    public fun println(priority: Int, t: Throwable?, tag: String?, vararg args: Any?) {
-        val msg = toString(*args)
+    public fun println(priority: Int, t: Throwable?, tag: String?, text: String? = null) {
+        val msg = text ?: ""
         android.util.Log.println(priority, tag, "$msg\n${android.util.Log.getStackTraceString(t)}")
         if (priority != VERBOSE) {
             crashLog(priority, t, tag, msg)
