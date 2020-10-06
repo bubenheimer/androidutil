@@ -25,7 +25,7 @@ import org.bubenheimer.android.log.Log.e
 @Suppress("unused")
 public class NumberListPreference : ListPreference {
     private companion object {
-        private val TAG = NumberListPreference::class.simpleName!!
+        private val TAG = NumberListPreference::class.java.simpleName
     }
 
     @Suppress("unused")

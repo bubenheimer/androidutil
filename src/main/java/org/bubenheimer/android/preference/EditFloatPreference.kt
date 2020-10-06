@@ -26,7 +26,7 @@ import org.bubenheimer.android.log.Log
 public open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
     EditNumberPreference(context, attrs) {
     private companion object {
-        private val TAG = EditFloatPreference::class.simpleName!!
+        private val TAG = EditFloatPreference::class.java.simpleName
     }
 
     @UiThread

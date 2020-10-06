@@ -26,7 +26,7 @@ import org.bubenheimer.android.log.Log.v
 public abstract class ValidatingEditTextPreferenceDialogFragment :
         EditTextPreferenceDialogFragmentCompat() {
     public companion object {
-        private val TAG = ValidatingEditTextPreferenceDialogFragment::class.simpleName!!
+        private val TAG = ValidatingEditTextPreferenceDialogFragment::class.java.simpleName
     }
 
     public override fun onBindDialogView(view: View) {

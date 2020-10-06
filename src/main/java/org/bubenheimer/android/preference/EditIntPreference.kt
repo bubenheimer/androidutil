@@ -30,7 +30,7 @@ public open class EditIntPreference @JvmOverloads constructor(
     defaults: Pair<Int, Int> = Int.MIN_VALUE to Int.MAX_VALUE
 ) : EditNumberPreference(context, attrs) {
     private companion object {
-        private val TAG = EditIntPreference::class.simpleName!!
+        private val TAG = EditIntPreference::class.java.simpleName
     }
 
     internal val min: Int

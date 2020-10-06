@@ -25,7 +25,7 @@ import java.lang.reflect.Constructor
 import java.lang.reflect.InvocationTargetException
 
 public object HandlerUtil {
-    private val TAG = HandlerUtil::class.simpleName!!
+    private val TAG = HandlerUtil::class.java.simpleName
 
     private val constructor: Constructor<Handler>? by lazy(LazyThreadSafetyMode.PUBLICATION) {
         try {

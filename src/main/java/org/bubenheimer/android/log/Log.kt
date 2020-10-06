@@ -23,7 +23,7 @@ public object Log {
         public fun crashLog(priority: Int, t: Throwable?, tag: String?, msg: String?)
     }
 
-    private val TAG = Log::class.simpleName!!
+    private val TAG = Log::class.java.simpleName
 
     public const val VERBOSE: Int = android.util.Log.VERBOSE
     public const val DEBUG: Int = android.util.Log.DEBUG
