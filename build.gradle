@@ -44,6 +44,8 @@ apply plugin: 'kotlin-android'
 group = 'org.bubenheimer'
 version = '1.0-SNAPSHOT'
 
+final String javaVersion = 1.8
+
 android {
     compileSdkVersion 30
 
@@ -67,8 +69,13 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility javaVersion
+        targetCompatibility javaVersion
+    }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = javaVersion
         freeCompilerArgs = [
                 "-progressive",
                 "-Xexplicit-api=strict"
