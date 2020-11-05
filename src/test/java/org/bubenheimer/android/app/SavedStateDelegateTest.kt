@@ -17,6 +17,7 @@
 
 package org.bubenheimer.android.app
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -106,6 +107,69 @@ internal class SavedStateDelegateTest {
 
         @Suppress("RemoveExplicitTypeArguments")
         assertEquals<Int?>(VALUE, state[KEY])
+    }
+
+    @Test
+    internal fun testGetLiveDataNonNullTypeNullValue() {
+        val state = SavedStateHandle()
+
+        val value: MutableLiveData<Int> by state.liveDataDelegate
+
+        assertNull(value.value)
+    }
+
+    @Test
+    internal fun testGetLiveDataNonNullTypeNonNullValue() {
+        val state = SavedStateHandle(mapOf(KEY to VALUE))
+
+        val value: MutableLiveData<Int> by state.liveDataDelegate
+
+        assertEquals(VALUE, value.value)
+    }
+
+    @Test
+    internal fun testGetLiveDataNullTypeNullValue() {
+        val state = SavedStateHandle()
+
+        val value: MutableLiveData<Int?> by state.liveDataDelegate
+
+        assertNull(value.value)
+    }
+
+    @Test
+    internal fun testGetLiveDataNullTypeNonNullValue() {
+        val state = SavedStateHandle(mapOf(KEY to VALUE))
+
+        val value: MutableLiveData<Int?> by state.liveDataDelegate
+
+        assertEquals(VALUE, value.value)
+    }
+
+    @Test
+    internal fun testGetLiveDataInitialNonNullTypeNonNullValue() {
+        val state = SavedStateHandle()
+
+        val value: MutableLiveData<Int> by state.liveDataDelegate(VALUE)
+
+        assertEquals(VALUE, value.value)
+    }
+
+    @Test
+    internal fun testGetLiveDataInitialNullTypeNullValue() {
+        val state = SavedStateHandle()
+
+        val value: MutableLiveData<Int?> by state.liveDataDelegate(null)
+
+        assertNull(value.value)
+    }
+
+    @Test
+    internal fun testGetLiveDataInitialNullTypeNonNullValue() {
+        val state = SavedStateHandle()
+
+        val value: MutableLiveData<Int?> by state.liveDataDelegate(VALUE)
+
+        assertEquals(VALUE, value.value)
     }
 
     private companion object {

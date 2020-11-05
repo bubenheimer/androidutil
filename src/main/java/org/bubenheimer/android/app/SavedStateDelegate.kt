@@ -4,7 +4,9 @@
 
 package org.bubenheimer.android.app
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 public val SavedStateHandle.delegate: SavedStateDelegate get() = SavedStateDelegate(this)
@@ -21,16 +23,22 @@ public class SavedStateDelegate public constructor(
     }
 }
 
-//TODO Alternative implementation that cannot use extension property and looks overly expensive,
-// but unable to verify as Kotlin bytecode generation fails; leaving around for a bit in case
-// current implementation reveals issues
-//
-//public inline fun <reified T : Any?> SavedStateHandle.delegate(): ReadWriteProperty<Any?, T> =
-//    object : ReadWriteProperty<Any?, T> {
-//        override operator fun getValue(thisRef: Any?, property: KProperty<*>):
-//                T = this@delegate.get<T>(property.name) as T
-//
-//        override operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-//            this@delegate[property.name] = value
-//        }
-//    }
+public val SavedStateHandle.liveDataDelegate: SavedStateLiveDataDelegate
+    get() = SavedStateLiveDataDelegate(this)
+
+public class SavedStateLiveDataDelegate public constructor(private val state: SavedStateHandle) {
+    public operator fun <T : Any?> getValue(thisRef: Any?, property: KProperty<*>):
+            MutableLiveData<T> = state.getLiveData(property.name)
+}
+
+public fun <T : Any?> SavedStateHandle.liveDataDelegate(initialValue: T):
+        ReadOnlyProperty<Any?, MutableLiveData<T>> =
+    SavedStateLiveDataInitialDelegate(this, initialValue)
+
+private class SavedStateLiveDataInitialDelegate<T : Any?> internal constructor(
+    private val state: SavedStateHandle,
+    private val initialValue: T
+) : ReadOnlyProperty<Any?, MutableLiveData<T>> {
+    override operator fun getValue(thisRef: Any?, property: KProperty<*>):
+            MutableLiveData<T> = state.getLiveData(property.name, initialValue)
+}
