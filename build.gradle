@@ -78,7 +78,8 @@ android {
         jvmTarget = javaVersion
         freeCompilerArgs = [
                 "-progressive",
-                "-Xexplicit-api=strict"
+                "-Xexplicit-api=strict",
+                "-Xjvm-default=all"
         ]
     }
 
