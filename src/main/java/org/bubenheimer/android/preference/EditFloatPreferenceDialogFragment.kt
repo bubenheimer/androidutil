@@ -42,8 +42,6 @@ public open class EditFloatPreferenceDialogFragment : ValidatingEditTextPreferen
                 InputType.TYPE_NUMBER_FLAG_SIGNED
     }
 
-    @Throws(NumberFormatException::class)
-    public override fun checkTextValid(text: CharSequence) {
-        text.toString().toFloat()
-    }
+    public override fun checkTextValid(text: CharSequence): Boolean =
+        text.toString().toFloatOrNull() != null
 }

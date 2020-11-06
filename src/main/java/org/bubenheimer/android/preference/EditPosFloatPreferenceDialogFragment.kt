@@ -28,11 +28,8 @@ public class EditPosFloatPreferenceDialogFragment : EditNonNegFloatPreferenceDia
         }
     }
 
-    @Throws(NumberFormatException::class)
-    public override fun checkTextValid(text: CharSequence) {
-        val number = text.toString().toFloat()
-        if (number <= 0.0f) {
-            throw NumberFormatException()
-        }
+    public override fun checkTextValid(text: CharSequence): Boolean {
+        val number = text.toString().toFloatOrNull() ?: return false
+        return 0f < number
     }
 }

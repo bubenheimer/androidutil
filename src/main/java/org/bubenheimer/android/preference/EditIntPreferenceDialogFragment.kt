@@ -41,12 +41,8 @@ public open class EditIntPreferenceDialogFragment : ValidatingEditTextPreference
         inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
     }
 
-    @Throws(NumberFormatException::class)
-    public override fun checkTextValid(text: CharSequence) {
-        val number = text.toString().toInt()
-        val preference = editIntPreference
-        if (number < preference.min || preference.max < number) {
-            throw NumberFormatException()
-        }
+    public final override fun checkTextValid(text: CharSequence): Boolean {
+        val number = text.toString().toIntOrNull() ?: return false
+        return with(editIntPreference) { number in min..max }
     }
 }

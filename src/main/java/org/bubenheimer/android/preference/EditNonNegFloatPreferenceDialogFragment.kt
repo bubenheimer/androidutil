@@ -41,11 +41,8 @@ public open class EditNonNegFloatPreferenceDialogFragment : EditFloatPreferenceD
         inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
     }
 
-    @Throws(NumberFormatException::class)
-    public override fun checkTextValid(text: CharSequence) {
-        val number = text.toString().toFloat()
-        if (number < 0) {
-            throw NumberFormatException()
-        }
+    public override fun checkTextValid(text: CharSequence): Boolean {
+        val number: Float = text.toString().toFloatOrNull() ?: return false
+        return 0f <= number
     }
 }

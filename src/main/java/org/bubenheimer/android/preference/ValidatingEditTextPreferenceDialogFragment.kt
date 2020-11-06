@@ -24,7 +24,7 @@ import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import org.bubenheimer.android.log.Log.v
 
 public abstract class ValidatingEditTextPreferenceDialogFragment :
-        EditTextPreferenceDialogFragmentCompat() {
+    EditTextPreferenceDialogFragmentCompat() {
     public companion object {
         private val TAG = ValidatingEditTextPreferenceDialogFragment::class.java.simpleName
     }
@@ -35,14 +35,13 @@ public abstract class ValidatingEditTextPreferenceDialogFragment :
         val editText = view.findViewById<EditText>(android.R.id.edit)
 
         editText.doAfterTextChanged {
-            // If it were not an AlertDialog, I'd need to make other changes.
-            // The dialog may not be displayed yet - was not a user input, no need to check.
-            (dialog as AlertDialog?)?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = try {
-                checkTextValid(it!!)
-                true
-            } catch (e: IllegalArgumentException) {
-                v(TAG, "Invalid number: $it")
-                false
+            checkTextValid(it!!).let { isTextValid ->
+                if (!isTextValid) v(TAG, "Invalid number: $it")
+
+                // If it were not an AlertDialog, I'd need to make other changes.
+                // The dialog may not be displayed yet - was not a user input, no need to check.
+                (dialog as AlertDialog?)?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled =
+                    isTextValid
             }
         }
 
@@ -51,6 +50,5 @@ public abstract class ValidatingEditTextPreferenceDialogFragment :
 
     protected open fun EditText.onBindEditText() {}
 
-    @Throws(IllegalArgumentException::class)
-    protected open fun checkTextValid(text: CharSequence) {}
+    protected open fun checkTextValid(text: CharSequence): Boolean = true
 }

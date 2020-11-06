@@ -30,12 +30,6 @@ internal class ConstrainedEditTextPreferenceDialogFragment :
     private val constrainedEditTextPreference: ConstrainedEditTextPreference
         get() = preference as ConstrainedEditTextPreference
 
-    @Throws(IllegalArgumentException::class)
-    public override fun checkTextValid(text: CharSequence) {
-        val preference = constrainedEditTextPreference
-        val length = text.length
-        if (length < preference.minLength || preference.maxLength < length) {
-            throw IllegalArgumentException()
-        }
-    }
+    public override fun checkTextValid(text: CharSequence): Boolean =
+        with(constrainedEditTextPreference) { text.length in minLength..maxLength }
 }
