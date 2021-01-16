@@ -44,7 +44,7 @@ apply plugin: 'kotlin-android'
 group = 'org.bubenheimer'
 version = '1.0-SNAPSHOT'
 
-final String javaVersion = 1.8
+final String javaVersion = "1.8"
 
 android {
     compileSdkVersion 30
