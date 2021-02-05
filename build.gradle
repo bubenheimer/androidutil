@@ -16,8 +16,8 @@
  */
 
 buildscript {
-    ext.android_plugin_version = '4.1.1'
-    ext.kotlin_version = '1.4.21'
+    ext.android_plugin_version = '4.1.2'
+    ext.kotlin_version = '1.4.30'
 
     repositories {
         mavenLocal()
@@ -96,7 +96,7 @@ android {
         // using api to give users access to GridLayout attributes, etc.
         api "androidx.gridlayout:gridlayout:1.0.0"
         implementation "androidx.preference:preference:1.1.1"
-        implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"
+        implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
         implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
         implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
 
