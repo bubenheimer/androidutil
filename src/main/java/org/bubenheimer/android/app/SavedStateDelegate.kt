@@ -11,12 +11,11 @@ import kotlin.reflect.KProperty
 
 public val SavedStateHandle.delegate: SavedStateDelegate get() = SavedStateDelegate(this)
 
-public class SavedStateDelegate public constructor(
-    @PublishedApi internal val state: SavedStateHandle
-) {
-    public inline operator fun <reified T : Any?> getValue(thisRef: Any?, property: KProperty<*>):
-    // Cast to better support nullable vs. non-null types, and to verify general type correctness
-            T = state.get<T>(property.name) as T
+public class SavedStateDelegate public constructor(private val state: SavedStateHandle) {
+    @Suppress("UNCHECKED_CAST")
+    public operator fun <T : Any?> getValue(thisRef: Any?, property: KProperty<*>): T =
+        // Cast to better support nullable vs. non-null types
+        state.get<T>(property.name) as T
 
     public operator fun <T : Any?> setValue(thisRef: Any?, property: KProperty<*>, value: T) {
         state[property.name] = value
