@@ -22,18 +22,19 @@ import androidx.preference.PreferenceFragmentCompat
 public abstract class DialogSupportingPreferenceFragment : PreferenceFragmentCompat() {
     private companion object {
         private const val DIALOG_FRAGMENT_TAG =
-                "org.bubenheimer.android.preference.DialogSupportingPreferenceFragment.DIALOG"
+            "org.bubenheimer.android.preference.DialogSupportingPreferenceFragment.DIALOG"
     }
 
     public override fun onDisplayPreferenceDialog(preference: Preference) {
         (activity as? OnPreferenceDisplayDialogCallback)
-                ?.takeIf { it.onPreferenceDisplayDialog(this, preference) }?.let { return }
+            ?.takeIf { it.onPreferenceDisplayDialog(this, preference) }?.let { return }
 
         if (preference is DialogSupporter) {
             val fragmentManager = parentFragmentManager
             if (fragmentManager.findFragmentByTag(DIALOG_FRAGMENT_TAG) == null) {
                 //Dialog is not showing yet
                 val dialogFragment = (preference as DialogSupporter).newDialog()
+                @Suppress("DEPRECATION")
                 dialogFragment.setTargetFragment(this, 0)
                 dialogFragment.show(fragmentManager, DIALOG_FRAGMENT_TAG)
             }
