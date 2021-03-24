@@ -18,7 +18,14 @@
 package org.bubenheimer.android
 
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 
 public fun sdkBelow(version: Int): Boolean = Build.VERSION.SDK_INT < version
 
+@ChecksSdkIntAtLeast(parameter = 0)
 public fun sdkAtLeast(version: Int): Boolean = version <= Build.VERSION.SDK_INT
+
+@ChecksSdkIntAtLeast(parameter = 0, lambda = 1)
+public inline fun fromSdk(version: Int, block: () -> Unit) {
+    if (version <= Build.VERSION.SDK_INT) block()
+}
