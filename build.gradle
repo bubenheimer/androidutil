@@ -17,13 +17,13 @@
 
 buildscript {
     ext.android_plugin_version = '4.1.3'
-    ext.kotlin_version = '1.4.30'
+    ext.kotlin_version = '1.5.0-RC'
 
     repositories {
         mavenLocal()
         google()
         gradlePluginPortal()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
@@ -34,7 +34,7 @@ buildscript {
 repositories {
     mavenLocal()
     google()
-    jcenter()
+    mavenCentral()
 }
 
 apply plugin: 'com.android.library'
@@ -76,7 +76,6 @@ android {
 
     kotlinOptions {
         jvmTarget = javaVersion
-        useIR = true
         freeCompilerArgs = [
                 "-progressive",
                 "-Xexplicit-api=strict",
@@ -95,7 +94,7 @@ android {
 
         implementation "androidx.annotation:annotation:1.2.0"
         implementation "androidx.core:core-ktx:1.3.2"
-        implementation "androidx.fragment:fragment-ktx:1.3.2"
+        implementation "androidx.fragment:fragment-ktx:1.3.3"
         // using api to give users access to GridLayout attributes, etc.
         api "androidx.gridlayout:gridlayout:1.0.0"
         implementation "androidx.preference:preference-ktx:1.1.1"
