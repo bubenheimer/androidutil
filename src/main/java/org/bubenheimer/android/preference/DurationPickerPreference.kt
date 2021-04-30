@@ -98,9 +98,9 @@ public class DurationPickerPreference @JvmOverloads constructor(
         DurationPickerPreferenceDialogFragment.newInstance(key)
 
     private class SavedState : BaseSavedState {
-        internal var value = 0
+        var value = 0
 
-        internal constructor(superState: Parcelable) : super(superState)
+        constructor(superState: Parcelable) : super(superState)
         private constructor(source: Parcel) : super(source) {
             value = source.readInt()
         }

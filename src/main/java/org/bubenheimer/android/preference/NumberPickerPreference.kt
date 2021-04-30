@@ -93,21 +93,21 @@ public class NumberPickerPreference @JvmOverloads constructor(
         NumberPickerPreferenceDialogFragment.newInstance(key)
 
     private class SavedState : BaseSavedState {
-        internal var value = 0
+        var value = 0
 
-        internal constructor(superState: Parcelable) : super(superState)
+        constructor(superState: Parcelable) : super(superState)
         private constructor(source: Parcel) : super(source) {
             value = source.readInt()
         }
 
-        public override fun writeToParcel(dest: Parcel, flags: Int) {
+        override fun writeToParcel(dest: Parcel, flags: Int) {
             super.writeToParcel(dest, flags)
             dest.writeInt(value)
         }
 
         companion object CREATOR : Parcelable.Creator<SavedState> {
-            public override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
-            public override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
+            override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
+            override fun newArray(size: Int) = arrayOfNulls<SavedState>(size)
         }
     }
 }

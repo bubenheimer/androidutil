@@ -23,9 +23,9 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import org.bubenheimer.android.util.R
 
 public class EditNonNegIntPreference(context: Context, attrs: AttributeSet) :
-        EditIntPreference(context, attrs, extractMinMax(context, attrs)) {
+    EditIntPreference(context, attrs, extractMinMax(context, attrs)) {
     private companion object {
-        private fun extractMinMax(context: Context, attrs: AttributeSet): Pair<Int, Int> {
+        fun extractMinMax(context: Context, attrs: AttributeSet): Pair<Int, Int> {
             var min = 0
             var max = 0
 
@@ -39,5 +39,5 @@ public class EditNonNegIntPreference(context: Context, attrs: AttributeSet) :
     }
 
     public override fun newDialog(): PreferenceDialogFragmentCompat =
-            EditNonNegIntPreferenceDialogFragment.newInstance(key)
+        EditNonNegIntPreferenceDialogFragment.newInstance(key)
 }

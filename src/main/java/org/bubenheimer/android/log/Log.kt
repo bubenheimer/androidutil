@@ -98,6 +98,7 @@ public object Log {
         }
     }
 
+    @Suppress("LogConditional")
     public fun println(priority: Int, t: Throwable?, tag: String?, text: String? = null) {
         val msg = text ?: ""
         android.util.Log.println(priority, tag, "$msg\n${android.util.Log.getStackTraceString(t)}")
