@@ -27,5 +27,5 @@ public fun sdkAtLeast(version: Int): Boolean = version <= Build.VERSION.SDK_INT
 
 @ChecksSdkIntAtLeast(parameter = 0, lambda = 1)
 public inline fun fromSdk(version: Int, block: () -> Unit) {
-    if (version <= Build.VERSION.SDK_INT) block()
+    if (sdkAtLeast(version)) block()
 }
