@@ -46,8 +46,8 @@ public class IntStorageStrategy : StorageStrategy<Int>(Int::class.java) {
         selection.forEachIndexed { index: Int, key: Int -> entries[index] = key }
 
         return bundleOf(
-                SELECTION_KEY_TYPE to Int::class.java.canonicalName,
-                SELECTION_ENTRIES to entries
+            SELECTION_KEY_TYPE to Int::class.java.canonicalName,
+            SELECTION_ENTRIES to entries
         )
     }
 }

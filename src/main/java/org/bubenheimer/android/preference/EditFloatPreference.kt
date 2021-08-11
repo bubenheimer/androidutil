@@ -46,18 +46,10 @@ public open class EditFloatPreference(context: Context, attrs: AttributeSet?) :
     }
 
     public override fun getPersistedString(defaultReturnValue: String?): String? {
-        if (!shouldPersist()) {
-            return defaultReturnValue
-        }
+        if (!shouldPersist()) return defaultReturnValue
 
-        val sharedPreferences = preferenceManager.sharedPreferences
-        val key = key
-        if (!sharedPreferences.contains(key)) {
-            return defaultReturnValue
-        }
-
-        //the default will never be used - we've covered the case of value absence above
-        return sharedPreferences.getFloat(key, Float.NaN).toString()
+        // Only works with a PreferenceDataStore; and it must contain the value
+        return preferenceDataStore!!.getFloat(key, 1234567890f).toString()
     }
 
     public override fun newDialog(): PreferenceDialogFragmentCompat =
