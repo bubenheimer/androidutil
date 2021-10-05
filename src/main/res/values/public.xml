@@ -18,4 +18,23 @@
 <resources>
     <public name="Preference.DialogPreference.Material.DurationPickerPreference" type="style"/>
     <public name="Preference.DialogPreference.Material.NumberPickerPreference" type="style"/>
+    <public name="ConstrainedEditTextPreference" type="style"/>
+    <public name="DurationPickerPreference" type="style"/>
+    <public name="durationPickerPreferenceStyle" type="style"/>
+    <public name="EditIntPreference" type="style"/>
+    <public name="EditNonNegIntPreference" type="style"/>
+    <public name="max" type="style"/>
+    <public name="min" type="style"/>
+    <public name="maxLen" type="style"/>
+    <public name="minLen" type="style"/>
+    <public name="number_picker" type="style"/>
+    <public name="NumberPickerPreference" type="style"/>
+    <public name="numberPickerPreferenceStyle" type="style"/>
+    <public name="picker_days" type="style"/>
+    <public name="picker_hours" type="style"/>
+    <public name="picker_minutes" type="style"/>
+    <public name="Preference.DialogPreference.Material.DurationPickerPreference" type="style"/>
+    <public name="Preference.DialogPreference.Material.NumberPickerPreference" type="style"/>
+    <public name="preference_dialog_duration_picker" type="style"/>
+    <public name="preference_dialog_number_picker" type="style"/>
 </resources>
