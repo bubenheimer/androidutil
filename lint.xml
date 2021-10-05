@@ -28,6 +28,8 @@
     <issue id="SyntheticAccessor" severity="ignore"/>
     <!-- Largely false positives -->
     <issue id="Typos" severity="ignore"/>
+    <!-- Super broken: https://issuetracker.google.com/issues/194314787 -->
+    <issue id="UnusedIds" severity="ignore"/>
     <!-- Shows up as "disabled" by lint.xml unless explicitly enabled here -->
     <issue id="WrongThreadInterprocedural" severity="error"/>
 </lint>

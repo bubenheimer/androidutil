@@ -16,8 +16,8 @@
  */
 
 buildscript {
-    ext.android_plugin_version = '7.0.1'
-    ext.kotlin_version = '1.5.30'
+    ext.android_plugin_version = '7.0.2'
+    ext.kotlin_version = '1.5.31'
 
     repositories {
         mavenLocal()
@@ -47,10 +47,10 @@ version = '1.0-SNAPSHOT'
 final String javaVersion = "11"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
-        targetSdkVersion 30
+        targetSdkVersion 31
         minSdkVersion 21
         versionCode 1
         versionName '1.0'
