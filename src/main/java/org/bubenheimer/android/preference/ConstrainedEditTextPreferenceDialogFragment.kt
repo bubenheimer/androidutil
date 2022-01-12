@@ -19,7 +19,7 @@ package org.bubenheimer.android.preference
 import androidx.core.os.bundleOf
 import androidx.preference.PreferenceDialogFragmentCompat
 
-internal class ConstrainedEditTextPreferenceDialogFragment :
+public class ConstrainedEditTextPreferenceDialogFragment :
     ValidatingEditTextPreferenceDialogFragment() {
     internal companion object {
         fun newInstance(key: String) = ConstrainedEditTextPreferenceDialogFragment().apply {
