@@ -30,22 +30,21 @@ public class NumberListPreference : ListPreference {
 
     @Suppress("unused")
     public constructor(
-        context: Context?,
+        context: Context,
         attrs: AttributeSet?,
         defStyleAttr: Int,
         defStyleRes: Int
-    ) :
-            super(context, attrs, defStyleAttr, defStyleRes)
+    ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     @Suppress("unused")
-    public constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
+    public constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
             super(context, attrs, defStyleAttr)
 
     @Suppress("unused")
-    public constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    public constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     @Suppress("unused")
-    public constructor(context: Context?) : super(context)
+    public constructor(context: Context) : super(context)
 
     public override fun persistString(value: String?): Boolean {
         if (value == null) {

@@ -69,25 +69,19 @@ public class NumberPickerPreference @JvmOverloads constructor(
         value = getPersistedInt(defaultValue as Int? ?: value)
     }
 
-    public override fun onSaveInstanceState(): Parcelable {
-        val superState = super.onSaveInstanceState()
-        // No need to save instance state since it's persistent
-        return if (isPersistent) superState
-        else SavedState(superState).apply { value = this@NumberPickerPreference.value }
+    override fun onSaveInstanceState(): Parcelable? = super.onSaveInstanceState().let {
+        // No need to save instance state when preference is persistent (continuously saved),
+        // use super class state
+        if (isPersistent) it
+        else SavedState(it ?: BaseSavedState.EMPTY_STATE).also { value = this.value }
     }
 
-    public override fun onRestoreInstanceState(state: Parcelable) {
-        // Check whether we saved the state in onSaveInstanceState
-        if (state.javaClass == SavedState::class.java) {
-            // Cast state to custom BaseSavedState and pass to superclass
-            val myState = state as SavedState
-            super.onRestoreInstanceState(myState.superState)
-            value = myState.value
-        } else {
-            // Didn't save the state, so call superclass
-            super.onRestoreInstanceState(state)
-        }
-    }
+    override fun onRestoreInstanceState(state: Parcelable?): Unit =
+        // Only restore state ourselves when we actually saved some
+        state?.let { it as? SavedState }?.let {
+            super.onRestoreInstanceState(it.superState)
+            value = it.value
+        } ?: super.onRestoreInstanceState(state)
 
     public override fun newDialog(): NumberPickerPreferenceDialogFragment =
         NumberPickerPreferenceDialogFragment.newInstance(key)

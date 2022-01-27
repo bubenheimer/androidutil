@@ -67,32 +67,19 @@ public class DurationPickerPreference @JvmOverloads constructor(
         super.getSummary() ?: (if (value == 0) "Unlimited"
         else String.format("%dd %dh %dm", getDays(value), getHours(value), getMinutes(value)))
 
-    public override fun onSaveInstanceState(): Parcelable {
-        val superState = super.onSaveInstanceState()
-
-        // Check whether this Preference is persistent (continually saved)
-
-        // No need to save instance state since it's persistent, use superclass state
-        return if (isPersistent) superState
-        else SavedState(superState).apply { value = this@DurationPickerPreference.value }
+    override fun onSaveInstanceState(): Parcelable? = super.onSaveInstanceState().let {
+        // No need to save instance state when preference is persistent (continuously saved),
+        // use super class state
+        if (isPersistent) it
+        else SavedState(it ?: BaseSavedState.EMPTY_STATE).also { value = this.value }
     }
 
-    public override fun onRestoreInstanceState(state: Parcelable) {
-        // Check whether we saved the state in onSaveInstanceState
-        if (state.javaClass != SavedState::class.java) {
-            // Didn't save the state, so call superclass
-            super.onRestoreInstanceState(state)
-            return
-        }
-
-        // Cast state to custom BaseSavedState and pass to superclass
-        val myState = state as SavedState
-
-        super.onRestoreInstanceState(myState.superState)
-
-        // Set this Preference's widget to reflect the restored state; the widget better exist
-        value = myState.value
-    }
+    override fun onRestoreInstanceState(state: Parcelable?): Unit =
+        // Only restore state ourselves when we actually saved some
+        state?.let { it as? SavedState }?.let {
+            super.onRestoreInstanceState(it.superState)
+            value = it.value
+        } ?: super.onRestoreInstanceState(state)
 
     public override fun newDialog(): PreferenceDialogFragmentCompat =
         DurationPickerPreferenceDialogFragment.newInstance(key)

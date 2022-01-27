@@ -23,16 +23,17 @@ import androidx.preference.EditTextPreferenceDialogFragmentCompat
 import androidx.preference.PreferenceDialogFragmentCompat
 
 public open class SummaryEditTextPreference(context: Context, attrs: AttributeSet?) :
-        EditTextPreference(context, attrs), DialogSupporter {
+    EditTextPreference(context, attrs), DialogSupporter {
     public override fun getSummary(): CharSequence? =
-            super.getSummary()?.let { String.format(it.toString(), text ?: "") }
+        super.getSummary()?.let { String.format(it.toString(), text ?: "") }
 
-    public override fun setText(text: String) {
+    public override fun setText(text: String?) {
         super.setText(text)
+
         // Update summary
         notifyChanged()
     }
 
     public override fun newDialog(): PreferenceDialogFragmentCompat =
-            EditTextPreferenceDialogFragmentCompat.newInstance(key)
+        EditTextPreferenceDialogFragmentCompat.newInstance(key)
 }
