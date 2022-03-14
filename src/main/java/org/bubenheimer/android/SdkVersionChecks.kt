@@ -29,3 +29,8 @@ public fun sdkAtLeast(version: Int): Boolean = version <= Build.VERSION.SDK_INT
 public inline fun fromSdk(version: Int, block: () -> Unit) {
     if (sdkAtLeast(version)) block()
 }
+
+// Does not work well in AS 7.1.2, AS invalidly flags API level
+//@ChecksSdkIntAtLeast(parameter = 0, lambda = 1)
+//public inline fun <T, S : T> S.fromSdk(version: Int, block: S.() -> T): T =
+//    if (sdkAtLeast(version)) block() else this
