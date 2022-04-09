@@ -18,16 +18,8 @@
 package org.bubenheimer.android
 
 import android.os.Parcel
-import android.os.Parcelable
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
-
-/**
- * For optimal performance: call this reflective method once per class and store the result
- */
-@Suppress("UNCHECKED_CAST")
-public inline val <T : Parcelable> Class<T>.creator: Parcelable.Creator<T>
-    get() = getDeclaredField("CREATOR").get(null) as Parcelable.Creator<T>
 
 public inline fun <T> withParcel(block: (Parcel) -> T): T {
     contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
