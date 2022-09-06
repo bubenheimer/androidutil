@@ -16,6 +16,4 @@
   ~
   -->
 
-<manifest package="org.bubenheimer.android.util">
-    <application/>
-</manifest>
+<manifest package="org.bubenheimer.android.util"/>
