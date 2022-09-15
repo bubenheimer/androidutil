@@ -16,7 +16,7 @@
  */
 
 buildscript {
-    ext.android_plugin_version = '7.2.2'
+    ext.android_plugin_version = '7.3.0'
     ext.kotlin_version = '1.7.10'
 
     repositories {
@@ -47,6 +47,8 @@ version = '1.0-SNAPSHOT'
 final String javaVersion = "11"
 
 android {
+    namespace "org.bubenheimer.android.util"
+
     compileSdkVersion 33
 
     defaultConfig {
@@ -116,7 +118,7 @@ android {
         implementation 'org.bubenheimer:kotlinutil:1.0-SNAPSHOT'
 
         implementation "androidx.annotation:annotation:1.4.0"
-        implementation "androidx.core:core-ktx:1.8.0"
+        implementation "androidx.core:core-ktx:1.9.0"
         implementation 'androidx.lifecycle:lifecycle-common:2.5.1'
 
         testImplementation("junit:junit:4.13.2")
