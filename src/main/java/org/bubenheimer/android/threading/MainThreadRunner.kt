@@ -18,34 +18,11 @@
 package org.bubenheimer.android.threading
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import org.bubenheimer.android.log.Log
-
-private const val TAG = "MainThreadRunner"
 
 private val MAIN_HANDLER = Handler(Looper.getMainLooper())
-
-internal val HAS_ASYNC: Boolean = run {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-        // Confirm the method is there
-        val message = Message.obtain()
-        try {
-            @SuppressLint("NewApi")
-            message.isAsynchronous = true
-            true
-        } catch (e: NoSuchMethodError) {
-            Log.wx(e, TAG)
-            false
-        } finally {
-            message.recycle()
-        }
-    } else {
-        true
-    }
-}
 
 public fun isMainThread(): Boolean = Thread.currentThread() === MAIN_HANDLER.looper.thread
 
@@ -91,10 +68,8 @@ public fun forcePostAtFrontOfQueue(async: Boolean = true, runnable: () -> Unit) 
 }
 
 @SuppressLint("NewApi")
-private fun obtainMessage(async: Boolean, runnable: () -> Unit) : Message {
+private fun obtainMessage(async: Boolean, runnable: () -> Unit): Message {
     val msg = Message.obtain(MAIN_HANDLER, runnable)
-    if (async && HAS_ASYNC) {
-        msg.isAsynchronous = true
-    }
+    if (async) msg.isAsynchronous = true
     return msg
 }
