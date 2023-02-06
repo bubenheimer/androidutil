@@ -17,20 +17,25 @@
 
 package org.bubenheimer.android.log
 
+import org.bubenheimer.android.log.Log.Priority.*
+import android.util.Log as FrameworkLog
+
 public object Log {
     public interface CrashLog {
-        public fun crashLog(priority: Int, tag: String?, msg: String?)
-        public fun crashLog(priority: Int, t: Throwable?, tag: String?, msg: String?)
+        public fun crashLog(priority: Priority, tag: String?, msg: String?)
+        public fun crashLog(priority: Priority, t: Throwable?, tag: String?, msg: String?)
     }
 
     private val TAG = Log::class.java.simpleName
 
-    public const val VERBOSE: Int = android.util.Log.VERBOSE
-    public const val DEBUG: Int = android.util.Log.DEBUG
-    public const val INFO: Int = android.util.Log.INFO
-    public const val WARN: Int = android.util.Log.WARN
-    public const val ERROR: Int = android.util.Log.ERROR
-    public const val ASSERT: Int = android.util.Log.ASSERT
+    public enum class Priority(public val priority: Int) {
+        VERBOSE(FrameworkLog.VERBOSE),
+        DEBUG(FrameworkLog.DEBUG),
+        INFO(FrameworkLog.INFO),
+        WARN(FrameworkLog.WARN),
+        ERROR(FrameworkLog.ERROR),
+        ASSERT(FrameworkLog.ASSERT)
+    }
 
     public var crashLog: CrashLog? = null
         set(value) {
@@ -75,48 +80,48 @@ public object Log {
 
     public fun wtf(tag: String?, text: String) {
         if (!crashLog(ASSERT, tag, text)) {
-            android.util.Log.wtf(tag, text)
+            FrameworkLog.wtf(tag, text)
         }
     }
 
     public fun wtf(t: Throwable, tag: String?) {
         if (!crashLog(ASSERT, t, tag, "")) {
-            android.util.Log.wtf(tag, t)
+            FrameworkLog.wtf(tag, t)
         }
     }
 
     public fun wtf(t: Throwable?, tag: String?, text: String) {
         if (!crashLog(ASSERT, t, tag, text)) {
-            android.util.Log.wtf(tag, text, t)
+            FrameworkLog.wtf(tag, text, t)
         }
     }
 
-    public fun println(priority: Int, tag: String?, text: String? = null) {
+    public fun println(priority: Priority, tag: String?, text: String? = null) {
         val msg = text ?: ""
         if (priority == VERBOSE || !crashLog(priority, tag, msg)) {
-            android.util.Log.println(priority, tag, msg)
+            FrameworkLog.println(priority.priority, tag, msg)
         }
     }
 
     @Suppress("LogConditional")
-    public fun println(priority: Int, t: Throwable?, tag: String?, text: String? = null) {
+    public fun println(priority: Priority, t: Throwable?, tag: String?, text: String? = null) {
         val msg = text ?: ""
-        android.util.Log.println(priority, tag, "$msg\n${android.util.Log.getStackTraceString(t)}")
+        FrameworkLog.println(priority.priority, tag, "$msg\n${FrameworkLog.getStackTraceString(t)}")
         if (priority != VERBOSE) {
             crashLog(priority, t, tag, msg)
         }
     }
 
     public fun getStackTraceString(t: Throwable?): String {
-        return android.util.Log.getStackTraceString(t)
+        return FrameworkLog.getStackTraceString(t)
     }
 
-    private fun crashLog(priority: Int, tag: String?, msg: String?): Boolean {
+    private fun crashLog(priority: Priority, tag: String?, msg: String?): Boolean {
         crashLog?.crashLog(priority, tag, msg)
         return crashLog != null
     }
 
-    private fun crashLog(priority: Int, t: Throwable?, tag: String?, msg: String?): Boolean {
+    private fun crashLog(priority: Priority, t: Throwable?, tag: String?, msg: String?): Boolean {
         crashLog?.crashLog(priority, t, tag, msg)
         return crashLog != null
     }
