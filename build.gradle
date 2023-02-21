@@ -49,7 +49,7 @@ final String javaVersion = "11"
 android {
     namespace "org.bubenheimer.android.util"
 
-    compileSdkVersion 33
+    compileSdk 33
 
     defaultConfig {
         targetSdkVersion 33
@@ -89,7 +89,14 @@ android {
         buildConfig false
     }
 
-    lintOptions {
+    publishing {
+        multipleVariants {
+            allVariants()
+            withSourcesJar()
+        }
+    }
+
+    lint {
         quiet false
         abortOnError false
         checkReleaseBuilds true
@@ -125,31 +132,13 @@ android {
 
         testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     }
-
-    task debugSourceJar(type: Jar) {
-        sourceSets {
-            from debug.java.srcDirs, main.java.srcDirs
-        }
-        //noinspection GroovyAccessibility
-        archiveClassifier = "sources"
-    }
 }
 
 publishing {
     publications {
-        debug(MavenPublication) {
+        library(MavenPublication) {
             afterEvaluate {
-                from components.debug
-                artifactId = "$project.name-debug"
-
-                artifact(debugSourceJar)
-            }
-        }
-
-        release(MavenPublication) {
-            afterEvaluate {
-                from components.release
-                artifactId = "$project.name-release"
+                from components.default
             }
         }
     }
