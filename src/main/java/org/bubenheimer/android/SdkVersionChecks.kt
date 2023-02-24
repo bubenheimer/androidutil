@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 Uli Bubenheimer
+ * Copyright (c) 2015-2023 Uli Bubenheimer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +25,17 @@ public fun sdkBelow(version: Int): Boolean = Build.VERSION.SDK_INT < version
 @ChecksSdkIntAtLeast(parameter = 0)
 public fun sdkAtLeast(version: Int): Boolean = version <= Build.VERSION.SDK_INT
 
+public inline fun belowSdk(version: Int, block: () -> Unit) {
+    if (sdkBelow(version)) block()
+}
+
 @ChecksSdkIntAtLeast(parameter = 0, lambda = 1)
 public inline fun fromSdk(version: Int, block: () -> Unit) {
     if (sdkAtLeast(version)) block()
 }
+
+public inline fun <T, S : T> S.belowSdk(version: Int, block: S.() -> T): T =
+    if (sdkBelow(version)) block() else this
 
 @ChecksSdkIntAtLeast(parameter = 1, lambda = 2)
 public inline fun <T, S : T> S.fromSdk(version: Int, block: S.() -> T): T =
