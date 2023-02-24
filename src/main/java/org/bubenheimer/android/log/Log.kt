@@ -48,6 +48,8 @@ public object Log {
     public fun v(t: Throwable?, tag: String?, text: String): Unit =
         println(VERBOSE, t, tag, text)
 
+    public fun v(t: Throwable?, tag: String?): Unit = println(VERBOSE, t, tag)
+
     public fun d(tag: String?, text: String): Unit = println(DEBUG, tag, text)
 
     public fun d(t: Throwable?, tag: String?, text: String): Unit = println(DEBUG, t, tag, text)
