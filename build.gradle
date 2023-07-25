@@ -16,8 +16,8 @@
  */
 
 buildscript {
-    ext.android_plugin_version = '8.0.2'
-    ext.kotlin_version = '1.8.22'
+    ext.android_plugin_version = '8.1.0'
+    ext.kotlin_version = '1.9.0'
 
     repositories {
         mavenLocal()
