@@ -1,0 +1,35 @@
+[versions]
+
+android-plugin = '8.4.1'
+
+android-sdk-compile = '34'
+android-sdk-min = '26'
+android-sdk-target = '34'
+
+androidx-annotation = '1.8.0'
+androidx-core = '1.13.1'
+
+java = '11'
+
+kotlin = '1.9.24'
+
+junit = '4.13.2'
+
+
+[libraries]
+
+androidx-annotation = { module = 'androidx.annotation:annotation', version.ref = 'androidx-annotation' }
+androidx-core-ktx = { module = 'androidx.core:core-ktx', version.ref = 'androidx-core' }
+
+bubenheimer-kotlinutil = { module = 'org.bubenheimer:kotlinutil', version = '1.0-SNAPSHOT' }
+
+junit = { module = 'junit:junit', version.ref = 'junit' }
+
+kotlin-test-junit = { module = 'org.jetbrains.kotlin:kotlin-test-junit', version.ref = 'kotlin' }
+
+
+[plugins]
+
+android-library = { id = 'com.android.library', version.ref = 'android-plugin' }
+
+kotlin-android = { id = 'org.jetbrains.kotlin.android', version.ref = 'kotlin' }

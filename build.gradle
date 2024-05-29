@@ -15,47 +15,25 @@
  *
  */
 
-buildscript {
-    ext.android_plugin_version = '8.2.1'
-    ext.kotlin_version = '1.9.22'
-
-    repositories {
-        mavenLocal()
-        google()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:$android_plugin_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+plugins {
+    alias libs.plugins.android.library
+    alias libs.plugins.kotlin.android
+    id("maven-publish")
 }
-
-repositories {
-    mavenLocal()
-    google()
-    mavenCentral()
-}
-
-apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
-apply plugin: 'kotlin-android'
 
 group = 'org.bubenheimer'
 version = '1.0-SNAPSHOT'
 
-final String javaVersion = "11"
-
 android {
     namespace "org.bubenheimer.android.util"
 
-    compileSdk 34
+    compileSdk libs.versions.android.sdk.compile.get().toInteger()
 
     defaultConfig {
-        targetSdkVersion 34
-        minSdkVersion 24
+        minSdk libs.versions.android.sdk.min.get().toInteger()
+        targetSdk libs.versions.android.sdk.target.get().toInteger()
         versionCode 1
-        versionName '1.0'
+        versionName version
         consumerProguardFiles 'proguard-rules.pro'
     }
 
@@ -72,12 +50,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility javaVersion
-        targetCompatibility javaVersion
+        sourceCompatibility libs.versions.java.get()
+        targetCompatibility libs.versions.java.get()
     }
 
     kotlinOptions {
-        jvmTarget = javaVersion
+        jvmTarget = libs.versions.java.get()
         freeCompilerArgs = [
                 "-progressive",
                 "-Xexplicit-api=strict",
@@ -122,14 +100,14 @@ android {
     }
 
     dependencies {
-        implementation 'org.bubenheimer:kotlinutil:1.0-SNAPSHOT'
+        implementation libs.bubenheimer.kotlinutil
 
-        implementation "androidx.annotation:annotation:1.7.1"
-        implementation "androidx.core:core-ktx:1.12.0"
+        implementation libs.androidx.annotation
+        implementation libs.androidx.core.ktx
 
-        testImplementation("junit:junit:4.13.2")
+        testImplementation libs.junit
 
-        testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+        testImplementation libs.kotlin.test.junit
     }
 }
 
