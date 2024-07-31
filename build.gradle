@@ -24,6 +24,12 @@ plugins {
 group = 'org.bubenheimer'
 version = '1.0-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(libs.versions.java.toolchain.get())
+    }
+}
+
 android {
     namespace "org.bubenheimer.android.util"
 
@@ -50,12 +56,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility libs.versions.java.get()
-        targetCompatibility libs.versions.java.get()
+        sourceCompatibility libs.versions.java.source.get()
+        targetCompatibility libs.versions.java.source.get()
     }
 
     kotlinOptions {
-        jvmTarget = libs.versions.java.get()
+        jvmTarget = libs.versions.java.source.get()
         freeCompilerArgs = [
                 "-progressive",
                 "-Xexplicit-api=strict",
