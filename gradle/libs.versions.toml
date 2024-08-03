@@ -13,8 +13,7 @@ java-source = '11'
 
 java-toolchain = '17'
 
-#noinspection GradleDependency
-kotlin = '1.9.25'
+kotlin = '2.0.0'
 
 junit = '4.13.2'
 
