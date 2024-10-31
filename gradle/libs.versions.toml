@@ -1,19 +1,19 @@
 [versions]
 
-android-plugin = '8.6.0'
+android-plugin = '8.7.1'
 
 android-sdk-compile = '35'
 android-sdk-min = '26'
 android-sdk-target = '35'
 
-androidx-annotation = '1.8.2'
-androidx-core = '1.13.1'
+androidx-annotation = '1.9.1'
+androidx-core = '1.15.0'
 
 java-source = '11'
 
-java-toolchain = '17'
+java-toolchain = '21'
 
-kotlin = '2.0.20'
+kotlin = '2.0.21'
 
 junit = '4.13.2'
 
