@@ -17,7 +17,12 @@
 
 package org.bubenheimer.android.log
 
-import org.bubenheimer.android.log.Log.Priority.*
+import org.bubenheimer.android.log.Log.Priority.ASSERT
+import org.bubenheimer.android.log.Log.Priority.DEBUG
+import org.bubenheimer.android.log.Log.Priority.ERROR
+import org.bubenheimer.android.log.Log.Priority.INFO
+import org.bubenheimer.android.log.Log.Priority.VERBOSE
+import org.bubenheimer.android.log.Log.Priority.WARN
 import android.util.Log as FrameworkLog
 
 public object Log {
@@ -61,6 +66,8 @@ public object Log {
     public fun i(tag: String?, text: String): Unit = println(INFO, tag, text)
 
     public fun i(t: Throwable?, tag: String?, text: String): Unit = println(INFO, t, tag, text)
+
+    public fun i(t: Throwable?, tag: String?): Unit = println(INFO, t, tag)
 
     public fun ix(t: Throwable?, tag: String?): Unit = println(INFO, t, tag, t?.message)
 
