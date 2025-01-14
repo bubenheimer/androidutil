@@ -27,8 +27,12 @@ import android.util.Log as FrameworkLog
 
 public object Log {
     public interface CrashLog {
-        public fun crashLog(priority: Priority, tag: String?, msg: String?)
-        public fun crashLog(priority: Priority, t: Throwable?, tag: String?, msg: String?)
+        public fun crashLog(
+            priority: Priority,
+            t: Throwable?,
+            tag: String?,
+            msg: String?
+        )
     }
 
     private val TAG = Log::class.java.simpleName
@@ -48,76 +52,102 @@ public object Log {
             w(TAG, "Crash log reset")
         }
 
-    public fun v(tag: String?, text: String): Unit = println(VERBOSE, tag, text)
+    public fun v(tag: String?, text: String): Unit =
+        println(VERBOSE, tag, text) { FrameworkLog.v(tag, text) }
 
     public fun v(t: Throwable?, tag: String?, text: String): Unit =
-        println(VERBOSE, t, tag, text)
+        println(VERBOSE, t, tag, text) { FrameworkLog.v(tag, text, t) }
 
-    public fun v(t: Throwable?, tag: String?): Unit = println(VERBOSE, t, tag)
+    public fun v(t: Throwable?, tag: String?): Unit =
+        println(VERBOSE, t, tag) { FrameworkLog.v(tag, "", t) }
 
-    public fun d(tag: String?, text: String): Unit = println(DEBUG, tag, text)
+    public fun d(tag: String?, text: String): Unit =
+        println(DEBUG, tag, text) { FrameworkLog.d(tag, text) }
 
-    public fun d(t: Throwable?, tag: String?, text: String): Unit = println(DEBUG, t, tag, text)
+    public fun d(t: Throwable?, tag: String?, text: String): Unit =
+        println(DEBUG, t, tag, text) { FrameworkLog.d(tag, text, t) }
 
-    public fun d(t: Throwable?, tag: String?): Unit = println(DEBUG, t, tag)
+    public fun d(t: Throwable?, tag: String?): Unit =
+        println(DEBUG, t, tag) { FrameworkLog.d(tag, "", t) }
 
-    public fun dx(t: Throwable?, tag: String?): Unit = println(DEBUG, t, tag, t?.message)
+    public fun dx(t: Throwable?, tag: String?): Unit =
+        println(DEBUG, t, tag, t?.message) { FrameworkLog.d(tag, "", t) }
 
-    public fun i(tag: String?, text: String): Unit = println(INFO, tag, text)
+    public fun i(tag: String?, text: String): Unit =
+        println(INFO, tag, text) { FrameworkLog.i(tag, text) }
 
-    public fun i(t: Throwable?, tag: String?, text: String): Unit = println(INFO, t, tag, text)
+    public fun i(t: Throwable?, tag: String?, text: String): Unit =
+        println(INFO, t, tag, text) { FrameworkLog.i(tag, text, t) }
 
-    public fun i(t: Throwable?, tag: String?): Unit = println(INFO, t, tag)
+    public fun i(t: Throwable?, tag: String?): Unit =
+        println(INFO, t, tag) { FrameworkLog.i(tag, "", t) }
 
-    public fun ix(t: Throwable?, tag: String?): Unit = println(INFO, t, tag, t?.message)
+    public fun ix(t: Throwable?, tag: String?): Unit =
+        println(INFO, t, tag, t?.message) { FrameworkLog.i(tag, "", t) }
 
-    public fun w(tag: String?, text: String): Unit = println(WARN, tag, text)
+    public fun w(tag: String?, text: String): Unit =
+        println(WARN, tag, text) { FrameworkLog.w(tag, text) }
 
-    public fun w(t: Throwable?, tag: String?, text: String): Unit = println(WARN, t, tag, text)
+    public fun w(t: Throwable?, tag: String?, text: String): Unit =
+        println(WARN, t, tag, text) { FrameworkLog.w(tag, text, t) }
 
-    public fun w(t: Throwable?, tag: String?): Unit = println(WARN, t, tag)
+    public fun w(t: Throwable?, tag: String?): Unit =
+        println(WARN, t, tag) { FrameworkLog.w(tag, t) }
 
-    public fun wx(t: Throwable?, tag: String?): Unit = println(WARN, t, tag, t?.message)
+    public fun wx(t: Throwable?, tag: String?): Unit =
+        println(WARN, t, tag, t?.message) { FrameworkLog.w(tag, t) }
 
-    public fun e(tag: String?, text: String): Unit = println(ERROR, tag, text)
+    public fun e(tag: String?, text: String): Unit =
+        println(ERROR, tag, text) { FrameworkLog.e(tag, text) }
 
-    public fun e(t: Throwable?, tag: String?, text: String): Unit = println(ERROR, t, tag, text)
+    public fun e(t: Throwable?, tag: String?, text: String): Unit =
+        println(ERROR, t, tag, text) { FrameworkLog.e(tag, text, t) }
 
-    public fun e(t: Throwable?, tag: String?): Unit = println(ERROR, t, tag)
+    public fun e(t: Throwable?, tag: String?): Unit =
+        println(ERROR, t, tag) { FrameworkLog.e(tag, "", t) }
 
-    public fun ex(t: Throwable?, tag: String?): Unit = println(ERROR, t, tag, t?.message)
+    public fun ex(t: Throwable?, tag: String?): Unit =
+        println(ERROR, t, tag, t?.message) { FrameworkLog.e(tag, "", t) }
 
-    public fun wtf(tag: String?, text: String) {
-        if (!crashLog(ASSERT, tag, text)) {
-            FrameworkLog.wtf(tag, text)
-        }
+    public fun wtf(tag: String?, text: String): Unit =
+        println(ASSERT, tag, text) { FrameworkLog.wtf(tag, text) }
+
+    public fun wtf(t: Throwable, tag: String?): Unit =
+        println(ASSERT, t, tag) { FrameworkLog.wtf(tag, "", t) }
+
+    public fun wtf(t: Throwable?, tag: String?, text: String): Unit =
+        println(ASSERT, t, tag, text) { FrameworkLog.wtf(tag, text, t) }
+
+    public fun wtfx(t: Throwable?, tag: String?): Unit =
+        println(ASSERT, t, tag, t?.message) { FrameworkLog.wtf(tag, "", t) }
+
+    public fun println(priority: Priority, tag: String?, text: String) {
+        println(priority, tag, text) { FrameworkLog.println(priority.priority, tag, text) }
     }
 
-    public fun wtf(t: Throwable, tag: String?) {
-        if (!crashLog(ASSERT, t, tag, "")) {
-            FrameworkLog.wtf(tag, t)
-        }
-    }
+    private inline fun println(
+        priority: Priority,
+        tag: String?,
+        text: String? = null,
+        frameworkLog: () -> Int
+    ): Unit = println(priority, t = null, tag = tag, text = text, frameworkLog)
 
-    public fun wtf(t: Throwable?, tag: String?, text: String) {
-        if (!crashLog(ASSERT, t, tag, text)) {
-            FrameworkLog.wtf(tag, text, t)
-        }
-    }
+    private inline fun println(
+        priority: Priority,
+        t: Throwable?,
+        tag: String?,
+        text: String? = null,
+        frameworkLog: () -> Int
+    ) {
+        frameworkLog()
 
-    public fun println(priority: Priority, tag: String?, text: String? = null) {
-        val msg = text ?: ""
-        if (priority == VERBOSE || !crashLog(priority, tag, msg)) {
-            FrameworkLog.println(priority.priority, tag, msg)
-        }
-    }
-
-    @Suppress("LogConditional")
-    public fun println(priority: Priority, t: Throwable?, tag: String?, text: String? = null) {
-        val msg = text ?: ""
-        FrameworkLog.println(priority.priority, tag, "$msg\n${FrameworkLog.getStackTraceString(t)}")
         if (priority != VERBOSE) {
-            crashLog(priority, t, tag, msg)
+            crashLog(
+                priority = priority,
+                t = t,
+                tag = tag,
+                msg = text
+            )
         }
     }
 
@@ -125,13 +155,12 @@ public object Log {
         return FrameworkLog.getStackTraceString(t)
     }
 
-    private fun crashLog(priority: Priority, tag: String?, msg: String?): Boolean {
-        crashLog?.crashLog(priority, tag, msg)
-        return crashLog != null
-    }
-
-    private fun crashLog(priority: Priority, t: Throwable?, tag: String?, msg: String?): Boolean {
+    private fun crashLog(
+        priority: Priority,
+        t: Throwable?,
+        tag: String?,
+        msg: String?
+    ) {
         crashLog?.crashLog(priority, t, tag, msg)
-        return crashLog != null
     }
 }
