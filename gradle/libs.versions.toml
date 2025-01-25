@@ -1,6 +1,6 @@
 [versions]
 
-android-plugin = '8.7.3'
+android-plugin = '8.8.0'
 
 android-sdk-compile = '35'
 android-sdk-min = '26'
@@ -13,7 +13,7 @@ java-source = '11'
 
 java-toolchain = '21'
 
-kotlin = '2.0.21'
+kotlin = '2.1.0'
 
 junit = '4.13.2'
 
