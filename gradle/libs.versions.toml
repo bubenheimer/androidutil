@@ -13,7 +13,7 @@ java-source = '11'
 
 java-toolchain = '21'
 
-kotlin = '2.1.0'
+kotlin = '2.1.10'
 
 junit = '4.13.2'
 
