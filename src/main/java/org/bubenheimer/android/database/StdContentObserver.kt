@@ -16,20 +16,20 @@
  */
 package org.bubenheimer.android.database
 
-import android.annotation.TargetApi
 import android.database.ContentObserver
 import android.net.Uri
-import android.os.Build
+import android.os.Build.VERSION_CODES.R
 import android.os.Handler
+import androidx.annotation.RequiresApi
 
 public abstract class StdContentObserver(handler: Handler?) : ContentObserver(handler) {
     public override fun onChange(selfChange: Boolean): Unit = throw UnsupportedOperationException()
 
-    @TargetApi(Build.VERSION_CODES.R)
+    @RequiresApi(R)
     public override fun onChange(selfChange: Boolean, uri: Uri?, flags: Int): Unit =
         onChange(selfChange, uri)
 
-    @TargetApi(Build.VERSION_CODES.R)
+    @RequiresApi(R)
     public override fun onChange(selfChange: Boolean, uris: Collection<Uri>, flags: Int): Unit =
         uris.forEach { onChange(selfChange, it) }
 }
