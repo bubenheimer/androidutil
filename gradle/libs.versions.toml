@@ -1,13 +1,13 @@
 [versions]
 
-android-plugin = '8.11.1'
+android-plugin = '8.12.0'
 
 android-sdk-compile = '36'
 android-sdk-min = '26'
 android-sdk-target = '36'
 
 androidx-annotation = '1.9.1'
-androidx-core = '1.16.0'
+androidx-core = '1.17.0'
 
 java-source = '11'
 
