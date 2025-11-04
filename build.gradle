@@ -15,6 +15,9 @@
  *
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+
 plugins {
     alias libs.plugins.android.library
     alias libs.plugins.kotlin.android
@@ -30,10 +33,30 @@ java {
     }
 }
 
+kotlin {
+    explicitApi = 'strict'
+
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget(libs.versions.java.source.get())
+        progressiveMode.set(true)
+        jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+        verbose.set(false)
+        extraWarnings.set(true)
+        freeCompilerArgs.add("-Xconsistent-data-class-copy-visibility")
+
+        // DelicateCoroutinesApi is counterproductive
+        optIn.add("kotlinx.coroutines.DelicateCoroutinesApi")
+        // Also counterproductive:
+        optIn.add("kotlinx.coroutines.ObsoleteCoroutinesApi")
+    }
+}
+
 android {
     namespace "org.bubenheimer.android.util"
 
-    compileSdk libs.versions.android.sdk.compile.get().toInteger()
+    libs.versions.android.sdk.compile.get().with {
+        if (isInteger()) setCompileSdk(toInteger()) else setCompileSdkPreview(it)
+    }
 
     defaultConfig {
         minSdk libs.versions.android.sdk.min.get().toInteger()
@@ -57,15 +80,6 @@ android {
     compileOptions {
         sourceCompatibility libs.versions.java.source.get()
         targetCompatibility libs.versions.java.source.get()
-    }
-
-    kotlinOptions {
-        jvmTarget = libs.versions.java.source.get()
-        freeCompilerArgs = [
-                "-progressive",
-                "-Xexplicit-api=strict",
-                "-Xjvm-default=all"
-        ]
     }
 
     buildFeatures {
