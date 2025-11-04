@@ -4,7 +4,6 @@ android-plugin = '8.13.0'
 
 android-sdk-compile = '36'
 android-sdk-min = '26'
-android-sdk-target = '36'
 
 androidx-annotation = '1.9.1'
 androidx-core = '1.17.0'
