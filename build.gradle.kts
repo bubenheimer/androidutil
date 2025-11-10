@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget.Companion.fromTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("maven-publish")
+    `maven-publish`
 }
 
 group = "org.bubenheimer"
@@ -66,8 +66,6 @@ android {
         getByName("release") {
             isShrinkResources = false
             isMinifyEnabled = false
-            //TODO
-//            isDebuggable = false
             isJniDebuggable = false
         }
     }
