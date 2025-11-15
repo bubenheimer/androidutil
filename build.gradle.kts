@@ -51,7 +51,23 @@ android {
     namespace = "org.bubenheimer.android.util"
 
     libs.versions.android.sdk.compile.get().let {
-        it.toIntOrNull()?.let { compileSdk = it } ?: run { compileSdkPreview = it }
+        /**
+         * Matches: 36, 36.1, 36-ext18, 36ext18, 36.1-ext20, 36.1ext20
+         */
+        fun String.toAndroidVersion() =
+            """\s*(?<major>\d+)(?:\.(?<minor>\d+))?(?:-?ext(?<ext>\d+))?\s*"""
+                .toRegex()
+                .matchEntire(this)
+                ?.destructured
+                ?.let { (major, minor, ext) ->
+                    Triple(major.toInt(), minor.toIntOrNull(), ext.toIntOrNull())
+                }
+
+        it.toAndroidVersion()?.let { (major, minor, ext) ->
+            compileSdk = major
+            compileSdkMinor = minor
+            compileSdkExtension = ext
+        } ?: run { compileSdkPreview = it }
     }
 
     defaultConfig {
