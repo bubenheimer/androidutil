@@ -12,7 +12,7 @@ java-source = '11'
 
 java-toolchain = '21'
 
-kotlin = '2.3.0'
+kotlin = { strictly = '2.3.0' } # "strictly" in case AGP is ahead of us
 
 junit = '4.13.2'
 
