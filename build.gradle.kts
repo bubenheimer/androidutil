@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget.Companion.fromTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.android) apply false // force intended version
     `maven-publish`
 }
 
