@@ -133,7 +133,7 @@ android {
         implementation(libs.bubenheimer.kotlinutil)
 
         implementation(libs.androidx.annotation)
-        implementation(libs.androidx.core.ktx)
+        implementation(libs.androidx.core)
 
         testImplementation(libs.junit)
 

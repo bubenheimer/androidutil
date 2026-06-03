@@ -1,18 +1,18 @@
 [versions]
 
-android-plugin = '9.0.0'
+android-plugin = '9.2.1'
 
-android-sdk-compile = '36.1'
+android-sdk-compile = '37'
 android-sdk-min = '26'
 
-androidx-annotation = '1.9.1'
-androidx-core = '1.17.0'
+androidx-annotation = '1.10.0'
+androidx-core = '1.19.0'
 
 java-source = '11'
 
 java-toolchain = '21'
 
-kotlin = { strictly = '2.3.0' } # "strictly" in case AGP is ahead of us
+kotlin = "2.4.0!!" # "strictly" in case AGP is ahead of us
 
 junit = '4.13.2'
 
@@ -20,7 +20,7 @@ junit = '4.13.2'
 [libraries]
 
 androidx-annotation = { module = 'androidx.annotation:annotation', version.ref = 'androidx-annotation' }
-androidx-core-ktx = { module = 'androidx.core:core-ktx', version.ref = 'androidx-core' }
+androidx-core = { module = 'androidx.core:core', version.ref = 'androidx-core' }
 
 bubenheimer-kotlinutil = { module = 'org.bubenheimer:kotlinutil', version = '1.0-SNAPSHOT' }
 
