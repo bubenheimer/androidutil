@@ -1,18 +1,18 @@
 [versions]
 
-android-plugin = '9.3.0'
+android-plugin = '9.5.0'
 
-android-sdk-compile = '37.1'
+android-sdk-compile = '37.2'
 android-sdk-min = '26'
 
-androidx-annotation = '1.10.0'
-androidx-core = '1.19.0'
+androidx-annotation = '1.11.0'
+androidx-core = '1.19.1'
 
 java-source = '11'
 
 java-toolchain = '25'
 
-kotlin = "2.4.10!!" # "strictly" in case AGP is ahead of us
+kotlin = "2.4.21!!" # "strictly" in case AGP is ahead of us
 
 junit = '4.13.2'
 
